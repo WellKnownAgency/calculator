@@ -1,0 +1,17 @@
+.wkn- {
+	&calc-form {
+		padding: 10px 15px;
+		border: 1px solid #949494;
+		background-color: #ebebeb;
+		max-width: 960px;
+		margin: 0 auto;
+	}
+	&calc-form-buttons {
+		display: flex;
+		&__item {
+			&:last-child {
+				margin-left: auto;
+			}
+		}
+	}
+}

@@ -1,0 +1,19 @@
+.wkn- {
+	&customer-info-form {
+		padding: 10px 15px;
+		border: 1px solid #949494;
+		max-width: 960px;
+		margin: 0 auto;
+		background-color: #fff;
+		&__list {
+			display: flex;
+			justify-content: space-between;
+		}
+		&__col {
+			flex: 0 1 100%;
+			&:not(:first-child) {
+				margin-left: 25px;
+			}
+		}
+	}
+}
