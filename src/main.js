@@ -2,11 +2,14 @@ import Vue from 'vue'
 import App from '@/App.vue'
 import store from '@/store/store'
 
+// app styles
 import '@/assets/sass/app.scss'
 
+// vueCustomElement
 import 'document-register-element/build/document-register-element'
 import vueCustomElement from 'vue-custom-element'
 
+// google maps
 import * as VueGoogleMaps from 'vue2-google-maps'
 Vue.use(VueGoogleMaps, {
 	load: {
@@ -33,6 +36,10 @@ Vue.use(VueGoogleMaps, {
 	// installComponents: true,
 })
 
+// http axios
+//require('@/packages/Axios.js')
+//import Axios from '@/packages/Axios'
+//Vue.prototype.$http = Axios
 
 Vue.config.productionTip = false
 
