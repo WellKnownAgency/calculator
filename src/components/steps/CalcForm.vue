@@ -4,8 +4,25 @@
 			<div class="wkn-calc-form-fast-info">
 				<div class="wkn-calc-form-fast-info-properties">
 					<div class="wkn-calc-form-fast-info-properties__list">
-						<div class="wkn-calc-form-fast-info-properties__item" v-if="move_date_pretty">Move Date: {{move_date_pretty}}</div>
-						<div class="wkn-calc-form-fast-info-properties__item" v-if="service_type">Type Of Service: {{service_type}}</div>
+						<div class="wkn-calc-form-fast-info-properties-item" v-if="selected_move_date_pretty">
+							<div class="wkn-calc-form-fast-info-properties-item__list">
+								<div class="wkn-calc-form-fast-info-properties-item__label">Move Date:</div>
+								<div class="wkn-calc-form-fast-info-properties-item__value">{{selected_move_date_pretty}}</div>
+							</div>
+						</div>
+						<div class="wkn-calc-form-fast-info-properties-item" v-if="selected_service_type">
+							<div class="wkn-calc-form-fast-info-properties-item__list">
+								<div class="wkn-calc-form-fast-info-properties-item__label">Type Of Service:</div>
+								<div class="wkn-calc-form-fast-info-properties-item__value">{{selected_service_type.display_name}}</div>
+							</div>
+						</div>
+						<div class="wkn-calc-form-fast-info-properties-item" v-if="selected_move_size">
+							<div class="wkn-calc-form-fast-info-properties-item__list">
+								<div class="wkn-calc-form-fast-info-properties-item__label">Size Of Move:</div>
+								<div class="wkn-calc-form-fast-info-properties-item__value">{{selected_move_size.display_name}}</div>
+							</div>
+							<div class="wkn-calc-form-fast-info-properties-item__extra" v-if="selected_rooms_pretty">({{selected_rooms_pretty}})</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -53,10 +70,20 @@
 				<div class="wkn-form-group">
 					<div class="wkn-form-field">
 						<label for="move_size" class="wkn-form-label">Size of Move:</label>
-						<select id="move_size" class="wkn-form-input" :value="form.move_size_id" @input="updateFormField('move_size_id', $event.target.value)">
+						<select id="move_size" class="wkn-form-input" :value="form.move_size_id" @input="updateFormFieldSize('move_size_id', parseInt($event.target.value))">
 							<option :value="null">– Choose select ... –</option>
 							<option v-for="size in move_sizes" :key="size.id" :value="size.id">{{size.display_name}}</option>
 						</select>
+						<div class="wkn-calc-form__extra">
+							<div class="wkn-calc-form-extra">
+								<div class="wkn-calc-form-extra__list">
+									<div class="wkn-calc-form-extra__item" v-for="room in size_rooms" :key="room.id">
+										<input type="checkbox" class="wkn-calc-form-extra__input" :id="'extra-room-label-' + room.id" :disabled="!!room.pivot.is_included" :value="room.id" v-model="move_size_extra">
+										<label class="wkn-calc-form-extra__label" :for="'extra-room-label-' + room.id">{{room.display_name}}</label>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -124,17 +151,32 @@
 				}
 			),
 			...mapGetters('CalcFormStore', {
-				move_date_pretty: 'move_date_pretty',
-				service_type: 'service_type',
-			})
+				selected_move_date_pretty: 'selected_move_date_pretty',
+				selected_service_type: 'selected_service_type',
+				selected_move_size: 'selected_move_size',
+				size_rooms: 'size_rooms',
+				selected_rooms_pretty: 'selected_rooms_pretty',
+			}),
+			move_size_extra: {
+				get: function () {
+					return this.$store.state.CalcFormStore.form.move_size_extra
+				},
+				// сеттер:
+				set: function (newValue) {
+					this.ADD_MOVE_SIZE_EXTRA_VALUE(newValue)
+				}
+			}
 		},
 		methods: {
 			...mapMutations('CalcFormStore', {
 				CLEAR_FORM: 'CLEAR_FORM',
 				CLEAR_FIELD: 'CLEAR_FIELD',
+				ADD_MOVE_SIZE_EXTRA_VALUE: 'ADD_MOVE_SIZE_EXTRA_VALUE',
+				UPD_ACTUAL_SIZE_EXTRA: 'UPD_ACTUAL_SIZE_EXTRA',
 			}),
 			...mapActions('CalcFormStore', {
 				updFormField: 'updateFormField',
+				updateActualSizeExtra: 'updateActualSizeExtra'
 			}),
 			updateFormFieldDate: function(field, value)
 			{
@@ -145,8 +187,11 @@
 				this.updFormField({field: field, value: value})
 			}, 1500),
 			updateFormField: function (field, value) {
-				console.log(value)
 				this.updFormField({field: field, value: value})
+			},
+			updateFormFieldSize: function (field, value) {
+				this.updateFormField(field, value)
+				this.updateActualSizeExtra()
 			},
 			clearForm(){
 				this.CLEAR_FORM()

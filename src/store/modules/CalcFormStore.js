@@ -10,28 +10,9 @@ const state = {
 		from_zip: null,
 		to_zip: null,
 		move_size_id: null,
+		move_size_extra: [],
 		from_entrance_type_id: null,
 		to_entrance_type_id: null
-		
-	},
-	info: {
-		move_date: {
-			label: 'Move Date',
-			value: null
-		},
-		moving_from: {
-			label: 'Moving From',
-			value: null
-		},
-		moving_to: {
-			label: 'Moving To',
-			value: null
-		},
-		move_size: {
-			label: 'Size Of Move',
-			value: null,
-			extra: []
-		}
 	},
 	address: {
 		from: {
@@ -51,14 +32,35 @@ const state = {
 }
 
 const getters = {
-	move_date_pretty: (state) => {
+	selected_move_date_pretty: (state) => {
 		return state.form.move_date ? moment(state.form.move_date).format("MMMM D, YYYY") : null
 	},
-	service_type: (state) => {
+	selected_service_type: (state) => {
 		let service_type = _.find(state.service_types, ['id', state.form.service_type_id])
-		console.log(service_type)
-		if (service_type && 'display_name' in service_type)
-			return service_type.display_name
+		return service_type ? service_type : null
+	},
+	selected_move_size: (state) => {
+		let move_size = _.find(state.move_sizes, ['id', state.form.move_size_id])
+		return move_size ? move_size : null
+	},
+	size_rooms: (state, getters) => {
+		return  (getters.selected_move_size) ? getters.selected_move_size.rooms : []
+	},
+	selected_rooms: (state, getters) => {
+		let selectedIds = state.form.move_size_extra
+		return _.filter(getters.size_rooms, function(item) {
+			return _.includes(selectedIds, item['id'])
+		})
+	},
+	selected_rooms_pretty: (state, getters) => {
+		let selectedRoomsNames = _.map(getters.selected_rooms, 'display_name');
+		let lengthRooms = selectedRoomsNames.length;
+		if (lengthRooms > 1) {
+			let lastRoom = selectedRoomsNames.pop();
+			let stringRooms = selectedRoomsNames.join(', ')
+			return stringRooms + ' and ' + lastRoom
+		}
+		return selectedRoomsNames.join(', ')
 	},
 }
 
@@ -92,6 +94,17 @@ const mutations = {
 			}
 		}
 	},
+	ADD_MOVE_SIZE_EXTRA_VALUE (state, value) {
+		state.form.move_size_extra = value
+	},
+	UPD_ACTUAL_SIZE_EXTRA (state) {
+		let selectedIds = state.form.move_size_extra
+		
+		let selected_rooms = _.filter(getters.size_rooms, function(item) {
+			return _.includes(selectedIds, item['id'])
+		})
+		state.form.move_size_extra = _.map(selected_rooms, 'id')
+	},
 }
 
 const actions = {
@@ -109,6 +122,14 @@ const actions = {
 			commit('UPDATE_FORM_FIELD', {field: field, value: value})
 			commit('UPDATE_INFO_FIELD', {field: field, value: value})
 		})
+		.catch(() => {
+			if (!value)
+				commit('UPDATE_FORM_FIELD', {field: field, value: null})
+		})
+	},
+	updateActualSizeExtra ({ state, getters }) {
+		let selected_rooms = getters.selected_rooms
+		state.form.move_size_extra = _.map(selected_rooms, 'id');
 	}
 }
 

@@ -21,6 +21,28 @@
 		background: #fff;
 	}
 
+	&calc-form-fast-info-properties-item {
+		&__list {
+			display: flex;
+			justify-content: space-between;
+		}
+		&__label {
+			flex: 0 0 35%;
+		}
+		&__value {
+			flex: 0 0 63%;
+			font-weight: 600;
+			text-transform: capitalize;
+			color: #FF3B3F;
+		}
+		&__extra {
+			text-align: center;
+			color: #707070;
+			font-size: 14px;
+			font-weight: 600;
+		}
+	}
+
 	&calc-form {
 		display: block;
 		padding: 10px 15px;
@@ -28,7 +50,22 @@
 		background-color: #ebebeb;
 		//max-width: 960px;
 		//margin: 0 auto;
+		&__extra {
+			margin: 10px 0 0 0;
+		}
 	}
+
+	&calc-form-extra {
+		&__list {
+			display: flex;
+			flex-wrap: wrap;
+		}
+		&__item {
+			flex: 0 0 32%;
+			margin: 5px 0;
+		}
+	}
+
 	&calc-form-buttons {
 		display: flex;
 		&__item {
