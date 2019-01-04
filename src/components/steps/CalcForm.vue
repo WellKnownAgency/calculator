@@ -16,6 +16,18 @@
 								<div class="wkn-calc-form-fast-info-properties-item__value">{{selected_service_type.display_name}}</div>
 							</div>
 						</div>
+						<div class="wkn-calc-form-fast-info-properties-item" v-if="address_pretty.from">
+							<div class="wkn-calc-form-fast-info-properties-item__list">
+								<div class="wkn-calc-form-fast-info-properties-item__label">Moving From:</div>
+								<div class="wkn-calc-form-fast-info-properties-item__value">{{address_pretty.from}}</div>
+							</div>
+						</div>
+						<div class="wkn-calc-form-fast-info-properties-item" v-if="address_pretty.to">
+							<div class="wkn-calc-form-fast-info-properties-item__list">
+								<div class="wkn-calc-form-fast-info-properties-item__label">Moving To:</div>
+								<div class="wkn-calc-form-fast-info-properties-item__value">{{address_pretty.to}}</div>
+							</div>
+						</div>
 						<div class="wkn-calc-form-fast-info-properties-item" v-if="selected_move_size">
 							<div class="wkn-calc-form-fast-info-properties-item__list">
 								<div class="wkn-calc-form-fast-info-properties-item__label">Size Of Move:</div>
@@ -57,11 +69,11 @@
 				<div class="wkn-form-group">
 					<div class="wkn-form-field">
 						<label for="from-zip" class="wkn-form-label">From Zip:</label>
-						<input type="number" class="wkn-form-input" id="from-zip" :value="form.from_zip" @input="updateFormFieldDebounce('from_zip', $event.target.value)">
+						<input type="number" class="wkn-form-input" id="from-zip" :value="form.from_zip" @input="updateFormFieldFromZip('from_zip', $event.target.value)">
 					</div>
 					<div class="wkn-form-field">
 						<label for="to-zip" class="wkn-form-label">To Zip:</label>
-						<input type="number" class="wkn-form-input" id="to-zip" :value="form.to_zip" @input="updateFormFieldDebounce('to_zip', $event.target.value)">
+						<input type="number" class="wkn-form-input" id="to-zip" :value="form.to_zip" @input="updateFormFieldToZip('to_zip', $event.target.value)">
 					</div>
 				</div>
 			</div>
@@ -148,6 +160,7 @@
 					service_types: state => state.service_types,
 					move_sizes: state => state.move_sizes,
 					entrance_types: state => state.entrance_types,
+					address_pretty: state => state.address_pretty,
 				}
 			),
 			...mapGetters('CalcFormStore', {
@@ -176,7 +189,9 @@
 			}),
 			...mapActions('CalcFormStore', {
 				updFormField: 'updateFormField',
-				updateActualSizeExtra: 'updateActualSizeExtra'
+				updActualSizeExtra: 'updateActualSizeExtra',
+				updFormFieldFromZip: 'updateFormFieldFromZip',
+				updFormFieldToZip: 'updateFormFieldToZip',
 			}),
 			updateFormFieldDate: function(field, value)
 			{
@@ -191,8 +206,14 @@
 			},
 			updateFormFieldSize: function (field, value) {
 				this.updateFormField(field, value)
-				this.updateActualSizeExtra()
+				this.updActualSizeExtra()
 			},
+			updateFormFieldFromZip:  _.debounce(function (field, value) {
+				this.updFormFieldFromZip({field: field, value: value})
+			}, 1500),
+			updateFormFieldToZip:  _.debounce(function (field, value) {
+				this.updFormFieldToZip({field: field, value: value})
+			}, 1500),
 			clearForm(){
 				this.CLEAR_FORM()
 			},

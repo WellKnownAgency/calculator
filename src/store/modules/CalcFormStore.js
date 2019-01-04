@@ -14,17 +14,9 @@ const state = {
 		from_entrance_type_id: null,
 		to_entrance_type_id: null
 	},
-	address: {
-		from: {
-			lat: null,
-			lng: null,
-			zip: null
-		},
-		to: {
-			lat: null,
-			lng: null,
-			zip: null
-		}
+	address_pretty: {
+		from: null,
+		to: null,
 	},
 	service_types: [],
 	move_sizes: [],
@@ -73,6 +65,12 @@ const mutations = {
 	},
 	SET_ENTRANCE_TYPES (state, {types}) {
 		state.entrance_types = types
+	},
+	SET_ADDRESS_FROM (state, address) {
+		state.address_pretty.from = address
+	},
+	SET_ADDRESS_TO (state, address) {
+		state.address_pretty.to = address
 	},
 	UPDATE_FORM_FIELD (state, {field, value}) {
 		Object.assign(state.form, { [field]: value })
@@ -127,9 +125,38 @@ const actions = {
 				commit('UPDATE_FORM_FIELD', {field: field, value: null})
 		})
 	},
+	updateFormFieldFromZip ({ commit }, {field, value}) {
+		axios.post('/calculator/validate-field', {field: field, value: value})
+		.then((response) => {
+			commit('UPDATE_FORM_FIELD', {field: field, value: value})
+			commit('SET_ADDRESS_FROM', response.data.geocode_zip.formatted_address)
+		})
+		.catch(() => {
+			if (!value)
+				commit('UPDATE_FORM_FIELD', {field: field, value: null})
+		})
+	},
+	updateFormFieldToZip ({ commit }, {field, value}) {
+		axios.post('/calculator/validate-field', {field: field, value: value})
+		.then((response) => {
+			commit('UPDATE_FORM_FIELD', {field: field, value: value})
+			commit('SET_ADDRESS_TO', response.data.geocode_zip.formatted_address)
+		})
+		.catch(() => {
+			if (!value)
+				commit('UPDATE_FORM_FIELD', {field: field, value: null})
+		})
+	},
 	updateActualSizeExtra ({ state, getters }) {
 		let selected_rooms = getters.selected_rooms
 		state.form.move_size_extra = _.map(selected_rooms, 'id');
+		//console.log(selected_rooms)
+		for (let i in getters.size_rooms) {
+			if (getters.size_rooms[i].pivot.is_included) {
+				if (!state.form.move_size_extra.includes(getters.size_rooms[i].id))
+					state.form.move_size_extra.push(getters.size_rooms[i].id)
+			}
+		}
 	}
 }
 
