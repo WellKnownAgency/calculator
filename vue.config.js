@@ -12,7 +12,4 @@ module.exports = {
 		config => {
 			config.optimization.delete('splitChunks')
 		},
-	devServer: {
-		host: 'widget.com'
-	}
 }
