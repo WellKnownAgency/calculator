@@ -2,6 +2,7 @@
 import axios from '@/packages/Axios'
 import moment from '@/packages/Moment'
 import _ from 'lodash'
+import Vue from 'vue'
 
 const state = {
 	form: {
@@ -14,6 +15,7 @@ const state = {
 		from_entrance_type_id: null,
 		to_entrance_type_id: null
 	},
+	form_errors: {},
 	address_pretty: {
 		from: null,
 		to: null,
@@ -33,9 +35,11 @@ const getters = {
 	},
 	selected_move_size: (state) => {
 		let move_size = _.find(state.move_sizes, ['id', state.form.move_size_id])
+		//console.log(move_size ? move_size.rooms : [])
 		return move_size ? move_size : null
 	},
 	size_rooms: (state, getters) => {
+		//console.log(getters.selected_move_size ? getters.selected_move_size.rooms : [])
 		return  (getters.selected_move_size) ? getters.selected_move_size.rooms : []
 	},
 	selected_rooms: (state, getters) => {
@@ -75,13 +79,19 @@ const mutations = {
 	UPDATE_FORM_FIELD (state, {field, value}) {
 		Object.assign(state.form, { [field]: value })
 	},
-	UPDATE_INFO_FIELD (state, {field, value}) {
+	/*UPDATE_INFO_FIELD (state, {field, value}) {
 		if (field in state.info)
 			state.info[field].value = value
-	},
+	},*/
 	CLEAR_FORM (state) {
 		for (let i in state.form) {
 			state.form[i] = null
+		}
+		for (let i in state.form_errors) {
+			state.form_errors[i] = null
+		}
+		for (let i in state.address_pretty) {
+			state.address_pretty[i] = null
 		}
 	},
 	CLEAR_FIELD (state, field) {
@@ -103,6 +113,19 @@ const mutations = {
 		})
 		state.form.move_size_extra = _.map(selected_rooms, 'id')
 	},
+	UPDATE_ACTUAL_SIZE_EXTRA (state, {size_rooms}) {
+		state.form.move_size_extra = [];
+		for (let i in size_rooms) {
+			if (size_rooms[i].pivot.is_included) {
+				if (!state.form.move_size_extra.includes(size_rooms[i].id))
+					state.form.move_size_extra.push(size_rooms[i].id)
+			}
+		}
+	},
+	SET_FORM_FIELD_ERRORS (state, {field, errors}) {
+		//console.log(field, errors)
+		Vue.set(state.form_errors, field, errors)
+	}
 }
 
 const actions = {
@@ -115,48 +138,71 @@ const actions = {
 			})
 	},
 	updateFormField ({ commit }, {field, value}) {
-		axios.post('/calculator/validate-field', {field: field, value: value})
+		return axios.post('/calculator/validate-field', {field: field, value: value})
 		.then(() => {
+			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
 			commit('UPDATE_FORM_FIELD', {field: field, value: value})
 			commit('UPDATE_INFO_FIELD', {field: field, value: value})
 		})
-		.catch(() => {
-			if (!value)
-				commit('UPDATE_FORM_FIELD', {field: field, value: null})
+		.catch((error) => {
+			(!value)
+				? commit('UPDATE_FORM_FIELD', {field: field, value: null})
+				: commit('UPDATE_FORM_FIELD', {field: field, value: value})
+			if (error.response.status === 422) {
+				commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field]})
+			}
 		})
 	},
 	updateFormFieldFromZip ({ commit }, {field, value}) {
-		axios.post('/calculator/validate-field', {field: field, value: value})
+		return axios.post('/calculator/validate-field', {field: field, value: value})
 		.then((response) => {
+			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
 			commit('UPDATE_FORM_FIELD', {field: field, value: value})
 			commit('SET_ADDRESS_FROM', response.data.geocode_zip.formatted_address)
 		})
-		.catch(() => {
-			if (!value)
-				commit('UPDATE_FORM_FIELD', {field: field, value: null})
+		.catch((error) => {
+			(!value)
+				? commit('UPDATE_FORM_FIELD', {field: field, value: null})
+				: commit('UPDATE_FORM_FIELD', {field: field, value: value})
+			if (error.response.status === 422) {
+				commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field]})
+				commit('SET_ADDRESS_FROM', null)
+			}
 		})
 	},
 	updateFormFieldToZip ({ commit }, {field, value}) {
 		axios.post('/calculator/validate-field', {field: field, value: value})
 		.then((response) => {
+			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
 			commit('UPDATE_FORM_FIELD', {field: field, value: value})
 			commit('SET_ADDRESS_TO', response.data.geocode_zip.formatted_address)
 		})
-		.catch(() => {
-			if (!value)
-				commit('UPDATE_FORM_FIELD', {field: field, value: null})
+		.catch((error) => {
+			(!value)
+				? commit('UPDATE_FORM_FIELD', {field: field, value: null})
+				: commit('UPDATE_FORM_FIELD', {field: field, value: value})
+			if (error.response.status === 422) {
+				commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field]})
+				commit('SET_ADDRESS_TO', null)
+			}
 		})
 	},
-	updateActualSizeExtra ({ state, getters }) {
-		let selected_rooms = getters.selected_rooms
-		state.form.move_size_extra = _.map(selected_rooms, 'id');
-		//console.log(selected_rooms)
-		for (let i in getters.size_rooms) {
-			if (getters.size_rooms[i].pivot.is_included) {
-				if (!state.form.move_size_extra.includes(getters.size_rooms[i].id))
-					state.form.move_size_extra.push(getters.size_rooms[i].id)
+	updateActualSizeExtra ({ commit, getters }) {
+		commit('UPDATE_ACTUAL_SIZE_EXTRA', {size_rooms: getters.size_rooms})
+	},
+	submitForm ({ commit }) {
+		return axios.post('/calculator/form', {form: state.form})
+		.then((response) => {
+			return Promise.resolve(response)
+		})
+		.catch((error) => {
+			if (error.response.status === 422) {
+				for (let field in error.response.data.errors) {
+					commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field]})
+				}
 			}
-		}
+			return Promise.reject(error);
+		})
 	}
 }
 
