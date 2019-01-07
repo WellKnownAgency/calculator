@@ -16,16 +16,16 @@
 								<div class="wkn-calc-form-fast-info-properties-item__value">{{selected_service_type.display_name}}</div>
 							</div>
 						</div>
-						<div class="wkn-calc-form-fast-info-properties-item" v-if="address_pretty.from">
+						<div class="wkn-calc-form-fast-info-properties-item" v-if="form.from_formatted_address">
 							<div class="wkn-calc-form-fast-info-properties-item__list">
 								<div class="wkn-calc-form-fast-info-properties-item__label">Moving From:</div>
-								<div class="wkn-calc-form-fast-info-properties-item__value">{{address_pretty.from}}</div>
+								<div class="wkn-calc-form-fast-info-properties-item__value">{{form.from_formatted_address}}</div>
 							</div>
 						</div>
-						<div class="wkn-calc-form-fast-info-properties-item" v-if="address_pretty.to">
+						<div class="wkn-calc-form-fast-info-properties-item" v-if="form.to_formatted_address">
 							<div class="wkn-calc-form-fast-info-properties-item__list">
 								<div class="wkn-calc-form-fast-info-properties-item__label">Moving To:</div>
-								<div class="wkn-calc-form-fast-info-properties-item__value">{{address_pretty.to}}</div>
+								<div class="wkn-calc-form-fast-info-properties-item__value">{{form.to_formatted_address}}</div>
 							</div>
 						</div>
 						<div class="wkn-calc-form-fast-info-properties-item" v-if="selected_move_size">
@@ -183,7 +183,7 @@
 					service_types: state => state.service_types,
 					move_sizes: state => state.move_sizes,
 					entrance_types: state => state.entrance_types,
-					address_pretty: state => state.address_pretty,
+					address: state => state.address,
 					form_errors: state => state.form_errors,
 				}
 			),
@@ -242,7 +242,7 @@
 				this.CLEAR_FORM()
 			},
 			submitForm() {
-				this.actionSubmitForm().then((response) => {
+				this.actionSubmitForm().then(() => {
 					this.$emit('complete')
 				})
 			}

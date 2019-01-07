@@ -1,3 +1,5 @@
+import axios from '@/packages/Axios'
+
 const state = {
 	steps: [
 		{
@@ -90,7 +92,17 @@ const mutations = {
 }
 
 const actions = {
-
+	setApp ({ commit }) {
+		axios.get('/')
+		.then(response => {
+			commit('CalcFormStore/SET_SERVICE_TYPES', {types: response.data.service_types}, { root: true })
+			commit('CalcFormStore/SET_MOVE_SIZES', {sizes: response.data.move_sizes}, { root: true })
+			commit('CalcFormStore/SET_ENTRANCE_TYPES', {types: response.data.entrance_types}, { root: true })
+			
+			commit('CustomerInfoStore/SET_PREFERRED_TIMES', {times: response.data.preferred_start_times}, { root: true })
+			commit('CustomerInfoStore/SET_INFO_SOURCES', {sources: response.data.info_sources}, { root: true })
+		})
+	},
 }
 
 
