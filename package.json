@@ -10,6 +10,7 @@
   "dependencies": {
     "@pderas/vue2-geocoder": "^1.0.2",
     "axios": "^0.18.0",
+    "cors": "^2.8.5",
     "document-register-element": "^1.13.1",
     "lodash": "^4.17.11",
     "moment": "^2.23.0",

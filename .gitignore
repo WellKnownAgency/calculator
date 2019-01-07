@@ -24,3 +24,4 @@ package-lock.json
 vue.config.js
 package.json
 package-lock.json
+*.json
