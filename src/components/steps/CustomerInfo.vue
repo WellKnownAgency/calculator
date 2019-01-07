@@ -4,48 +4,117 @@
 			<div class="wkn-customer-info-form__col">
 				<label for="first-name" class="wkn-form-label">Customer Info:</label>
 				<div class="wkn-form-row">
-					<input type="text" class="wkn-form-input" id="first-name" placeholder="First Name">
+					<input-text
+						name="first-name"
+						placeholder="First Name"
+						:value="form.first_name"
+						:errors="form_errors.first_name"
+						@input="updateFormField('first_name', $event.target.value)"
+					></input-text>
 				</div>
 				<div class="wkn-form-row">
-					<input type="text" class="wkn-form-input" id="last-name" placeholder="Last Name">
+					<input-text
+						name="last-name"
+						placeholder="Last Name"
+						:value="form.last_name"
+						:errors="form_errors.last_name"
+						@input="updateFormField('last_name', $event.target.value)"
+					></input-text>
 				</div>
 				<div class="wkn-form-row">
-					<input type="text" class="wkn-form-input" id="phone" placeholder="Primary Phone">
+					<the-mask
+						class="wkn-form-input"
+						mask="(###) ###-####"
+						:value="form.phone"
+						type="text"
+						:masked="false"
+						placeholder="Primary Phone"
+						@input="updateFormField('phone', $event)"
+					></the-mask>
+					<div class="wkn-form-errors" v-if="form_errors.phone">
+						<div class="wkn-form-errors__item" v-for="(error, index) in form_errors.phone" :key="index">{{error}}</div>
+					</div>
 				</div>
 				<div class="wkn-form-row">
-					<input type="text" class="wkn-form-input" id="additional-phone" placeholder="Additional Phone (Optional)">
+					<the-mask
+						class="wkn-form-input"
+						mask="(###) ###-####"
+						:value="form.additional_phone"
+						type="text"
+						:masked="false"
+						placeholder="Additional Phone (Optional)"
+						@input="updateFormField('additional_phone', $event)"
+					></the-mask>
 				</div>
 				<div class="wkn-form-row">
-					<input type="text" class="wkn-form-input" id="email" placeholder="Email">
+					<input-text
+						name="email"
+						placeholder="Email"
+						:value="form.email"
+						:errors="form_errors.email"
+						@input="updateFormField('email', $event.target.value)"
+					></input-text>
 				</div>
 				<div class="wkn-form-row">
-					<input type="text" class="wkn-form-input" id="confirmation-email" placeholder="Confirm Email">
+					<input-text
+						name="email-confirmation"
+						placeholder="Confirm Email"
+						:value="form.email_confirmation"
+						:errors="form_errors.email_confirmation"
+						@input="updateFormField('email_confirmation', $event.target.value)"
+					></input-text>
 				</div>
 			</div>
 
 			<div class="wkn-customer-info-form__col">
 				<label for="from-address" class="wkn-form-label">Moving From:</label>
 				<div class="wkn-form-row">
-					<input type="text" class="wkn-form-input" id="from-address" placeholder="From Address">
+					<input-text
+						name="from-address"
+						placeholder="From Address"
+						:value="form.from_address"
+						:errors="form_errors.from_address"
+						@input="updateFormField('from_address', $event.target.value)"
+					></input-text>
 				</div>
 				<div class="wkn-form-row">
-					<input type="text" class="wkn-form-input" id="from-city" placeholder="From City">
+					<input-text
+						name="from-city"
+						placeholder="From City"
+						:value="form.from_city"
+						disabled="disabled"
+					></input-text>
 				</div>
 				<div class="wkn-form-row">
-					<input type="text" class="wkn-form-input" id="from-state" placeholder="From State">
+					<input-text
+						name="from-state"
+						placeholder="From State"
+						:value="form.from_state"
+						disabled="disabled"
+					></input-text>
 				</div>
 				<div class="wkn-form-row">
-					<input type="text" class="wkn-form-input" id="from-zip" placeholder="From Zip">
+					<input-text
+						name="from-zip"
+						placeholder="From Zip"
+						:value="calcform.from_zip"
+						disabled="disabled"
+					></input-text>
 				</div>
 				<div class="wkn-form-row">
-					<label for="prefered-time" class="wkn-form-label">Preferred Start Time:</label>
+					<label for="preferred-time" class="wkn-form-label">Preferred Start Time:</label>
 				</div>
 				<div class="wkn-form-row">
 					<div class="wkn-form-group">
 						<div class="wkn-form-field">
-							<select id="prefered-time" class="wkn-form-input">
-								<option v-for="time in preferred_times" :key="time" :value="time">{{time}}</option>
-							</select>
+							<v-select
+								name="preferred-time"
+								placeholder="Choose Starting Time"
+								:options="preferred_times"
+								:errors="form_errors.preferred_time_id"
+								:value="form.preferred_time_id"
+								@input="updateFormField('preferred_time_id', $event.target.value)"
+							></v-select>
 						</div>
 					</div>
 				</div>
@@ -54,16 +123,37 @@
 			<div class="wkn-customer-info-form__col">
 				<label for="to-address" class="wkn-form-label">Moving To:</label>
 				<div class="wkn-form-row">
-					<input type="text" class="wkn-form-input" id="to-address" placeholder="To Address">
+					<input-text
+						name="to-address"
+						placeholder="To Address"
+						:value="form.to_address"
+						:errors="form_errors.to_address"
+						@input="updateFormField('to_address', $event.target.value)"
+					></input-text>
 				</div>
 				<div class="wkn-form-row">
-					<input type="text" class="wkn-form-input" id="to-city" placeholder="To City">
+					<input-text
+						name="to-city"
+						placeholder="To City"
+						:value="form.to_city"
+						disabled="disabled"
+					></input-text>
 				</div>
 				<div class="wkn-form-row">
-					<input type="text" class="wkn-form-input" id="to-state" placeholder="To State">
+					<input-text
+						name="to-state"
+						placeholder="To State"
+						:value="form.to_state"
+						disabled="disabled"
+					></input-text>
 				</div>
 				<div class="wkn-form-row">
-					<input type="text" class="wkn-form-input" id="to-zip" placeholder="To Zip">
+					<input-text
+						name="to-zip"
+						placeholder="To Zip"
+						:value="calcform.to_zip"
+						disabled="disabled"
+					></input-text>
 				</div>
 				<div class="wkn-form-row">
 					<label for="info-source" class="wkn-form-label">How did you hear about us?</label>
@@ -71,9 +161,14 @@
 				<div class="wkn-form-row">
 					<div class="wkn-form-group">
 						<div class="wkn-form-field">
-							<select id="info-source" class="wkn-form-input">
-								<option v-for="source in info_sources" :key="source" :value="source">{{source}}</option>
-							</select>
+							<v-select
+								name="info-source"
+								placeholder="Choose From Select List"
+								:options="info_sources"
+								:errors="form_errors.info_source_id"
+								:value="form.info_source_id"
+								@input="updateFormField('info_source_id', $event.target.value)"
+							></v-select>
 						</div>
 					</div>
 				</div>
@@ -95,28 +190,51 @@
 
 
 <script>
-	import { mapGetters } from 'vuex'
+	import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
+	import InputText from "@/components/formel/InpitText"
+	import VSelect from "@/components/formel/Select"
+	import {TheMask} from 'vue-the-mask'
 
 	export default {
+		components: {InputText, VSelect, TheMask},
 		data() {
 			return {}
 		},
 		computed: {
-			...mapGetters('CustomerInfoStore', [
-				'preferred_times',
-				'info_sources',
-			]),
+			...mapState('CustomerInfoStore', {
+					form: state => state.form,
+					preferred_times: state => state.preferred_times,
+					info_sources: state => state.info_sources,
+					form_errors: state => state.form_errors,
+				}
+			),
+			...mapState('CalcFormStore', {
+					calcform: state => state.form,
+				}
+			),
+			...mapGetters('CustomerInfoStore', []),
 			...mapGetters('AppStore', [
 				'next_step',
 				'prev_step',
 			])
 		},
 		methods: {
+			...mapMutations('CustomerInfoStore', {
+				UPDATE_FORM_FIELD: 'UPDATE_FORM_FIELD',
+			}),
+			...mapActions('CustomerInfoStore', {
+				actionSubmitForm: 'submitForm',
+			}),
+			updateFormField: function (field, value) {
+				this.UPDATE_FORM_FIELD({field: field, value: value})
+			},
 			toBack() {
 				this.$emit('back')
 			},
 			submit() {
-				this.$emit('complete')
+				this.actionSubmitForm().then(() => {
+					this.$emit('complete')
+				})
 			}
 		},
 		created() {

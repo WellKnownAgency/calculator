@@ -10,16 +10,14 @@ const state = {
 		service_type_id: null,
 		from_zip: null,
 		to_zip: null,
+		from_formatted_address: null,
+		to_formatted_address: null,
 		move_size_id: null,
 		move_size_extra: [],
 		from_entrance_type_id: null,
 		to_entrance_type_id: null
 	},
 	form_errors: {},
-	address_pretty: {
-		from: null,
-		to: null,
-	},
 	service_types: [],
 	move_sizes: [],
 	entrance_types: []
@@ -70,11 +68,15 @@ const mutations = {
 	SET_ENTRANCE_TYPES (state, {types}) {
 		state.entrance_types = types
 	},
-	SET_ADDRESS_FROM (state, address) {
-		state.address_pretty.from = address
+	SET_ADDRESS_FROM (state, {string, staff, city}) {
+		state.address.from.string = string
+		state.address.from.staff = staff
+		state.address.from.city = city
 	},
-	SET_ADDRESS_TO (state, address) {
-		state.address_pretty.to = address
+	SET_ADDRESS_TO (state, {string, staff, city}) {
+		state.address.to.string = string
+		state.address.to.staff = staff
+		state.address.to.city = city
 	},
 	UPDATE_FORM_FIELD (state, {field, value}) {
 		Object.assign(state.form, { [field]: value })
@@ -142,7 +144,7 @@ const actions = {
 		.then(() => {
 			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
 			commit('UPDATE_FORM_FIELD', {field: field, value: value})
-			commit('UPDATE_INFO_FIELD', {field: field, value: value})
+			//commit('UPDATE_INFO_FIELD', {field: field, value: value})
 		})
 		.catch((error) => {
 			(!value)
@@ -158,7 +160,12 @@ const actions = {
 		.then((response) => {
 			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
 			commit('UPDATE_FORM_FIELD', {field: field, value: value})
-			commit('SET_ADDRESS_FROM', response.data.geocode_zip.formatted_address)
+			
+			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_coordinates', value: response.data.geocode.coordinates}, { root: true })
+			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_state', value: response.data.geocode.state}, { root: true })
+			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_city', value: response.data.geocode.city}, { root: true })
+			commit('UPDATE_FORM_FIELD', {field: 'from_formatted_address', value: response.data.geocode.string})
+		
 		})
 		.catch((error) => {
 			(!value)
@@ -166,7 +173,10 @@ const actions = {
 				: commit('UPDATE_FORM_FIELD', {field: field, value: value})
 			if (error.response.status === 422) {
 				commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field]})
-				commit('SET_ADDRESS_FROM', null)
+				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_coordinates', value: null}, { root: true })
+				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_state', value: null}, { root: true })
+				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_city', value: null}, { root: true })
+				commit('UPDATE_FORM_FIELD', {field: 'from_formatted_address', value: null})
 			}
 		})
 	},
@@ -175,7 +185,11 @@ const actions = {
 		.then((response) => {
 			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
 			commit('UPDATE_FORM_FIELD', {field: field, value: value})
-			commit('SET_ADDRESS_TO', response.data.geocode_zip.formatted_address)
+			
+			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_coordinates', value: response.data.geocode.coordinates}, { root: true })
+			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_state', value: response.data.geocode.state}, { root: true })
+			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_city', value: response.data.geocode.city}, { root: true })
+			commit('UPDATE_FORM_FIELD', {field: 'to_formatted_address', value: response.data.geocode.string})
 		})
 		.catch((error) => {
 			(!value)
@@ -183,7 +197,10 @@ const actions = {
 				: commit('UPDATE_FORM_FIELD', {field: field, value: value})
 			if (error.response.status === 422) {
 				commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field]})
-				commit('SET_ADDRESS_TO', null)
+				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_coordinates', value: null}, { root: true })
+				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_state', value: null}, { root: true })
+				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_city', value: null}, { root: true })
+				commit('UPDATE_FORM_FIELD', {field: 'to_formatted_address', value: null})
 			}
 		})
 	},

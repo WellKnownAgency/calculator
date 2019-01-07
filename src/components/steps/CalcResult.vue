@@ -110,6 +110,48 @@
 							</div>
 						</div>
 					</div>
+
+					<hr>
+					<hr>
+					<hr>
+					<hr>
+
+					<div class="wkn-calc-result-info__item">
+						<div class="wkn-calc-result-info-item">
+							<div class="wkn-calc-result-info-item__title">Full Time:</div>
+							<div class="wkn-calc-result-info-item__content">
+								<span class="wkn-calc-result-info-item__value">{{info.full_time}}</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="wkn-calc-result-info__item">
+						<div class="wkn-calc-result-info-item">
+							<div class="wkn-calc-result-info-item__title">Full Distance:</div>
+							<div class="wkn-calc-result-info-item__content">
+								<span class="wkn-calc-result-info-item__value">{{info.full_distance}}</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="wkn-calc-result-info__item">
+						<div class="wkn-calc-result-info-item">
+							<div class="wkn-calc-result-info-item__title">Travel Time:</div>
+							<div class="wkn-calc-result-info-item__content">
+								<span class="wkn-calc-result-info-item__value">{{info.travel_time}}</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="wkn-calc-result-info__item">
+						<div class="wkn-calc-result-info-item">
+							<div class="wkn-calc-result-info-item__title">Travel Distance:</div>
+							<div class="wkn-calc-result-info-item__content">
+								<span class="wkn-calc-result-info-item__value">{{info.travel_distance}}</span>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
@@ -130,13 +172,17 @@
 
 
 <script>
-	import { mapGetters } from 'vuex'
+	import { mapState, mapGetters } from 'vuex'
 
 	export default {
 		data() {
 			return {}
 		},
 		computed: {
+			...mapState('CalcResultStore', {
+					info: state => state.info,
+				}
+			),
 			...mapGetters('AppStore', [
 				'next_step',
 				'prev_step',

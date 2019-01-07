@@ -27,28 +27,12 @@
 			...mapActions('CalcFormStore', {
 				setCalcForm: 'setCalcForm',
 			}),
+			...mapActions('AppStore', {
+				setApp: 'setApp',
+			}),
 		},
 		created() {
-			/*this.$http.post('/test-post', {params:{field: 'field', value: 'value'}})
-			.then(response => {
-				console.log(response.data)
-			})*/
-			this.setCalcForm()
-			this.setPreferredTimes([
-				'Any Time',
-				'8AM-10AM',
-				'12PM-3PM',
-				'1PM-4PM',
-				'3PM-7PM'
-			])
-			this.setInfoSources([
-				'Yelp',
-				'Google search',
-				'Word of mouth',
-				'HomeAdvisor',
-				'Thumbtack',
-				'Repeat customer'
-			])
+			this.setApp()
 		}
 	}
 </script>
