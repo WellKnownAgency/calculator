@@ -1,165 +1,152 @@
 <template>
 	<div class="wkn-calc-form-layout">
-		<div class="wkn-calc-form-layout__fast-info">
-			<div class="wkn-calc-form-fast-info">
-				<div class="wkn-calc-form-fast-info-properties">
-					<div class="wkn-calc-form-fast-info-properties__list">
-						<div class="wkn-calc-form-fast-info-properties-item" v-if="selected_move_date_pretty">
-							<div class="wkn-calc-form-fast-info-properties-item__list">
-								<div class="wkn-calc-form-fast-info-properties-item__label">Move Date:</div>
-								<div class="wkn-calc-form-fast-info-properties-item__value">{{selected_move_date_pretty}}</div>
-							</div>
+		<div style="margin:10px 50px 0 50px;">
+		  <div class="wkn-cal-main">
+		    <div class="wkn-cal-grid-container-top">
+		      <div class="wkn-cal-grid-item-top">
+		        <label class="wkn-cal-label">Moving Date</label>
+		        <span class="wkn-cal-span-abs">
+							<date-picker id="move-date"
+			                     width="100%"
+			                     :value="form.move_date"
+			                     @input="(value) => updateFormFieldDate('move_date', value)"
+			                     format="MM.DD.YYYY"
+			                     :not-before="new Date()"
+			                     lang="en"
+			                     :input-class="[form_errors.move_date ? 'wkn-cal-input wkn-cal-error' : 'wkn-cal-input']"
+			                     @clear="CLEAR_FIELD('move_date')"
+			        ></date-picker>
+		          <span :class="[form_errors.move_date ? 'wkn-cal-left-input wkn-cal-left-error' : 'wkn-cal-left-input']"></span>
+		          <!--<span class="cal-right-input"></span>-->
+		        </span>
+						<div class="wkn-cal-errors" v-if="form_errors.move_date">
+							<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.move_date" :key="index">{{error}}</div>
 						</div>
-						<div class="wkn-calc-form-fast-info-properties-item" v-if="selected_service_type">
-							<div class="wkn-calc-form-fast-info-properties-item__list">
-								<div class="wkn-calc-form-fast-info-properties-item__label">Type Of Service:</div>
-								<div class="wkn-calc-form-fast-info-properties-item__value">{{selected_service_type.display_name}}</div>
-							</div>
+		      </div>
+		      <div class="wkn-cal-grid-item-top">
+		        <label class="wkn-cal-label">Zip From</label>
+		        <span class="wkn-cal-span-abs">
+		          <input class="wkn-cal-input"  placeholder="Your from zip" v-bind:class="{'wkn-cal-error': form_errors.from_zip}" id="from-zip" :value="form.from_zip" @input="updateFormFieldFromZip('from_zip', $event.target.value)">
+		          <span class="wkn-cal-left-input" v-bind:class="{'wkn-cal-left-error': form_errors.from_zip}"></span>
+		          <!--<span class="cal-right-input"></span>-->
+		        </span>
+						<div class="wkn-cal-errors" v-if="form_errors.from_zip">
+		          <div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.from_zip" :key="index">{{error}}</div>
+		        </div>
+		      </div>
+		      <div class="wkn-cal-grid-item-top">
+		        <label class="wkn-cal-label">Entrance From</label>
+		        <span class="wkn-cal-span-abs">
+		          <select class="wkn-cal-select-input" v-bind:class="{'wkn-cal-error': form_errors.from_entrance_type_id}" :value="form.from_entrance_type_id" @input="updateFormField('from_entrance_type_id', $event.target.value)">
+		            <option :value="null">Choose entrance ...</option>
+			          <option v-for="type in entrance_types" :key="type.id" :value="type.id">{{type.display_name}}</option>
+		          </select>
+		          <span class="wkn-cal-left-input" v-bind:class="{'wkn-cal-left-error': form_errors.from_entrance_type_id}"></span>
+		          <!--<span class="cal-right-input"></span>-->
+		        </span>
+						<div class="wkn-cal-errors" v-if="form_errors.from_entrance_type_id">
+		          <div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.from_entrance_type_id" :key="index">{{error}}</div>
+		        </div>
+		      </div>
+		      <div class="wkn-cal-grid-item-top">
+		        <label class="wkn-cal-label">Moving Size</label>
+		        <span class="wkn-cal-span-abs">
+		          <select class="wkn-cal-select-input" v-bind:class="{'wkn-cal-error': form_errors.move_size_id}" :value="form.move_size_id" @input="updateFormFieldSize('move_size_id', parseInt($event.target.value))">
+								<option :value="null">Choose select ...</option>
+			          <option v-for="size in move_sizes" :key="size.id" :value="size.id">{{size.display_name}}</option>
+		          </select>
+		          <span class="wkn-cal-left-input" v-bind:class="{'wkn-cal-left- error': form_errors.move_size_id}"></span>
+		          <!--<span class="cal-right-input"></span>-->
+		        </span>
+						<div class="wkn-cal-errors" v-if="form_errors.move_size_id">
+		          <div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.move_size_id" :key="index">{{error}}</div>
+		        </div>
+		      </div>
+		      <div class="wkn-cal-grid-item-top">
+		        <label class="wkn-cal-label">Type of Moving Service</label>
+		        <span class="wkn-cal-span-abs">
+		          <select class="wkn-cal-select-input" v-bind:class="{'wkn-cal-error': form_errors.service_type_id}" :value="form.service_type_id" @input="updateFormField('service_type_id', parseInt($event.target.value))">
+								<option :value="null">Choose service ...</option>
+			          <option v-for="type in service_types" :key="type.id" :value="type.id">{{type.display_name}}</option>
+		          </select>
+		          <span class="wkn-cal-left-input "  v-bind:class="{'wkn-cal-left-error': form_errors.service_type_id}"></span>
+		          <!--<span class="cal-right-input"></span>-->
+		        </span>
+						<div class="wkn-cal-errors" v-if="form_errors.service_type_id">
+							<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.service_type_id" :key="index">{{error}}</div>
 						</div>
-						<div class="wkn-calc-form-fast-info-properties-item" v-if="form.from_formatted_address">
-							<div class="wkn-calc-form-fast-info-properties-item__list">
-								<div class="wkn-calc-form-fast-info-properties-item__label">Moving From:</div>
-								<div class="wkn-calc-form-fast-info-properties-item__value">{{form.from_formatted_address}}</div>
-							</div>
-						</div>
-						<div class="wkn-calc-form-fast-info-properties-item" v-if="form.to_formatted_address">
-							<div class="wkn-calc-form-fast-info-properties-item__list">
-								<div class="wkn-calc-form-fast-info-properties-item__label">Moving To:</div>
-								<div class="wkn-calc-form-fast-info-properties-item__value">{{form.to_formatted_address}}</div>
-							</div>
-						</div>
-						<div class="wkn-calc-form-fast-info-properties-item" v-if="selected_move_size">
-							<div class="wkn-calc-form-fast-info-properties-item__list">
-								<div class="wkn-calc-form-fast-info-properties-item__label">Size Of Move:</div>
-								<div class="wkn-calc-form-fast-info-properties-item__value">{{selected_move_size.display_name}}</div>
-							</div>
-							<div class="wkn-calc-form-fast-info-properties-item__extra" v-if="selected_rooms_pretty">({{selected_rooms_pretty}})</div>
-						</div>
-					</div>
-				</div>
-			</div>
+		      </div>
+		      <div class="wkn-cal-grid-item-top">
+		        <label class="wkn-cal-label">Zip To</label>
+		        <span class="wkn-cal-span-abs">
+		          <input class="wkn-cal-input" placeholder="Your to zip" v-bind:class="{'wkn-cal-error': form_errors.to_zip}" id="to-zip" :value="form.to_zip" @input="updateFormFieldToZip('to_zip', $event.target.value)">
+		          <span class="wkn-cal-left-input" v-bind:class="{'wkn-cal-left-error': form_errors.to_zip}"></span>
+		          <!--<span class="cal-right-input"></span>-->
+		        </span>
+						<div class="wkn-cal-errors" v-if="form_errors.to_zip">
+		          <div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.to_zip" :key="index">{{error}}</div>
+		        </div>
+		      </div>
+		      <div class="wkn-cal-grid-item-top">
+		        <label class="wkn-cal-label">Entrance To</label>
+		        <span class="wkn-cal-span-abs">
+		          <select class="wkn-cal-select-input" v-bind:class="{'wkn-cal-error': form_errors.to_entrance_type_id}" :value="form.to_entrance_type_id" @input="updateFormField('to_entrance_type_id', $event.target.value)">
+								<option :value="null">Choose select ...</option>
+			          <option v-for="type in entrance_types" :key="type.id" :value="type.id">{{type.display_name}}</option>
+		          </select>
+		          <span class="wkn-cal-left-input" v-bind:class="{'wkn-cal-left-error': form_errors.to_entrance_type_id}"></span>
+		          <!--<span class="cal-right-input"></span>-->
+		        </span>
+						<div class="wkn-cal-errors" v-if="form_errors.to_entrance_type_id">
+		          <div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.to_entrance_type_id" :key="index">{{error}}</div>
+		        </div>
+		      </div>
+		      <div class="wkn-cal-grid-item-top">
+		        <label class="wkn-cal-label">Extra Rooms</label>
+		        <span class="wkn-cal-grid-container-extra">
+		          <span class="wkn-cal-grid-item-extra" v-for="room in size_rooms" :key="room.id">
+		            <input type="checkbox" class="wkn-cal-checkbox" :id="'extra-room-label-' + room.id" :disabled="!!room.pivot.is_included" :value="room.id" v-model="move_size_extra">
+		            <label :for="'extra-room-label-' + room.id">{{room.display_name}}</label>
+		          </span>
+		        </span>
+		      </div>
+		    </div>
+		    <button class="wkn-cal-but-next" v-on:click.prevent="submitForm()">Calculate</button>
+		    <div class="wkn-cal-grid-container-bottom">
+		      <div class="wkn-cal-grid-item-bottom">
+		        <div class="wkn-cal-grid-container-ul">
+		          <ul style="list-style-type:none;">
+		            <li style="margin-bottom:10px;" v-if="selected_move_date_pretty"><b>Moving Date:</b><span>{{selected_move_date_pretty}}</span></li>
+		            <li style="margin-bottom:10px;" v-if="selected_service_type"><b>Service:</b> <span>{{selected_service_type.display_name}}</span></li>
+		            <li style="margin-bottom:10px;" v-if="form.from_formatted_address"><b>Zip From:</b> <span>{{form.from_formatted_address}}</span></li>
+		            <li style="margin-bottom:10px;" v-if="form.to_formatted_address"><b>Zip To:</b> <span>{{form.to_formatted_address}}</span></li>
+								<li style="margin-bottom:10px;" v-if="selected_move_size"><b>Moving Size:</b><span>{{selected_move_size.display_name}}</span></li>
+		          </ul>
+		        </div>
+		      </div>
+		      <div class="wkn-cal-grid-item-bottom">
+		        <img src="/webapp/Calculator_Design/images/1.jpg" width="180px" height="auto"/>
+		      </div>
+		      <div class="wkn-cal-grid-item-bottom">
+		        <p class="wkn-cal-infotext">
+		          <b style="font-size:16px;">Moving Size</b><br>
+		          Please don't underestimate the size of your move!
+		          Make your choice wisely!
+		          <br>
+		            <br>
+		          <b>Entrance</b><br>
+		          Make sure you mention stairs. It's important for counting moving estimate time.
+		          <br>
+		            <br>
+		          <b>Call for if you have Questions</b><br>
+		          Once you will submit complete move request, you can also provide a precise inventory of all items,
+		          that you planning to move.
+		        </p>
+		      </div>
+		    </div>
+		  </div>
 		</div>
 
-		<div class="wkn-calc-form-layout__form">
-			<form action="" class="wkn-calc-form">
-			<div class="wkn-form-row">
-				<div class="wkn-form-group">
-					<div class="wkn-form-field">
-						<label for="move-date" class="wkn-form-label">Desired Move Date:</label>
-						<date-picker id="move-date"
-												 width="100%"
-												 :value="form.move_date"
-												 @input="(value) => updateFormFieldDate('move_date', value)"
-												 format="MM.DD.YYYY"
-												 :not-before="new Date()"
-												 lang="en"
-												 :input-class="[form_errors.move_date ? 'mx-input wkn-form-input wkn-form-input--error' : 'mx-input wkn-form-input']"
-												 @clear="CLEAR_FIELD('move_date')"
-						></date-picker>
-						<div class="wkn-form-errors" v-if="form_errors.move_date">
-							<div class="wkn-form-errors__item" v-for="(error, index) in form_errors.move_date" :key="index">{{error}}</div>
-						</div>
-					</div>
-					<div class="wkn-form-field">
-						<label for="service-type" class="wkn-form-label">Service Type:</label>
-						<select id="service-type" class="wkn-form-input" v-bind:class="{'wkn-form-input--error': form_errors.service_type_id}" :value="form.service_type_id" @input="updateFormField('service_type_id', parseInt($event.target.value))">
-							<option :value="null">– Choose select ... –</option>
-							<option v-for="type in service_types" :key="type.id" :value="type.id">{{type.display_name}}</option>
-						</select>
-						<div class="wkn-form-errors" v-if="form_errors.service_type_id">
-							<div class="wkn-form-errors__item" v-for="(error, index) in form_errors.service_type_id" :key="index">{{error}}</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="wkn-form-row">
-				<div class="wkn-form-group">
-					<div class="wkn-form-field">
-						<label for="from-zip" class="wkn-form-label">From Zip:</label>
-						<input type="text" class="wkn-form-input" v-bind:class="{'wkn-form-input--error': form_errors.from_zip}" id="from-zip" :value="form.from_zip" @input="updateFormFieldFromZip('from_zip', $event.target.value)">
-						<div class="wkn-form-errors" v-if="form_errors.from_zip">
-							<div class="wkn-form-errors__item" v-for="(error, index) in form_errors.from_zip" :key="index">{{error}}</div>
-						</div>
-					</div>
-					<div class="wkn-form-field">
-						<label for="to-zip" class="wkn-form-label">To Zip:</label>
-						<input type="text" class="wkn-form-input" v-bind:class="{'wkn-form-input--error': form_errors.to_zip}" id="to-zip" :value="form.to_zip" @input="updateFormFieldToZip('to_zip', $event.target.value)">
-						<div class="wkn-form-errors" v-if="form_errors.to_zip">
-							<div class="wkn-form-errors__item" v-for="(error, index) in form_errors.to_zip" :key="index">{{error}}</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="wkn-form-row">
-				<div class="wkn-form-group">
-					<div class="wkn-form-field">
-						<label for="move_size" class="wkn-form-label">Size of Move:</label>
-						<select id="move_size" class="wkn-form-input" v-bind:class="{'wkn-form-input--error': form_errors.move_size_id}" :value="form.move_size_id" @input="updateFormFieldSize('move_size_id', parseInt($event.target.value))">
-							<option :value="null">– Choose select ... –</option>
-							<option v-for="size in move_sizes" :key="size.id" :value="size.id">{{size.display_name}}</option>
-						</select>
-						<div class="wkn-form-errors" v-if="form_errors.move_size_id">
-							<div class="wkn-form-errors__item" v-for="(error, index) in form_errors.move_size_id" :key="index">{{error}}</div>
-						</div>
-						<div class="wkn-calc-form__extra">
-							<div class="wkn-calc-form-extra">
-								<div class="wkn-calc-form-extra__list">
-									<div class="wkn-calc-form-extra__item" v-for="room in size_rooms" :key="room.id">
-										<input type="checkbox" class="wkn-calc-form-extra__input" :id="'extra-room-label-' + room.id" :disabled="!!room.pivot.is_included" :value="room.id" v-model="move_size_extra">
-										<label class="wkn-calc-form-extra__label" :for="'extra-room-label-' + room.id">{{room.display_name}}</label>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="wkn-form-row">
-				<div class="wkn-form-group">
-					<div class="wkn-form-field">
-						<label for="entrance_type_from" class="wkn-form-label">Type of entrance (From):</label>
-						<select id="entrance_type_from" class="wkn-form-input" v-bind:class="{'wkn-form-input--error': form_errors.from_entrance_type_id}" :value="form.from_entrance_type_id" @input="updateFormField('from_entrance_type_id', $event.target.value)">
-							<option :value="null">– Choose select ... –</option>
-							<option v-for="type in entrance_types" :key="type.id" :value="type.id">{{type.display_name}}</option>
-						</select>
-						<div class="wkn-form-errors" v-if="form_errors.from_entrance_type_id">
-							<div class="wkn-form-errors__item" v-for="(error, index) in form_errors.from_entrance_type_id" :key="index">{{error}}</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="wkn-form-row">
-				<div class="wkn-form-group">
-					<div class="wkn-form-field">
-						<label for="entrance_type_to" class="wkn-form-label">Type of entrance (To):</label>
-						<select id="entrance_type_to" class="wkn-form-input" v-bind:class="{'wkn-form-input--error': form_errors.to_entrance_type_id}" :value="form.to_entrance_type_id" @input="updateFormField('to_entrance_type_id', $event.target.value)">
-							<option :value="null">– Choose select ... –</option>
-							<option v-for="type in entrance_types" :key="type.id" :value="type.id">{{type.display_name}}</option>
-						</select>
-						<div class="wkn-form-errors" v-if="form_errors.to_entrance_type_id">
-							<div class="wkn-form-errors__item" v-for="(error, index) in form_errors.to_entrance_type_id" :key="index">{{error}}</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="wkn-form-row">
-				<div class="wkn-calc-form-buttons">
-					<div class="wkn-calc-form-buttons__item">
-						<button type="button" class="wkn-btn-success" v-on:click.prevent="submitForm()">Calculate >></button>
-					</div>
-					<div class="wkn-calc-form-buttons__item">
-						<button type="button" v-on:click.prevent="clearForm()" class="wkn-btn-default">Clear Form</button>
-					</div>
-				</div>
-			</div>
-
-		</form>
-		</div>
 	</div>
 </template>
 

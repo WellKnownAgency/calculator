@@ -1,16 +1,8 @@
 <template>
 	<div class="wkn-steps-bar">
-		<div class="wkn-steps-bar__line" ref="steps-bar-line"></div>
-		<div class="wkn-steps-bar__list">
-			<div v-for="step in steps" :key="step.id" class="wkn-steps-bar__item">
-				<div class="wkn-steps-bar-item">
-					<div class="wkn-steps-bar-item__title">{{ step.display_name }}</div>
-					<div class="wkn-steps-bar-item__status">
-						<div class="wkn-steps-bar-item-status" v-bind:class="{ 'wkn-steps-bar-item-status--active': step.is_active, 'wkn-steps-bar-item-status--inactive': !step.is_active }"></div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<ul class="wkn-progressbar">
+			<li v-for="step in steps" v-bind:class="{ 'active': step.is_active}" :key="step.id">{{ step.display_name }}</li>
+		</ul>
 	</div>
 </template>
 
