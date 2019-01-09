@@ -19,7 +19,7 @@
 		          <span :class="[form_errors.move_date ? 'wkn-cal-left-input wkn-cal-left-error' : 'wkn-cal-left-input']"></span>
 		          <!--<span class="cal-right-input"></span>-->
 		        </span>
-						<div style="color:red; font-size:12px;" v-if="form_errors.move_date">
+						<div class="wkn-cal-errors" v-if="form_errors.move_date">
 							<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.move_date" :key="index">{{error}}</div>
 						</div>
 		      </div>
@@ -72,7 +72,7 @@
 		          <span class="wkn-cal-left-input "  v-bind:class="{'wkn-cal-left-error': form_errors.service_type_id}"></span>
 		          <!--<span class="cal-right-input"></span>-->
 		        </span>
-						<div style="color:red; font-size:12px;" v-if="form_errors.service_type_id">
+						<div class="wkn-cal-errors" v-if="form_errors.service_type_id">
 							<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.service_type_id" :key="index">{{error}}</div>
 						</div>
 		      </div>
