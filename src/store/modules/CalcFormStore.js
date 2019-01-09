@@ -140,7 +140,9 @@ const actions = {
 			})
 	},
 	updateFormField ({ commit }, {field, value}) {
-		return axios.post('/calculator/validate-field', {field: field, value: value})
+		let data = {}
+		data[field] = value
+		return axios.post('/calculator/validate-field', data)
 		.then(() => {
 			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
 			commit('UPDATE_FORM_FIELD', {field: field, value: value})
@@ -156,7 +158,9 @@ const actions = {
 		})
 	},
 	updateFormFieldFromZip ({ commit }, {field, value}) {
-		return axios.post('/calculator/validate-field', {field: field, value: value})
+		let data = {}
+		data[field] = value
+		return axios.post('/calculator/validate-field', data)
 		.then((response) => {
 			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
 			commit('UPDATE_FORM_FIELD', {field: field, value: value})
@@ -181,7 +185,9 @@ const actions = {
 		})
 	},
 	updateFormFieldToZip ({ commit }, {field, value}) {
-		axios.post('/calculator/validate-field', {field: field, value: value})
+		let data = {}
+		data[field] = value
+		axios.post('/calculator/validate-field', data)
 		.then((response) => {
 			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
 			commit('UPDATE_FORM_FIELD', {field: field, value: value})
@@ -208,7 +214,7 @@ const actions = {
 		commit('UPDATE_ACTUAL_SIZE_EXTRA', {size_rooms: getters.size_rooms})
 	},
 	submitForm ({ commit }) {
-		return axios.post('/calculator/form', {form: state.form})
+		return axios.post('/calculator/form', state.form)
 		.then((response) => {
 			return Promise.resolve(response)
 		})

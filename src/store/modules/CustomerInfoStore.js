@@ -51,7 +51,7 @@ const actions = {
 		let customerForm = state.form
 		let form = Object.assign(calcForm, customerForm)
 		
-		return axios.post('/customer/form', {form: form})
+		return axios.post('/customer/form', form)
 		.then((response) => {
 			commit('CLEAR_FORM_FIELDS_ERRORS')
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'full_time', value: response.data.full_time}, { root: true })
