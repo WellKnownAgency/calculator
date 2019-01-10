@@ -152,6 +152,42 @@
 						</div>
 					</div>
 
+					<div class="wkn-calc-result-info__item">
+						<div class="wkn-calc-result-info-item">
+							<div class="wkn-calc-result-info-item__title">Crew Size:</div>
+							<div class="wkn-calc-result-info-item__content">
+								<span class="wkn-calc-result-info-item__value">{{info.count_movers}} Movers</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="wkn-calc-result-info__item">
+						<div class="wkn-calc-result-info-item">
+							<div class="wkn-calc-result-info-item__title">Hourly Rate:</div>
+							<div class="wkn-calc-result-info-item__content">
+								<!--<span class="wkn-calc-result-info-item__old-value">$132/Hr </span>--> <span class="wkn-calc-result-info-item__value">${{info.movers_price_per_hour}}/Hr</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="wkn-calc-result-info__item">
+						<div class="wkn-calc-result-info-item">
+							<div class="wkn-calc-result-info-item__title">Estimated Job Time:</div>
+							<div class="wkn-calc-result-info-item__content">
+								<span class="wkn-calc-result-info-item__value">{{info.job_time}} Hrs</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="wkn-calc-result-info__item">
+						<div class="wkn-calc-result-info-item">
+							<div class="wkn-calc-result-info-item__title">Estimated Quote:</div>
+							<div class="wkn-calc-result-info-item__content">
+								<!--<span class="wkn-calc-result-info-item__old-value">$396.00 </span>--> <span class="wkn-calc-result-info-item__value">${{info.price}}</span>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>

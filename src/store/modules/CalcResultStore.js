@@ -4,6 +4,9 @@ const state = {
 		travel_time: null,
 		full_distance: null,
 		travel_distance: null,
+		price: null,
+		job_time: null,
+		count_movers: null,
 	}
 }
 
