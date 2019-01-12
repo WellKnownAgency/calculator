@@ -118,39 +118,43 @@
 
 					<div class="wkn-calc-result-info__item">
 						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Full Time:</div>
+							<div class="wkn-calc-result-info-item__title">Full Time <br> (a + b + c + a):</div>
 							<div class="wkn-calc-result-info-item__content">
 								<span class="wkn-calc-result-info-item__value">{{info.full_time}}</span>
 							</div>
 						</div>
 					</div>
+					<br>
 
 					<div class="wkn-calc-result-info__item">
 						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Full Distance:</div>
+							<div class="wkn-calc-result-info-item__title">Full Distance <br> (a + b + c + a):</div>
 							<div class="wkn-calc-result-info-item__content">
 								<span class="wkn-calc-result-info-item__value">{{info.full_distance}}</span>
 							</div>
 						</div>
 					</div>
+					<br>
 
 					<div class="wkn-calc-result-info__item">
 						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Travel Time:</div>
+							<div class="wkn-calc-result-info-item__title">Travel Time <br> ((a + b) + (c + a)):</div>
 							<div class="wkn-calc-result-info-item__content">
 								<span class="wkn-calc-result-info-item__value">{{info.travel_time}}</span>
 							</div>
 						</div>
 					</div>
+					<br>
 
 					<div class="wkn-calc-result-info__item">
 						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Travel Distance:</div>
+							<div class="wkn-calc-result-info-item__title">Travel Distance <br> ((a + b) + (c + a)):</div>
 							<div class="wkn-calc-result-info-item__content">
 								<span class="wkn-calc-result-info-item__value">{{info.travel_distance}}</span>
 							</div>
 						</div>
 					</div>
+					<br>
 
 					<div class="wkn-calc-result-info__item">
 						<div class="wkn-calc-result-info-item">
@@ -160,6 +164,7 @@
 							</div>
 						</div>
 					</div>
+					<br>
 
 					<div class="wkn-calc-result-info__item">
 						<div class="wkn-calc-result-info-item">
@@ -169,21 +174,46 @@
 							</div>
 						</div>
 					</div>
+					<br>
 
 					<div class="wkn-calc-result-info__item">
 						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Estimated Job Time:</div>
+							<div class="wkn-calc-result-info-item__title">Estimated Job Time <br> Job hours Load/Discharge + (Full Time hours - Travel Time hours):</div>
 							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">{{info.job_time}} Hrs</span>
+								<span class="wkn-calc-result-info-item__value">{{info.job_time}}</span>
+							</div>
+						</div>
+					</div>
+					<br>
+
+					<div class="wkn-calc-result-info__item">
+						<div class="wkn-calc-result-info-item">
+							<div class="wkn-calc-result-info-item__title">Estimated Quote <br> (Estimated Job Time * Hourly Rate):</div>
+							<div class="wkn-calc-result-info-item__content">
+								<!--<span class="wkn-calc-result-info-item__old-value">$396.00 </span>--> <span class="wkn-calc-result-info-item__value">${{info.price}}</span>
 							</div>
 						</div>
 					</div>
 
+					<hr>
+					<hr>
+					<hr>
+					<h3>New calculation</h3>
 					<div class="wkn-calc-result-info__item">
 						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Estimated Quote:</div>
+							<div class="wkn-calc-result-info-item__title">Estimated Job Time <br> (Job hours Load * factor Load) +  (Job hours Discharge * factor Discharge) + (Full Time hours - Travel Time hours):</div>
 							<div class="wkn-calc-result-info-item__content">
-								<!--<span class="wkn-calc-result-info-item__old-value">$396.00 </span>--> <span class="wkn-calc-result-info-item__value">${{info.price}}</span>
+								<span class="wkn-calc-result-info-item__value">{{info.job_time_new}}</span>
+							</div>
+						</div>
+					</div>
+					<br>
+
+					<div class="wkn-calc-result-info__item">
+						<div class="wkn-calc-result-info-item">
+							<div class="wkn-calc-result-info-item__title">Estimated Quote <br> (Estimated Job Time * Hourly Rate):</div>
+							<div class="wkn-calc-result-info-item__content">
+								<!--<span class="wkn-calc-result-info-item__old-value">$396.00 </span>--> <span class="wkn-calc-result-info-item__value">${{info.price_new}}</span>
 							</div>
 						</div>
 					</div>

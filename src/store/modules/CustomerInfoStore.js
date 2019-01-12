@@ -62,6 +62,9 @@ const actions = {
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'job_time', value: response.data.job_time}, { root: true })
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'count_movers', value: response.data.count_movers}, { root: true })
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'movers_price_per_hour', value: response.data.movers_price_per_hour}, { root: true })
+			
+			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'price_new', value: response.data.price_new}, { root: true })
+			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'job_time_new', value: response.data.job_time_new}, { root: true })
 			return Promise.resolve(response)
 		})
 		.catch((error) => {
