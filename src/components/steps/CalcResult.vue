@@ -4,18 +4,46 @@
 			<div class="wkn-calc-result-map">
 				<div class="wkn-calc-result-map__visual">
 					<GmapMap
-						:center="{lat:42.351835, lng:-71.062700}"
-						:zoom="7"
+						ref="mapRef"
 						map-type-id="terrain"
+						:center="{lat: 41.85, lng: -87.65}"
+						:zoom="7"
 						style="width: 100%; height: 300px"
-					></GmapMap>
+					>
+						<DirectionsRenderer :from="info.from_coordinates" :to="info.to_coordinates"></DirectionsRenderer>
+					</GmapMap>
 				</div>
 				<div class="wkn-calc-result-map__address">
 					<div class="wkn-calc-result-map-address">
-						<div class="wkn-calc-result-map-address__title">Moving Address:</div>
+						<div class="wkn-calc-result-map-address__title">Moving From:</div>
 						<div class="wkn-calc-result-map-address__content">
-							<span class="wkn-calc-result-map-address__value">Boston, MA 02111 </span>
-							<span class="wkn-calc-result-map-address__description">(No Stairs - Ground Floor)</span>
+							<span class="wkn-calc-result-map-address__value">{{calcform.from_formatted_address}}</span>
+							<span class="wkn-calc-result-map-address__description"> ({{selected_from_entrance_type.display_name}})</span>
+						</div>
+					</div>
+				</div>
+				<div class="wkn-calc-result-map__address">
+					<div class="wkn-calc-result-map-address">
+						<div class="wkn-calc-result-map-address__title">Moving To:</div>
+						<div class="wkn-calc-result-map-address__content">
+							<span class="wkn-calc-result-map-address__value">{{calcform.to_formatted_address}}</span>
+							<span class="wkn-calc-result-map-address__description"> ({{selected_to_entrance_type.display_name}})</span>
+						</div>
+					</div>
+				</div>
+				<div class="wkn-calc-result-map__address">
+					<div class="wkn-calc-result-map-address">
+						<div class="wkn-calc-result-map-address__title">Distance:</div>
+						<div class="wkn-calc-result-map-address__content">
+							<span class="wkn-calc-result-map-address__value">{{info.job_distance}} miles</span>
+						</div>
+					</div>
+				</div>
+				<div class="wkn-calc-result-map__address">
+					<div class="wkn-calc-result-map-address">
+						<div class="wkn-calc-result-map-address__title">Estimated Quote:</div>
+						<div class="wkn-calc-result-map-address__content">
+							<span class="wkn-calc-result-map-address__value">${{info.price_my}}</span>
 						</div>
 					</div>
 				</div>
@@ -31,7 +59,7 @@
 						<div class="wkn-calc-result-info-item">
 							<div class="wkn-calc-result-info-item__title">Desired Move Date:</div>
 							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">Thursday, Dec 27, 2018</span>
+								<span class="wkn-calc-result-info-item__value">{{selected_move_date_pretty}}</span>
 							</div>
 						</div>
 					</div>
@@ -40,17 +68,17 @@
 						<div class="wkn-calc-result-info-item">
 							<div class="wkn-calc-result-info-item__title">Type Of Service:</div>
 							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">Unloading Help</span>
+								<span class="wkn-calc-result-info-item__value">{{selected_service_type.display_name}}</span>
 							</div>
 						</div>
 					</div>
 
 					<div class="wkn-calc-result-info__item">
 						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Desired Move Date:</div>
+							<div class="wkn-calc-result-info-item__title">Size Of Move:</div>
 							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">Thursday, Dec 27, 2018</span>
-								<div class="wkn-calc-result-info-item__description">(with basement/storage)</div>
+								<span class="wkn-calc-result-info-item__value">{{selected_move_size.display_name}}</span>
+								<div v-if="selected_rooms_pretty" class="wkn-calc-result-info-item__description">({{selected_rooms_pretty}})</div>
 							</div>
 						</div>
 					</div>
@@ -201,6 +229,15 @@
 					<h3>New calculation</h3>
 					<div class="wkn-calc-result-info__item">
 						<div class="wkn-calc-result-info-item">
+							<div class="wkn-calc-result-info-item__title">Crew Size:</div>
+							<div class="wkn-calc-result-info-item__content">
+								<span class="wkn-calc-result-info-item__value">{{info.count_movers_new}} Movers</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="wkn-calc-result-info__item">
+						<div class="wkn-calc-result-info-item">
 							<div class="wkn-calc-result-info-item__title">Estimated Job Time <br> (Job hours Load * factor Load) +  (Job hours Discharge * factor Discharge) + (Full Time hours - Travel Time hours):</div>
 							<div class="wkn-calc-result-info-item__content">
 								<span class="wkn-calc-result-info-item__value">{{info.job_time_new}}</span>
@@ -214,6 +251,48 @@
 							<div class="wkn-calc-result-info-item__title">Estimated Quote <br> (Estimated Job Time * Hourly Rate):</div>
 							<div class="wkn-calc-result-info-item__content">
 								<!--<span class="wkn-calc-result-info-item__old-value">$396.00 </span>--> <span class="wkn-calc-result-info-item__value">${{info.price_new}}</span>
+							</div>
+						</div>
+					</div>
+
+					<hr>
+					<hr>
+					<hr>
+					<h3>New calculation My</h3>
+					<div class="wkn-calc-result-info__item">
+						<div class="wkn-calc-result-info-item">
+							<div class="wkn-calc-result-info-item__title">Hourly Rate:</div>
+							<div class="wkn-calc-result-info-item__content">
+								<!--<span class="wkn-calc-result-info-item__old-value">$132/Hr </span>--> <span class="wkn-calc-result-info-item__value">${{info.movers_price_per_hour_my}}/Hr</span>
+							</div>
+						</div>
+					</div>
+					<br>
+
+					<div class="wkn-calc-result-info__item">
+						<div class="wkn-calc-result-info-item">
+							<div class="wkn-calc-result-info-item__title">Crew Size:</div>
+							<div class="wkn-calc-result-info-item__content">
+								<span class="wkn-calc-result-info-item__value">{{info.count_movers_my}} Movers</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="wkn-calc-result-info__item">
+						<div class="wkn-calc-result-info-item">
+							<div class="wkn-calc-result-info-item__title">Estimated Job Time <br> (Job hours Load * factor Load) +  (Job hours Discharge * factor Discharge) + (Full Time hours - Travel Time hours):</div>
+							<div class="wkn-calc-result-info-item__content">
+								<span class="wkn-calc-result-info-item__value">{{info.job_time_my}}</span>
+							</div>
+						</div>
+					</div>
+					<br>
+
+					<div class="wkn-calc-result-info__item">
+						<div class="wkn-calc-result-info-item">
+							<div class="wkn-calc-result-info-item__title">Estimated Quote <br> (Estimated Job Time * Hourly Rate):</div>
+							<div class="wkn-calc-result-info-item__content">
+								<!--<span class="wkn-calc-result-info-item__old-value">$396.00 </span>--> <span class="wkn-calc-result-info-item__value">${{info.price_my}}</span>
 							</div>
 						</div>
 					</div>
@@ -239,8 +318,10 @@
 
 <script>
 	import { mapState, mapGetters } from 'vuex'
+	import DirectionsRenderer from '@/packages/DirectionsRenderer'
 
 	export default {
+		components: {DirectionsRenderer},
 		data() {
 			return {}
 		},
@@ -249,6 +330,18 @@
 					info: state => state.info,
 				}
 			),
+			...mapState('CalcFormStore', {
+					calcform: state => state.form,
+				}
+			),
+			...mapGetters('CalcFormStore', [
+				'selected_from_entrance_type',
+				'selected_to_entrance_type',
+				'selected_service_type',
+				'selected_move_date_pretty',
+				'selected_move_size',
+				'selected_rooms_pretty'
+			]),
 			...mapGetters('AppStore', [
 				'next_step',
 				'prev_step',
@@ -260,10 +353,28 @@
 			},
 			submit() {
 				this.$emit('complete')
+			},
+			calculateAndDisplayRoute(directionsService, directionsDisplay) {
+				directionsService.route({
+					origin: 'joplin, mo',
+					destination: 'flagstaff, az',
+					travelMode: 'DRIVING'
+				}, function(response, status) {
+					if (status === 'OK') {
+						console.log(response)
+						directionsDisplay.setDirections(response);
+					} else {
+						window.alert('Directions request failed due to ' + status);
+					}
+				});
+			},
+			dirBeforeCreate()
+			{
+				console.log('kkkk')
 			}
 		},
 		created() {
 
-		}
+		},
 	}
 </script>

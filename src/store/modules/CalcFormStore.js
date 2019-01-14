@@ -27,6 +27,14 @@ const getters = {
 	selected_move_date_pretty: (state) => {
 		return state.form.move_date ? moment(state.form.move_date).format("MMMM D, YYYY") : null
 	},
+	selected_from_entrance_type: (state) => {
+		let entrance_type = _.find(state.entrance_types, ['id', state.form.from_entrance_type_id])
+		return entrance_type ? entrance_type : null
+	},
+	selected_to_entrance_type: (state) => {
+		let entrance_type = _.find(state.entrance_types, ['id', state.form.to_entrance_type_id])
+		return entrance_type ? entrance_type : null
+	},
 	selected_service_type: (state) => {
 		let service_type = _.find(state.service_types, ['id', state.form.service_type_id])
 		return service_type ? service_type : null
@@ -158,60 +166,78 @@ const actions = {
 		})
 	},
 	updateFormFieldFromZip ({ commit }, {field, value}) {
+		//commit('UPDATE_FORM_FIELD', {field: field, value: value})
 		let data = {}
 		data[field] = value
 		return axios.post('/calculator/validate-field', data)
 		.then((response) => {
 			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
-			commit('UPDATE_FORM_FIELD', {field: field, value: value})
+			//commit('UPDATE_FORM_FIELD', {field: field, value: value})
 			
-			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_coordinates', value: response.data.geocode.coordinates}, { root: true })
+			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'from_coordinates', value: response.data.geocode.coordinates}, { root: true })
 			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_state', value: response.data.geocode.state}, { root: true })
 			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_city', value: response.data.geocode.city}, { root: true })
 			commit('UPDATE_FORM_FIELD', {field: 'from_formatted_address', value: response.data.geocode.string})
-		
+			return Promise.resolve(response)
 		})
 		.catch((error) => {
-			(!value)
+			/*(!value)
 				? commit('UPDATE_FORM_FIELD', {field: field, value: null})
-				: commit('UPDATE_FORM_FIELD', {field: field, value: value})
+				: commit('UPDATE_FORM_FIELD', {field: field, value: value})*/
 			if (error.response.status === 422) {
 				commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field]})
-				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_coordinates', value: null}, { root: true })
+				commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'from_coordinates', value: null}, { root: true })
 				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_state', value: null}, { root: true })
 				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_city', value: null}, { root: true })
 				commit('UPDATE_FORM_FIELD', {field: 'from_formatted_address', value: null})
 			}
+			return Promise.reject(error)
 		})
 	},
 	updateFormFieldToZip ({ commit }, {field, value}) {
 		let data = {}
 		data[field] = value
-		axios.post('/calculator/validate-field', data)
+		return axios.post('/calculator/validate-field', data)
 		.then((response) => {
 			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
-			commit('UPDATE_FORM_FIELD', {field: field, value: value})
+			//commit('UPDATE_FORM_FIELD', {field: field, value: value})
 			
-			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_coordinates', value: response.data.geocode.coordinates}, { root: true })
+			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'to_coordinates', value: response.data.geocode.coordinates}, { root: true })
 			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_state', value: response.data.geocode.state}, { root: true })
 			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_city', value: response.data.geocode.city}, { root: true })
 			commit('UPDATE_FORM_FIELD', {field: 'to_formatted_address', value: response.data.geocode.string})
+			return Promise.resolve(response)
 		})
 		.catch((error) => {
-			(!value)
+			/*(!value)
 				? commit('UPDATE_FORM_FIELD', {field: field, value: null})
-				: commit('UPDATE_FORM_FIELD', {field: field, value: value})
+				: commit('UPDATE_FORM_FIELD', {field: field, value: value})*/
 			if (error.response.status === 422) {
 				commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field]})
-				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_coordinates', value: null}, { root: true })
+				commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'to_coordinates', value: null}, { root: true })
 				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_state', value: null}, { root: true })
 				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_city', value: null}, { root: true })
 				commit('UPDATE_FORM_FIELD', {field: 'to_formatted_address', value: null})
 			}
+			return Promise.reject(error)
 		})
 	},
 	updateActualSizeExtra ({ commit, getters }) {
 		commit('UPDATE_ACTUAL_SIZE_EXTRA', {size_rooms: getters.size_rooms})
+	},
+	changeServiceType ({ commit, rootState }) {
+		axios.post('/calculator/change-service-type',
+			{
+				from_coordinates: rootState.CalcResultStore.info.from_coordinates,
+				to_coordinates: rootState.CalcResultStore.info.to_coordinates,
+				service_type_id: state.form.service_type_id
+			})
+		.then((response) => {
+				commit('UPDATE_FORM_FIELD', {field: 'service_type_id', value: response.data.service_type_id})
+		})
+		.catch((error) => {
+		
+		})
 	},
 	submitForm ({ commit }) {
 		return axios.post('/calculator/form', state.form)

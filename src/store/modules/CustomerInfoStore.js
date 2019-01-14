@@ -49,7 +49,11 @@ const actions = {
 	submitForm ({ commit, state, rootState }) {
 		let calcForm = rootState.CalcFormStore.form
 		let customerForm = state.form
-		let form = Object.assign(calcForm, customerForm)
+		let additional = {
+			from_coordinates: rootState.CalcResultStore.info.from_coordinates,
+			to_coordinates: rootState.CalcResultStore.info.to_coordinates,
+		}
+		let form = Object.assign(calcForm, customerForm, additional)
 		
 		return axios.post('/customer/form', form)
 		.then((response) => {
@@ -65,6 +69,16 @@ const actions = {
 			
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'price_new', value: response.data.price_new}, { root: true })
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'job_time_new', value: response.data.job_time_new}, { root: true })
+			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'count_movers_new', value: response.data.count_movers_new}, { root: true })
+			
+			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'price_my', value: response.data.price_my}, { root: true })
+			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'job_time_my', value: response.data.job_time_my}, { root: true })
+			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'count_movers_my', value: response.data.count_movers_my}, { root: true })
+			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'movers_price_per_hour_my', value: response.data.movers_price_per_hour_my}, { root: true })
+			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'job_distance', value: response.data.job_distance}, { root: true })
+			
+			//commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'price_new_v', value: response.data.price_new_v}, { root: true })
+			//commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'job_time_new_v', value: response.data.job_time_new_v}, { root: true })
 			return Promise.resolve(response)
 		})
 		.catch((error) => {

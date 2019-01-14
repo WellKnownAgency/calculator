@@ -9,6 +9,16 @@ const state = {
 		job_time: null,
 		job_time_new: null,
 		count_movers: null,
+		count_movers_new: null,
+		
+		price_my: null,
+		job_time_my: null,
+		count_movers_my: null,
+		movers_price_per_hour_my: null,
+		job_distance: null,
+		
+		from_coordinates: null,
+		to_coordinates: null,
 	}
 }
 

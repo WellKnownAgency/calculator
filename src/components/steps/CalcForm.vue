@@ -26,7 +26,7 @@
 		      <div class="wkn-cal-grid-item-top">
 		        <label class="wkn-cal-label">Zip From</label>
 		        <span class="wkn-cal-span-abs">
-		          <input class="wkn-cal-input"  placeholder="Your from zip" v-bind:class="{'wkn-cal-error': form_errors.from_zip}" id="from-zip" :value="form.from_zip" @input="updateFormFieldFromZip('from_zip', $event.target.value)">
+		          <input class="wkn-cal-input"  placeholder="Your from zip" v-bind:class="{'wkn-cal-error': form_errors.from_zip}" id="from-zip" :value="form.from_zip" @input="UPDATE_FORM_FIELD({field: 'from_zip', value: $event.target.value})">
 		          <span class="wkn-cal-left-input" v-bind:class="{'wkn-cal-left-error': form_errors.from_zip}"></span>
 		          <!--<span class="cal-right-input"></span>-->
 		        </span>
@@ -37,7 +37,7 @@
 		      <div class="wkn-cal-grid-item-top">
 		        <label class="wkn-cal-label">Entrance From</label>
 		        <span class="wkn-cal-span-abs">
-		          <select class="wkn-cal-select-input" v-bind:class="{'wkn-cal-error': form_errors.from_entrance_type_id}" :value="form.from_entrance_type_id" @input="updateFormField('from_entrance_type_id', $event.target.value)">
+		          <select class="wkn-cal-select-input" v-bind:class="{'wkn-cal-error': form_errors.from_entrance_type_id}" :value="form.from_entrance_type_id" @input="updateFormField('from_entrance_type_id', parseInt($event.target.value))">
 		            <option :value="null">Choose entrance ...</option>
 			          <option v-for="type in entrance_types" :key="type.id" :value="type.id">{{type.display_name}}</option>
 		          </select>
@@ -79,7 +79,7 @@
 		      <div class="wkn-cal-grid-item-top">
 		        <label class="wkn-cal-label">Zip To</label>
 		        <span class="wkn-cal-span-abs">
-		          <input class="wkn-cal-input" placeholder="Your to zip" v-bind:class="{'wkn-cal-error': form_errors.to_zip}" id="to-zip" :value="form.to_zip" @input="updateFormFieldToZip('to_zip', $event.target.value)">
+		          <input class="wkn-cal-input" placeholder="Your to zip" v-bind:class="{'wkn-cal-error': form_errors.to_zip}" id="to-zip" :value="form.to_zip" @input="UPDATE_FORM_FIELD({field: 'to_zip', value: $event.target.value})">
 		          <span class="wkn-cal-left-input" v-bind:class="{'wkn-cal-left-error': form_errors.to_zip}"></span>
 		          <!--<span class="cal-right-input"></span>-->
 		        </span>
@@ -90,7 +90,7 @@
 		      <div class="wkn-cal-grid-item-top">
 		        <label class="wkn-cal-label">Entrance To</label>
 		        <span class="wkn-cal-span-abs">
-		          <select class="wkn-cal-select-input" v-bind:class="{'wkn-cal-error': form_errors.to_entrance_type_id}" :value="form.to_entrance_type_id" @input="updateFormField('to_entrance_type_id', $event.target.value)">
+		          <select class="wkn-cal-select-input" v-bind:class="{'wkn-cal-error': form_errors.to_entrance_type_id}" :value="form.to_entrance_type_id" @input="updateFormField('to_entrance_type_id', parseInt($event.target.value))">
 								<option :value="null">Choose select ...</option>
 			          <option v-for="type in entrance_types" :key="type.id" :value="type.id">{{type.display_name}}</option>
 		          </select>
@@ -191,12 +191,22 @@
 				}
 			}
 		},
+		watch: {
+			'form.from_zip'(newVal){
+				this.updateFormFieldFromZip('from_zip', newVal)
+
+			},
+			'form.to_zip'(newVal){
+				this.updateFormFieldToZip('to_zip', newVal)
+			},
+		},
 		methods: {
 			...mapMutations('CalcFormStore', {
 				CLEAR_FORM: 'CLEAR_FORM',
 				CLEAR_FIELD: 'CLEAR_FIELD',
 				ADD_MOVE_SIZE_EXTRA_VALUE: 'ADD_MOVE_SIZE_EXTRA_VALUE',
 				UPD_ACTUAL_SIZE_EXTRA: 'UPD_ACTUAL_SIZE_EXTRA',
+				UPDATE_FORM_FIELD: 'UPDATE_FORM_FIELD'
 			}),
 			...mapActions('CalcFormStore', {
 				actionUpdateFormField: 'updateFormField',
@@ -204,6 +214,7 @@
 				actionUpdateFormFieldFromZip: 'updateFormFieldFromZip',
 				actionUpdateFormFieldToZip: 'updateFormFieldToZip',
 				actionSubmitForm: 'submitForm',
+				actionChangeServiceType: 'changeServiceType',
 			}),
 			updateFormFieldDate: function(field, value)
 			{
@@ -221,9 +232,19 @@
 			},
 			updateFormFieldFromZip:  _.debounce(function (field, value) {
 				this.actionUpdateFormFieldFromZip({field: field, value: value})
+				.then(() => {
+					if (value && value.length && this.form.to_zip && this.form.to_zip.length && !this.form_errors.to_zip) {
+						this.actionChangeServiceType()
+					}
+				})
 			}, 1000),
-			updateFormFieldToZip:  _.debounce(function (field, value) {
+			updateFormFieldToZip: _.debounce(function (field, value) {
 				this.actionUpdateFormFieldToZip({field: field, value: value})
+				.then(() => {
+					if (value && value.length && this.form.from_zip && this.form.from_zip.length && !this.form_errors.from_zip) {
+						this.actionChangeServiceType()
+					}
+				})
 			}, 1000),
 			clearForm(){
 				this.CLEAR_FORM()
