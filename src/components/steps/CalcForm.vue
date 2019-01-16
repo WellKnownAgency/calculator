@@ -111,7 +111,9 @@
 		        </span>
 		      </div>
 		    </div>
-		    <button class="wkn-cal-but-next" v-on:click.prevent="submitForm()">Calculate</button>
+				<div class="wkn-cal-but-wrap">
+			    <button class="wkn-cal-but-next" v-on:click.prevent="submitForm()">Calculate</button>
+				</div>
 		    <div class="wkn-cal-grid-container-bottom">
 		      <div class="wkn-cal-grid-item-bottom">
 		        <div class="wkn-cal-grid-container-ul">
