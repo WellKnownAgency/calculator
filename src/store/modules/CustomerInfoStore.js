@@ -66,15 +66,6 @@ const actions = {
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'job_time', value: response.data.job_time}, { root: true })
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'count_movers', value: response.data.count_movers}, { root: true })
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'movers_price_per_hour', value: response.data.movers_price_per_hour}, { root: true })
-			
-			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'price_new', value: response.data.price_new}, { root: true })
-			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'job_time_new', value: response.data.job_time_new}, { root: true })
-			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'count_movers_new', value: response.data.count_movers_new}, { root: true })
-			
-			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'price_my', value: response.data.price_my}, { root: true })
-			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'job_time_my', value: response.data.job_time_my}, { root: true })
-			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'count_movers_my', value: response.data.count_movers_my}, { root: true })
-			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'movers_price_per_hour_my', value: response.data.movers_price_per_hour_my}, { root: true })
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'job_distance', value: response.data.job_distance}, { root: true })
 			
 			//commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'price_new_v', value: response.data.price_new_v}, { root: true })

@@ -5,16 +5,9 @@ const state = {
 		full_distance: null,
 		travel_distance: null,
 		price: null,
-		price_new: null,
 		job_time: null,
-		job_time_new: null,
 		count_movers: null,
-		count_movers_new: null,
-		
-		price_my: null,
-		job_time_my: null,
-		count_movers_my: null,
-		movers_price_per_hour_my: null,
+		movers_price_per_hour: null,
 		job_distance: null,
 		
 		from_coordinates: null,
