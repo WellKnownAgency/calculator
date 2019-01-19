@@ -176,6 +176,7 @@ const actions = {
 			
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'from_coordinates', value: response.data.geocode.coordinates}, { root: true })
 			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_state', value: response.data.geocode.state}, { root: true })
+			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_state_code', value: response.data.geocode.state_code}, { root: true })
 			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_city', value: response.data.geocode.city}, { root: true })
 			commit('UPDATE_FORM_FIELD', {field: 'from_formatted_address', value: response.data.geocode.string})
 			return Promise.resolve(response)
@@ -188,6 +189,7 @@ const actions = {
 				commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field]})
 				commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'from_coordinates', value: null}, { root: true })
 				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_state', value: null}, { root: true })
+				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_state_code', value: null}, { root: true })
 				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_city', value: null}, { root: true })
 				commit('UPDATE_FORM_FIELD', {field: 'from_formatted_address', value: null})
 			}
@@ -204,6 +206,7 @@ const actions = {
 			
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'to_coordinates', value: response.data.geocode.coordinates}, { root: true })
 			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_state', value: response.data.geocode.state}, { root: true })
+			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_state_code', value: response.data.geocode.state_code}, { root: true })
 			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_city', value: response.data.geocode.city}, { root: true })
 			commit('UPDATE_FORM_FIELD', {field: 'to_formatted_address', value: response.data.geocode.string})
 			return Promise.resolve(response)
@@ -216,6 +219,7 @@ const actions = {
 				commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field]})
 				commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'to_coordinates', value: null}, { root: true })
 				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_state', value: null}, { root: true })
+				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_state_code_code', value: null}, { root: true })
 				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_city', value: null}, { root: true })
 				commit('UPDATE_FORM_FIELD', {field: 'to_formatted_address', value: null})
 			}

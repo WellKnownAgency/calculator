@@ -13,11 +13,13 @@ const state = {
 		from_address: null,
 		from_city: null,
 		from_state: null,
+		from_state_code: null,
 		preferred_time_id: null,
 		to_coordinates: null,
 		to_address: null,
 		to_city: null,
 		to_state: null,
+		to_state_code: null,
 		info_source_id: null
 	},
 	form_errors: {},

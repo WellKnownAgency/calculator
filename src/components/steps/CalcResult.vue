@@ -105,45 +105,47 @@
 
 					<hr>
 
-					<div class="wkn-calc-result-info__item">
-						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Full Time:</div>
-							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">{{info.full_time}}</span>
+					<template v-if="false">
+						<div class="wkn-calc-result-info__item">
+							<div class="wkn-calc-result-info-item">
+								<div class="wkn-calc-result-info-item__title">Full Time:</div>
+								<div class="wkn-calc-result-info-item__content">
+									<span class="wkn-calc-result-info-item__value">{{info.full_time}}</span>
+								</div>
 							</div>
 						</div>
-					</div>
 
-					<div class="wkn-calc-result-info__item">
-						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Full Distance:</div>
-							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">{{info.full_distance}}</span>
+						<div class="wkn-calc-result-info__item">
+							<div class="wkn-calc-result-info-item">
+								<div class="wkn-calc-result-info-item__title">Full Distance:</div>
+								<div class="wkn-calc-result-info-item__content">
+									<span class="wkn-calc-result-info-item__value">{{info.full_distance}}</span>
+								</div>
 							</div>
 						</div>
-					</div>
 
-					<div class="wkn-calc-result-info__item">
-						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Travel Time:</div>
-							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">{{info.travel_time}}</span>
+						<div class="wkn-calc-result-info__item">
+							<div class="wkn-calc-result-info-item">
+								<div class="wkn-calc-result-info-item__title">Travel Time:</div>
+								<div class="wkn-calc-result-info-item__content">
+									<span class="wkn-calc-result-info-item__value">{{info.travel_time}}</span>
+								</div>
 							</div>
 						</div>
-					</div>
 
-					<div class="wkn-calc-result-info__item">
-						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Travel Distance:</div>
-							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">{{info.travel_distance}}</span>
+						<div class="wkn-calc-result-info__item">
+							<div class="wkn-calc-result-info-item">
+								<div class="wkn-calc-result-info-item__title">Travel Distance:</div>
+								<div class="wkn-calc-result-info-item__content">
+									<span class="wkn-calc-result-info-item__value">{{info.travel_distance}}</span>
+								</div>
 							</div>
 						</div>
-					</div>
 
-					<hr>
+						<hr>
+					</template>
 
-					<div class="wkn-calc-result-info__item">
+					<div class="wkn-calc-result-info__item" v-if="selected_service_type.id != 2">
 						<div class="wkn-calc-result-info-item">
 							<div class="wkn-calc-result-info-item__title">Hourly Rate:</div>
 							<div class="wkn-calc-result-info-item__content">
