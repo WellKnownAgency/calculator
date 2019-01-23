@@ -55,7 +55,7 @@ const actions = {
 			from_coordinates: rootState.CalcResultStore.info.from_coordinates,
 			to_coordinates: rootState.CalcResultStore.info.to_coordinates,
 		}
-		let form = Object.assign(calcForm, customerForm, additional)
+		let form = Object.assign({}, calcForm, customerForm, additional)
 		
 		return axios.post('/customer/form', form)
 		.then((response) => {

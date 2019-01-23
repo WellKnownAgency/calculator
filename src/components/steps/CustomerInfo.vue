@@ -1,8 +1,6 @@
 <template>
-	<div class="wkn-calc-form-layout">
-		<div style="margin:10px 50px 0 50px; width:100%;">
-			  <div class="wkn-cal-main">
-					<div class="wkn-cal-grid-container">
+	<layout>
+			<div class="wkn-cal-grid-container">
 						<div class="wkn-cal-but-wrap">
 							<button class="wkn-cal-but-next-2" v-on:click.prevent="toBack()">Back</button>
 						</div>
@@ -109,7 +107,7 @@
 							<input-text
 			          name="from-zip"
 			          placeholder="From Zip"
-			          :value="calcform.from_zip"
+			          :value="calcform.from_zip.value"
 			          disabled="disabled"
 			        ></input-text>
 							<div class="wkn-cal-main-label-2">
@@ -153,7 +151,7 @@
 							<input-text
 			          name="to-zip"
 			          placeholder="To Zip"
-			          :value="calcform.to_zip"
+			          :value="calcform.to_zip.value"
 			          disabled="disabled"
 			        ></input-text>
 							<div class="wkn-cal-main-label-2">
@@ -175,9 +173,7 @@
 							<button class="wkn-cal-but-next-2" v-on:click.prevent="submit()">Next</button>
 						</div>
 					</div>
-				</div>
-		</div>
-	</div>
+	</layout>
 </template>
 
 
@@ -185,10 +181,11 @@
 	import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 	import InputText from "@/components/formel/InpitText"
 	import VSelect from "@/components/formel/Select"
+	import Layout from "@/components/modules/calc-form/Layout"
 	import {TheMask} from 'vue-the-mask'
 
 	export default {
-		components: {InputText, VSelect, TheMask},
+		components: {InputText, VSelect, TheMask, Layout},
 		data() {
 			return {}
 		},

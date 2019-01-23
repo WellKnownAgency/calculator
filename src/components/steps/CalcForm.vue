@@ -1,165 +1,177 @@
 <template>
-	<div class="wkn-calc-form-layout">
-		<div style="margin:10px 50px 0 50px;">
-			<div class="wkn-cal-main">
-				<div class="wkn-cal-grid-container-top">
-					<div class="wkn-cal-grid-item-top">
-						<label class="wkn-cal-label">Moving Date</label>
-						<span class="wkn-cal-span-abs">
+	<layout>
+		<div class="wkn-cal-grid-container-top">
+			<div class="wkn-cal-grid-item-top">
+				<label class="wkn-cal-label">Moving Date</label>
+				<span class="wkn-cal-span-abs">
 							<date-picker id="move-date"
-											width="100%"
-											:value="form.move_date"
-											@input="(value) => updateFormFieldDate('move_date', value)"
-											format="MM.DD.YYYY"
-											:not-before="new Date()"
-											lang="en"
-											:input-class="[form_errors.move_date ? 'wkn-cal-input wkn-cal-error' : 'wkn-cal-input']"
-											@clear="CLEAR_FIELD('move_date')"
+							             width="100%"
+							             :value="form.move_date.value"
+							             @input="(value) => updateFormFieldDate('move_date', value)"
+							             format="MM.DD.YYYY"
+							             :not-before="new Date()"
+							             lang="en"
+							             :input-class="[form_errors.move_date ? 'wkn-cal-input wkn-cal-error' : 'wkn-cal-input']"
+							             @clear="CLEAR_FIELD('move_date')"
 							></date-picker>
 						<span :class="[form_errors.move_date ? 'wkn-cal-left-input wkn-cal-left-error' : 'wkn-cal-left-input']"></span>
-							<!--<span class="cal-right-input"></span>-->
+					<!--<span class="cal-right-input"></span>-->
 						</span>
-						<div class="wkn-cal-errors" v-if="form_errors.move_date">
-							<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.move_date" :key="index">{{error}}</div>
-						</div>
-					</div>
-					<div class="wkn-cal-grid-item-top">
-						<label class="wkn-cal-label">Zip From</label>
-						<span class="wkn-cal-span-abs">
-							<input class="wkn-cal-input"  placeholder="Your from zip" v-bind:class="{'wkn-cal-error': form_errors.from_zip}" id="from-zip" :value="form.from_zip" @input="UPDATE_FORM_FIELD({field: 'from_zip', value: $event.target.value})">
+				<div class="wkn-cal-errors" v-if="form_errors.move_date">
+					<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.move_date" :key="index">{{error}}</div>
+				</div>
+			</div>
+			<div class="wkn-cal-grid-item-top">
+				<label class="wkn-cal-label">Zip From</label>
+				<span class="wkn-cal-span-abs">
+							<input class="wkn-cal-input" ref="from_zip" placeholder="Your from zip" v-bind:class="{'wkn-cal-error': form_errors.from_zip}" id="from-zip" :disabled="form.from_zip.is_disabled" :value="form.from_zip.value" @input="UPDATE_FORM_FIELD({field: 'from_zip', value: $event.target.value})">
 						<span class="wkn-cal-left-input" v-bind:class="{'wkn-cal-left-error': form_errors.from_zip}"></span>
-							<!--<span class="cal-right-input"></span>-->
+					<!--<span class="cal-right-input"></span>-->
 						</span>
-						<div class="wkn-cal-errors" v-if="form_errors.from_zip">
-							<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.from_zip" :key="index">{{error}}</div>
-						</div>
-					</div>
-					<div class="wkn-cal-grid-item-top">
-						<label class="wkn-cal-label">Entrance From</label>
-						<span class="wkn-cal-span-abs">
-						<select class="wkn-cal-select-input" v-bind:class="{'wkn-cal-error': form_errors.from_entrance_type_id}" :value="form.from_entrance_type_id" @input="updateFormField('from_entrance_type_id', parseInt($event.target.value))">
+				<div class="wkn-cal-errors" v-if="!form.from_zip.is_disabled && form_errors.from_zip">
+					<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.from_zip" :key="index">{{error}}</div>
+				</div>
+			</div>
+			<div class="wkn-cal-grid-item-top">
+				<label class="wkn-cal-label">Entrance From</label>
+				<span class="wkn-cal-span-abs">
+						<select class="wkn-cal-select-input" ref="from_entrance_type_id" v-bind:class="{'wkn-cal-error': form_errors.from_entrance_type_id}" :disabled="form.from_entrance_type_id.is_disabled" :value="form.from_entrance_type_id.value" @input="updateFormField('from_entrance_type_id', parseInt($event.target.value))">
 								<option :value="null">Choose entrance ...</option>
 								<option v-for="type in entrance_types" :key="type.id" :value="type.id">{{type.display_name}}</option>
 						</select>
 						<span class="wkn-cal-left-input" v-bind:class="{'wkn-cal-left-error': form_errors.from_entrance_type_id}"></span>
-							<!--<span class="cal-right-input"></span>-->
+					<!--<span class="cal-right-input"></span>-->
 						</span>
-						<div class="wkn-cal-errors" v-if="form_errors.from_entrance_type_id">
-							<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.from_entrance_type_id" :key="index">{{error}}</div>
-						</div>
-					</div>
-					<div class="wkn-cal-grid-item-top">
-						<label class="wkn-cal-label">Moving Size</label>
-						<span class="wkn-cal-span-abs">
-		          <select class="wkn-cal-select-input" v-bind:class="{'wkn-cal-error': form_errors.move_size_id}" :value="form.move_size_id" @input="updateFormFieldSize('move_size_id', parseInt($event.target.value))">
+				<div class="wkn-cal-errors" v-if="!form.from_entrance_type_id.is_disabled && form_errors.from_entrance_type_id">
+					<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.from_entrance_type_id" :key="index">{{error}}</div>
+				</div>
+			</div>
+			<div class="wkn-cal-grid-item-top">
+				<label class="wkn-cal-label">Moving Size</label>
+				<span class="wkn-cal-span-abs">
+		          <select class="wkn-cal-select-input" v-bind:class="{'wkn-cal-error': form_errors.move_size_id}" :value="form.move_size_id.value" @input="updateFormFieldSize('move_size_id', parseInt($event.target.value))">
 								<option :value="null">Choose select ...</option>
 			          <option v-for="size in move_sizes" :key="size.id" :value="size.id">{{size.display_name}}</option>
 		          </select>
 		          <span class="wkn-cal-left-input" v-bind:class="{'wkn-cal-left- error': form_errors.move_size_id}"></span>
-							<!--<span class="cal-right-input"></span>-->
+					<!--<span class="cal-right-input"></span>-->
 		        </span>
-						<div class="wkn-cal-errors" v-if="form_errors.move_size_id">
-							<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.move_size_id" :key="index">{{error}}</div>
-						</div>
-					</div>
-					<div class="wkn-cal-grid-item-top">
-						<label class="wkn-cal-label">Type of Moving Service</label>
-						<span class="wkn-cal-span-abs">
-		          <select class="wkn-cal-select-input" v-bind:class="{'wkn-cal-error': form_errors.service_type_id}" :value="form.service_type_id">
+				<div class="wkn-cal-errors" v-if="form_errors.move_size_id">
+					<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.move_size_id" :key="index">{{error}}</div>
+				</div>
+			</div>
+			<div class="wkn-cal-grid-item-top">
+				<label class="wkn-cal-label">Type of Moving Service</label>
+				<span class="wkn-cal-span-abs">
+		          <select class="wkn-cal-select-input" v-bind:class="{'wkn-cal-error': form_errors.service_type_id}" :value="form.service_type_id.value" @input="updateFormField('service_type_id', parseInt($event.target.value))">
 								<option :value="null">Choose service ...</option>
 			          <option v-for="type in service_types" :key="type.id" :value="type.id">{{type.display_name}}</option>
 		          </select>
 		          <span class="wkn-cal-left-input "  v-bind:class="{'wkn-cal-left-error': form_errors.service_type_id}"></span>
-							<!--<span class="cal-right-input"></span>-->
+					<!--<span class="cal-right-input"></span>-->
 		        </span>
-						<div class="wkn-cal-errors" v-if="form_errors.service_type_id">
-							<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.service_type_id" :key="index">{{error}}</div>
-						</div>
-					</div>
-					<div class="wkn-cal-grid-item-top">
-						<label class="wkn-cal-label">Zip To</label>
-						<span class="wkn-cal-span-abs">
-		          <input class="wkn-cal-input" placeholder="Your to zip" v-bind:class="{'wkn-cal-error': form_errors.to_zip}" id="to-zip" :value="form.to_zip" @input="UPDATE_FORM_FIELD({field: 'to_zip', value: $event.target.value})">
+				<div class="wkn-cal-errors" v-if="form_errors.service_type_id">
+					<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.service_type_id" :key="index">{{error}}</div>
+				</div>
+			</div>
+			<div class="wkn-cal-grid-item-top">
+				<label class="wkn-cal-label">Zip To</label>
+				<span class="wkn-cal-span-abs">
+		          <input class="wkn-cal-input" ref="to_zip" placeholder="Your to zip" v-bind:class="{'wkn-cal-error': form_errors.to_zip}" id="to-zip" :disabled="form.to_zip.is_disabled" :value="form.to_zip.value" @input="UPDATE_FORM_FIELD({field: 'to_zip', value: $event.target.value})">
 		          <span class="wkn-cal-left-input" v-bind:class="{'wkn-cal-left-error': form_errors.to_zip}"></span>
-							<!--<span class="cal-right-input"></span>-->
+					<!--<span class="cal-right-input"></span>-->
 		        </span>
-						<div class="wkn-cal-errors" v-if="form_errors.to_zip">
-							<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.to_zip" :key="index">{{error}}</div>
-						</div>
-					</div>
-					<div class="wkn-cal-grid-item-top">
-						<label class="wkn-cal-label">Entrance To</label>
-						<span class="wkn-cal-span-abs">
-		          <select class="wkn-cal-select-input" v-bind:class="{'wkn-cal-error': form_errors.to_entrance_type_id}" :value="form.to_entrance_type_id" @input="updateFormField('to_entrance_type_id', parseInt($event.target.value))">
+				<div class="wkn-cal-errors" v-if="!form.to_zip.is_disabled && form_errors.to_zip">
+					<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.to_zip" :key="index">{{error}}</div>
+				</div>
+			</div>
+			<div class="wkn-cal-grid-item-top">
+				<label class="wkn-cal-label">Entrance To</label>
+				<span class="wkn-cal-span-abs">
+		          <select class="wkn-cal-select-input" ref="to_entrance_type_id" v-bind:class="{'wkn-cal-error': form_errors.to_entrance_type_id}" :disabled="form.to_entrance_type_id.is_disabled" :value="form.to_entrance_type_id.value" @input="updateFormField('to_entrance_type_id', parseInt($event.target.value))">
 								<option :value="null">Choose select ...</option>
 			          <option v-for="type in entrance_types" :key="type.id" :value="type.id">{{type.display_name}}</option>
 		          </select>
 		          <span class="wkn-cal-left-input" v-bind:class="{'wkn-cal-left-error': form_errors.to_entrance_type_id}"></span>
-							<!--<span class="cal-right-input"></span>-->
+					<!--<span class="cal-right-input"></span>-->
 		        </span>
-						<div class="wkn-cal-errors" v-if="form_errors.to_entrance_type_id">
-							<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.to_entrance_type_id" :key="index">{{error}}</div>
-						</div>
-					</div>
-					<div class="wkn-cal-grid-item-top">
-						<label class="wkn-cal-label">Extra Rooms</label>
-						<span class="wkn-cal-grid-container-extra">
+				<div class="wkn-cal-errors" v-if="!form.to_entrance_type_id.is_disabled && form_errors.to_entrance_type_id">
+					<div class="wkn-cal-errors-item" v-for="(error, index) in form_errors.to_entrance_type_id" :key="index">{{error}}</div>
+				</div>
+			</div>
+			<div class="wkn-cal-grid-item-top">
+				<label class="wkn-cal-label">Extra Rooms</label>
+				<span class="wkn-cal-grid-container-extra">
 							<span class="wkn-cal-grid-item-extra" v-for="room in size_rooms" :key="room.id">
 								<input type="checkbox" class="wkn-cal-checkbox" :id="'extra-room-label-' + room.id" :disabled="!!room.pivot.is_included" :value="room.id" v-model="move_size_extra">
 								<label :for="'extra-room-label-' + room.id">{{room.display_name}}</label>
 							</span>
 						</span>
-					</div>
-				</div>
-				<button class="wkn-cal-but-next" v-on:click.prevent="submitForm()">Calculate</button>
-				<div class="wkn-cal-grid-container-bottom">
-					<div class="wkn-cal-grid-item-bottom">
-						<div class="wkn-cal-grid-container-ul">
-							<ul style="list-style-type:none;">
-								<li style="margin-bottom:10px;" v-if="selected_move_date_pretty"><b>Moving Date:</b><span>{{selected_move_date_pretty}}</span></li>
-								<li style="margin-bottom:10px;" v-if="selected_service_type"><b>Service:</b> <span>{{selected_service_type.display_name}}</span></li>
-								<li style="margin-bottom:10px;" v-if="form.from_formatted_address"><b>Zip From:</b> <span>{{form.from_formatted_address}}</span></li>
-								<li style="margin-bottom:10px;" v-if="form.to_formatted_address"><b>Zip To:</b> <span>{{form.to_formatted_address}}</span></li>
-								<li style="margin-bottom:10px;" v-if="selected_move_size"><b>Moving Size:</b><span>{{selected_move_size.display_name}}</span></li>
-							</ul>
-						</div>
-					</div>
-					<div class="wkn-cal-grid-item-bottom">
-						<img src="@/assets/img/sm4house.png" width="350px" height="auto"/>
-					</div>
-					<div class="wkn-cal-grid-item-bottom">
-						<p class="wkn-cal-infotext">
-							<b style="font-size:16px;">Moving Size</b><br>
-							Please don't underestimate the size of your move!
-							Make your choice wisely!
-							<br>
-							<br>
-							<b>Entrance</b><br>
-							Make sure you mention stairs. It's important for counting moving estimate time.
-							<br>
-							<br>
-							<b>Call for if you have Questions</b><br>
-							Once you will submit complete move request, you can also provide a precise inventory of all items,
-							that you planning to move.
-						</p>
-					</div>
-				</div>
 			</div>
 		</div>
-
-	</div>
+		<button class="wkn-cal-but-next" v-on:click.prevent="submitForm()">Calculate</button>
+		<div class="wkn-cal-grid-container-bottom">
+			<div class="wkn-cal-grid-item-bottom">
+				<div class="wkn-cal-grid-container-ul">
+					<ul style="list-style-type:none;">
+						<li style="margin-bottom:10px;" v-if="selected_move_date_pretty">
+							<b>Moving Date:</b>
+							<span>{{selected_move_date_pretty}}</span>
+						</li>
+						<li style="margin-bottom:10px;" v-if="selected_service_type">
+							<b>Service:</b>
+							<span>{{selected_service_type.display_name}}</span>
+						</li>
+						<li style="margin-bottom:10px;" v-if="!info.from_formatted_address.is_hidden && info.from_formatted_address.value">
+							<b>Zip From:</b>
+							<span>{{info.from_formatted_address.value}}</span>
+						</li>
+						<li style="margin-bottom:10px;" v-if="!info.to_formatted_address.is_hidden && info.to_formatted_address.value">
+							<b>Zip To:</b>
+							<span>{{info.to_formatted_address.value}}</span>
+						</li>
+						<li style="margin-bottom:10px;" v-if="selected_move_size">
+							<b>Moving Size:</b>
+							<span>{{selected_move_size.display_name}}</span>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="wkn-cal-grid-item-bottom">
+				<img src="@/assets/img/sm4house.png" width="350px" height="auto"/>
+			</div>
+			<div class="wkn-cal-grid-item-bottom">
+				<p class="wkn-cal-infotext">
+					<b style="font-size:16px;">Moving Size</b><br>
+					Please don't underestimate the size of your move!
+					Make your choice wisely!
+					<br>
+					<br>
+					<b>Entrance</b><br>
+					Make sure you mention stairs. It's important for counting moving estimate time.
+					<br>
+					<br>
+					<b>Call for if you have Questions</b><br>
+					Once you will submit complete move request, you can also provide a precise inventory of all items,
+					that you planning to move.
+				</p>
+			</div>
+		</div>
+	</layout>
 </template>
 
 
 <script>
 	/* eslint-disable */
+	import InputText from "@/components/formel/InpitText"
+	import Layout from "@/components/modules/calc-form/Layout"
 	import DatePicker from "vue2-datepicker";
 	import moment from "@/packages/Moment";
 	import _ from "lodash";
 	import { mapState, mapGetters, mapActions, mapMutations } from "vuex";
 
 	export default {
-		components: { DatePicker },
+		components: { DatePicker, InputText, Layout },
 		data() {
 			return {};
 		},
@@ -191,14 +203,21 @@
 			}
 		},
 		watch: {
-			"form.from_zip"(newVal) {
-				this.updateFormFieldFromZip("from_zip", newVal);
+			"form.from_zip.value"(newVal) {
+				this.updateFormFieldZip("from_zip", newVal, 'from', 'to_zip');
 			},
-			"form.to_zip"(newVal) {
-				this.updateFormFieldToZip("to_zip", newVal);
+			"form.to_zip.value"(newVal) {
+				this.updateFormFieldZip("to_zip", newVal, 'to', "from_zip");
 			},
-			"form.service_type_id"(newVal) {
-				this.updateFormField("service_type_id", newVal);
+			"form.service_type_id.value"(newVal) {
+				this.UNLOCK_FORM_FIELDS()
+				if (newVal === 3) {
+					this.SET_FORM_FIELD_TO_DISABLED('to_zip')
+					this.SET_FORM_FIELD_TO_DISABLED('to_entrance_type_id')
+				} else if (newVal === 4) {
+					this.SET_FORM_FIELD_TO_DISABLED('from_zip')
+					this.SET_FORM_FIELD_TO_DISABLED('from_entrance_type_id')
+				}
 			}
 		},
 		methods: {
@@ -207,13 +226,15 @@
 				CLEAR_FIELD: "CLEAR_FIELD",
 				ADD_MOVE_SIZE_EXTRA_VALUE: "ADD_MOVE_SIZE_EXTRA_VALUE",
 				UPD_ACTUAL_SIZE_EXTRA: "UPD_ACTUAL_SIZE_EXTRA",
-				UPDATE_FORM_FIELD: "UPDATE_FORM_FIELD"
+				UPDATE_FORM_FIELD: "UPDATE_FORM_FIELD",
+				SET_FORM_FIELD_TO_DISABLED: "SET_FORM_FIELD_TO_DISABLED",
+				SET_FORM_FIELD_TO_ACTIVE: "SET_FORM_FIELD_TO_ACTIVE",
+				UNLOCK_FORM_FIELDS: "UNLOCK_FORM_FIELDS",
 			}),
 			...mapActions("CalcFormStore", {
 				actionUpdateFormField: "updateFormField",
 				actionUpdateActualSizeExtra: "updateActualSizeExtra",
-				actionUpdateFormFieldFromZip: "updateFormFieldFromZip",
-				actionUpdateFormFieldToZip: "updateFormFieldToZip",
+				actionUpdateFormFieldZip: "updateFormFieldZip",
 				actionSubmitForm: "submitForm",
 				actionChangeServiceType: "changeServiceType"
 			}),
@@ -232,36 +253,25 @@
 					this.actionUpdateActualSizeExtra()
 				);
 			},
-			updateFormFieldFromZip: _.debounce(function(field, value) {
-				this.actionUpdateFormFieldFromZip({ field: field, value: value }).then(
+			updateFormFieldZip: _.debounce(function(field, value, direction, check_field) {
+				this.actionUpdateFormFieldZip({ field: field, value: value, direction: direction }).then(
 					() => {
 						if (
 							value &&
 							value.length &&
-							this.form.to_zip &&
-							this.form.to_zip.length &&
-							!this.form_errors.to_zip
+							this.form[check_field].value &&
+							this.form[check_field].value.length &&
+							!this.form_errors[check_field]
 						) {
 							this.actionChangeServiceType();
 						}
 					}
 				);
 			}, 1000),
-			updateFormFieldToZip: _.debounce(function(field, value) {
-				this.actionUpdateFormFieldToZip({ field: field, value: value }).then(
-					() => {
-						if (
-							value &&
-							value.length &&
-							this.form.from_zip &&
-							this.form.from_zip.length &&
-							!this.form_errors.from_zip
-						) {
-							this.actionChangeServiceType();
-						}
-					}
-				);
-			}, 1000),
+			setLockField($field) {
+				this.$refs[$field].disabled = true
+
+			},
 			clearForm() {
 				this.CLEAR_FORM();
 			},

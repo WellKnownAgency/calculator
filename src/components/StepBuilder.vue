@@ -1,10 +1,25 @@
 <template>
-	<component
-		:is="currentView"
-		v-on:complete="$emit('complete')"
-		v-on:back="$emit('back')"
-	></component>
+	<transition name="slide">
+		<component
+			:is="currentView"
+			v-on:complete="$emit('complete')"
+			v-on:back="$emit('back')"
+		></component>
+	</transition>
 </template>
+
+<style>
+	.slide-enter { transform: translateX(100%) }
+	.slide-enter-to { transform: translateX(0) }
+	.slide-enter-active { position: absolute }
+	/*.slide-leave-active { position: absolute }*/
+
+	.slide-leave { transform: translateX(0) }
+	.slide-leave-to { transform: translateX(-100%) }
+
+	.slide-enter-active,
+	.slide-leave-active { transition: all 300ms ease-in-out }
+</style>
 
 <script>
 	import Empty from './steps/Empty'
