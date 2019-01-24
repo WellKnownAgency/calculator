@@ -33,8 +33,8 @@ export default MapElementFactory({
 	afterCreate (directionsRendererInstance) {
 		var directionsService = new google.maps.DirectionsService;
 		directionsService.route({
-			origin: this.$attrs.from,
-			destination: this.$attrs.to,
+			origin: this.$attrs.from ? this.$attrs.from : this.$attrs.to,
+			destination: this.$attrs.to ? this.$attrs.to : this.$attrs.from,
 			travelMode: 'DRIVING'
 		}, function(response, status) {
 			if (status === 'OK') {

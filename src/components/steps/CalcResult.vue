@@ -13,25 +13,25 @@
 						<DirectionsRenderer :from="info.from_coordinates" :to="info.to_coordinates"></DirectionsRenderer>
 					</GmapMap>
 				</div>
-				<div class="wkn-calc-result-map__address">
+				<div class="wkn-calc-result-map__address" v-if="!calcinfo.from_formatted_address.is_hidden && calcinfo.from_formatted_address.value">
 					<div class="wkn-calc-result-map-address">
 						<div class="wkn-calc-result-map-address__title">Moving From:</div>
 						<div class="wkn-calc-result-map-address__content">
-							<span class="wkn-calc-result-map-address__value">{{calcform.from_formatted_address}}</span>
+							<span class="wkn-calc-result-map-address__value">{{calcinfo.from_formatted_address.value}}</span>
 							<span class="wkn-calc-result-map-address__description"> ({{selected_from_entrance_type.display_name}})</span>
 						</div>
 					</div>
 				</div>
-				<div class="wkn-calc-result-map__address">
+				<div class="wkn-calc-result-map__address" v-if="!calcinfo.to_formatted_address.is_hidden && calcinfo.to_formatted_address.value">
 					<div class="wkn-calc-result-map-address">
 						<div class="wkn-calc-result-map-address__title">Moving To:</div>
 						<div class="wkn-calc-result-map-address__content">
-							<span class="wkn-calc-result-map-address__value">{{calcform.to_formatted_address}}</span>
+							<span class="wkn-calc-result-map-address__value">{{calcinfo.to_formatted_address.value}}</span>
 							<span class="wkn-calc-result-map-address__description"> ({{selected_to_entrance_type.display_name}})</span>
 						</div>
 					</div>
 				</div>
-				<div class="wkn-calc-result-map__address">
+				<div class="wkn-calc-result-map__address" v-if="info.job_distance">
 					<div class="wkn-calc-result-map-address">
 						<div class="wkn-calc-result-map-address__title">Distance:</div>
 						<div class="wkn-calc-result-map-address__content">
@@ -207,6 +207,7 @@
 			),
 			...mapState('CalcFormStore', {
 					calcform: state => state.form,
+					calcinfo: state => state.info,
 				}
 			),
 			...mapGetters('CalcFormStore', [

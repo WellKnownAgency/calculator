@@ -52,8 +52,8 @@ const actions = {
 		let calcForm = rootState.CalcFormStore.form
 		let customerForm = state.form
 		let additional = {
-			from_coordinates: rootState.CalcResultStore.info.from_coordinates,
-			to_coordinates: rootState.CalcResultStore.info.to_coordinates,
+			from_coordinates: rootState.CalcFormStore.geocode.from_coordinates,
+			to_coordinates: rootState.CalcFormStore.geocode.to_coordinates,
 		}
 		let form = Object.assign({}, calcForm, customerForm, additional)
 		
@@ -69,6 +69,9 @@ const actions = {
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'count_movers', value: response.data.count_movers}, { root: true })
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'movers_price_per_hour', value: response.data.movers_price_per_hour}, { root: true })
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'job_distance', value: response.data.job_distance}, { root: true })
+			
+			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'from_coordinates', value: response.data.from_coordinates}, { root: true })
+			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'to_coordinates', value: response.data.to_coordinates}, { root: true })
 			
 			//commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'price_new_v', value: response.data.price_new_v}, { root: true })
 			//commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'job_time_new_v', value: response.data.job_time_new_v}, { root: true })

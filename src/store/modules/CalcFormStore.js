@@ -47,6 +47,10 @@ const state = {
 			is_hidden: false
 		},
 	},
+	geocode: {
+		from_coordinates: null,
+		to_coordinates: null,
+	},
 	service_types: [],
 	move_sizes: [],
 	entrance_types: []
@@ -171,11 +175,23 @@ const mutations = {
 	SET_FORM_FIELD_TO_ACTIVE (state, field) {
 		state.form[field].is_disabled = false
 	},
+	SET_INFO_FIELD_TO_HIDDEN (state, field) {
+		state.info[field].is_hidden = true
+	},
+	SET_INFO_FIELD_TO_VISIBLE (state, field) {
+		state.info[field].is_hidden = false
+	},
 	UNLOCK_FORM_FIELDS (state) {
-		//console.log(state.form)
 		for (let i in state.form) {
 			if (state.form[i] && 'is_disabled' in state.form[i]) {
 				state.form[i].is_disabled = false
+			}
+		}
+	},
+	UNLOCK_INFO_FIELDS (state) {
+		for (let i in state.info) {
+			if (state.info[i] && 'is_hidden' in state.info[i]) {
+				state.info[i].is_hidden = false
 			}
 		}
 	},
@@ -187,6 +203,13 @@ const mutations = {
 			state.form_errors[i] = []
 		}
 	},
+	UPDATE_GEOCODE_FIELD (state, {field, value}) {
+		state.geocode[field] = value
+	},
+	TRANSFER_COORDINATES ({state, commit}) {
+		commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'from_coordinates', value: state.geocode.from_coordinates}, { root: true })
+		commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'to_coordinates', value: state.geocode.to_coordinates}, { root: true })
+	}
 }
 
 const actions = {
@@ -222,6 +245,7 @@ const actions = {
 		.then((response) => {
 			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
 			
+			commit('UPDATE_GEOCODE_FIELD', {field: direction + '_coordinates', value: response.data.geocode.coordinates})
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: direction + '_coordinates', value: response.data.geocode.coordinates}, { root: true })
 			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: direction + '_state', value: response.data.geocode.state}, { root: true })
 			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: direction + '_state_code', value: response.data.geocode.state_code}, { root: true })
@@ -232,6 +256,7 @@ const actions = {
 		.catch((error) => {
 			if (error.response.status === 422) {
 				commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field + '.value']})
+				commit('UPDATE_FORM_FIELD', {field: direction + '_coordinates', value: null})
 				commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: direction + '_coordinates', value: null}, { root: true })
 				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: direction + '_state', value: null}, { root: true })
 				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: direction + '_state_code', value: null}, { root: true })
@@ -258,9 +283,15 @@ const actions = {
 		
 		})
 	},
-	submitForm ({ commit }) {
+	submitForm ({ commit, state }) {
 		return axios.post('/calculator/form', state.form)
 		.then((response) => {
+			//commit('TRANSFER_COORDINATES')
+			let from = state.geocode.from_coordinates !== null ? Object.assign({},state.geocode.from_coordinates) : null
+			let to = state.geocode.to_coordinates !== null ? Object.assign({},state.geocode.to_coordinates) : null
+			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'from_coordinates', value: from}, { root: true })
+			commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: 'to_coordinates', value: to}, { root: true })
+			//commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'from_coordinates', value: state.geocode.from_coordinates},
 			return Promise.resolve(response)
 		})
 		.catch((error) => {

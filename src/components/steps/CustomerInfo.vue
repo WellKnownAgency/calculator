@@ -181,7 +181,7 @@
 	import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 	import InputText from "@/components/formel/InpitText"
 	import VSelect from "@/components/formel/Select"
-	import Layout from "@/components/modules/calc-form/Layout"
+	import Layout from "@/components/modules/customer/Layout"
 	import {TheMask} from 'vue-the-mask'
 
 	export default {
