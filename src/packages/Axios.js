@@ -6,9 +6,9 @@ const axiosInstance = axios.create({
 	headers: {
 		common: {
 			//'Access-Control-Allow-Origin': '*',
-			'Accept': 'application/json',
+			//'Accept': 'application/json',
 			'Content-Type': 'application/json',
-			'X-Requested-With': 'XMLHttpRequest',
+			//'X-Requested-With': 'XMLHttpRequest',
 		}
 	}
 });
