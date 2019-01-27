@@ -8,6 +8,13 @@ module.exports = {
 			})
 		]
 	},
+	devServer: {
+		watchOptions: {
+			ignored: /node_modules/,
+			aggregateTimeout: 300,
+			poll: 1000,
+		},
+	},
 	chainWebpack:
 		config => {
 			config.optimization.delete('splitChunks')

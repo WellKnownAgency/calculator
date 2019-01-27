@@ -10,7 +10,6 @@ node_modules
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-package-lock.json
 
 # Editor directories and files
 .idea
@@ -21,7 +20,3 @@ package-lock.json
 *.sln
 *.sw*
 package-lock.json
-vue.config.js
-package.json
-package-lock.json
-*.json
