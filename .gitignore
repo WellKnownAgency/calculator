@@ -20,3 +20,6 @@ yarn-error.log*
 *.sln
 *.sw*
 package-lock.json
+docker-compose.yml
+docker
+Makefile

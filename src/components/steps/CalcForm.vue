@@ -211,7 +211,7 @@
 			"form.service_type_id.value"(newVal) {
 				this.UNLOCK_FORM_FIELDS()
 				this.UNLOCK_INFO_FIELDS()
-				if (newVal === 3) {
+				if (newVal === 3 || newVal === 5) {
 					this.SET_FORM_FIELD_TO_DISABLED('to_zip')
 					this.SET_FORM_FIELD_TO_DISABLED('to_entrance_type_id')
 
