@@ -13,20 +13,20 @@
 						<DirectionsRenderer :from="info.from_coordinates" :to="info.to_coordinates"></DirectionsRenderer>
 					</GmapMap>
 				</div>
-				<div class="wkn-calc-result-map__address" v-if="!calcinfo.from_formatted_address.is_hidden && calcinfo.from_formatted_address.value">
+				<div class="wkn-calc-result-map__address" v-if="!isHiddenInfoProperty('from_formatted_address') && calcinfo.from_formatted_address">
 					<div class="wkn-calc-result-map-address">
 						<div class="wkn-calc-result-map-address__title">Moving From:</div>
 						<div class="wkn-calc-result-map-address__content">
-							<span class="wkn-calc-result-map-address__value">{{calcinfo.from_formatted_address.value}}</span>
+							<span class="wkn-calc-result-map-address__value">{{calcinfo.from_formatted_address}}</span>
 							<span class="wkn-calc-result-map-address__description"> ({{selected_from_entrance_type.display_name}})</span>
 						</div>
 					</div>
 				</div>
-				<div class="wkn-calc-result-map__address" v-if="!calcinfo.to_formatted_address.is_hidden && calcinfo.to_formatted_address.value">
+				<div class="wkn-calc-result-map__address" v-if="!isHiddenInfoProperty('to_formatted_address') && calcinfo.to_formatted_address">
 					<div class="wkn-calc-result-map-address">
 						<div class="wkn-calc-result-map-address__title">Moving To:</div>
 						<div class="wkn-calc-result-map-address__content">
-							<span class="wkn-calc-result-map-address__value">{{calcinfo.to_formatted_address.value}}</span>
+							<span class="wkn-calc-result-map-address__value">{{calcinfo.to_formatted_address}}</span>
 							<span class="wkn-calc-result-map-address__description"> ({{selected_to_entrance_type.display_name}})</span>
 						</div>
 					</div>
@@ -145,7 +145,7 @@
 						<hr>
 					</template>
 
-					<div class="wkn-calc-result-info__item" v-if="selected_service_type.id != 2">
+					<div class="wkn-calc-result-info__item" v-if="selected_service_type.name !== 'long'">
 						<div class="wkn-calc-result-info-item">
 							<div class="wkn-calc-result-info-item__title">Hourly Rate:</div>
 							<div class="wkn-calc-result-info-item__content">
@@ -218,6 +218,9 @@
 				'selected_move_size',
 				'selected_rooms_pretty'
 			]),
+			...mapGetters('CalcFormStore', [
+				'isHiddenInfoProperty'
+			]),
 			...mapGetters('AppStore', [
 				'next_step',
 				'prev_step',
@@ -230,27 +233,7 @@
 			submit() {
 				this.$emit('complete')
 			},
-			calculateAndDisplayRoute(directionsService, directionsDisplay) {
-				directionsService.route({
-					origin: 'joplin, mo',
-					destination: 'flagstaff, az',
-					travelMode: 'DRIVING'
-				}, function(response, status) {
-					if (status === 'OK') {
-						console.log(response)
-						directionsDisplay.setDirections(response);
-					} else {
-						window.alert('Directions request failed due to ' + status);
-					}
-				});
-			},
-			dirBeforeCreate()
-			{
-				console.log('kkkk')
-			}
 		},
-		created() {
-
-		},
+		created() {},
 	}
 </script>

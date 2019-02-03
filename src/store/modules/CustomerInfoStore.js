@@ -22,12 +22,17 @@ const state = {
 		to_state_code: null,
 		info_source_id: null
 	},
+	form_disabled_fields: [],
 	form_errors: {},
 	preferred_times: [],
 	info_sources: [],
 }
 
-const getters = {}
+const getters = {
+	isDisabledFormField: (state) => (name) => {
+		return state.form_disabled_fields.includes(name)
+	},
+}
 
 const mutations = {
 	SET_PREFERRED_TIMES (state, {times}) {
@@ -44,6 +49,14 @@ const mutations = {
 	},
 	CLEAR_FORM_FIELDS_ERRORS (state) {
 		state.form_errors = {}
+	},
+	
+	// DISABLED FORM FIELDS
+	ADD_DISABLED_FORM_FIELD (state, field) {
+		state.form_disabled_fields.push(field)
+	},
+	CLEAR_DISABLED_FORM_FIELDS (state) {
+		state.form_disabled_fields = []
 	},
 }
 

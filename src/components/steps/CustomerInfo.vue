@@ -90,6 +90,7 @@
 			          placeholder="From Address"
 			          :value="form.from_address"
 			          :errors="form_errors.from_address"
+			          :disabled="isDisabledFormField('from_address')"
 			          @input="updateFormField('from_address', $event.target.value)"
 			        ></input-text>
 							<input-text
@@ -107,7 +108,7 @@
 							<input-text
 			          name="from-zip"
 			          placeholder="From Zip"
-			          :value="calcform.from_zip.value"
+			          :value="calcform.from_zip"
 			          disabled="disabled"
 			        ></input-text>
 							<div class="wkn-cal-main-label-2">
@@ -134,6 +135,7 @@
 			          placeholder="To Address"
 			          :value="form.to_address"
 			          :errors="form_errors.to_address"
+			          :disabled="isDisabledFormField('to_address')"
 			          @input="updateFormField('to_address', $event.target.value)"
 			        ></input-text>
 							<input-text
@@ -151,7 +153,7 @@
 							<input-text
 			          name="to-zip"
 			          placeholder="To Zip"
-			          :value="calcform.to_zip.value"
+			          :value="calcform.to_zip"
 			          disabled="disabled"
 			        ></input-text>
 							<div class="wkn-cal-main-label-2">
@@ -201,7 +203,9 @@
 					calcform: state => state.form,
 				}
 			),
-			...mapGetters('CustomerInfoStore', []),
+			...mapGetters('CustomerInfoStore', [
+				'isDisabledFormField'
+			]),
 			...mapGetters('AppStore', [
 				'next_step',
 				'prev_step',
