@@ -36,12 +36,25 @@ Vue.use(VueGoogleMaps, {
 	// installComponents: true,
 })
 
+// multiselect
+import Multiselect from 'vue-multiselect'
+Vue.component('multiselect', Multiselect)
+import 'vue-multiselect/dist/vue-multiselect.min.css'
+
 // http axios
 //require('@/packages/Axios.js')
 //import Axios from '@/packages/Axios'
 //Vue.prototype.$http = Axios
 
 Vue.config.productionTip = false
+Vue.prototype.$prefix = 'wkn-app'
+
+import { Layout } from 'bootstrap-vue/es/components';
+import 'bootstrap/scss/bootstrap-grid.scss'
+//import 'bootstrap-vue/dist/bootstrap-vue.css'
+Vue.use(Layout);
+
+import 'pretty-checkbox/src/pretty-checkbox.scss';
 
 Vue.use(vueCustomElement)
 App.store = store

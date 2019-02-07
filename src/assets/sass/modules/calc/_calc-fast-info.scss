@@ -1,0 +1,19 @@
+.calc-fast-info {
+	&__list {
+
+	}
+	&__item + &__item {
+		margin-top: 15px;
+	}
+}
+
+.calc-fast-info-item {
+	display: flex;
+	&__label {
+		font-weight: bold;
+		margin-right: 10px;
+	}
+	&__value {
+
+	}
+}

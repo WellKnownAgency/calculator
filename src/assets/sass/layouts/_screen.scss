@@ -1,0 +1,20 @@
+.l-screen {
+	height: 540px;
+	background-color: #fff;
+	border: 1px solid #fff;
+	border-radius: 20px;
+	box-shadow: 0 9px 30px -6px #8c92ac;
+	position: relative;
+	padding: 25px;
+	&__btn {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		&--left {
+			left: 15px;
+		}
+		&--right {
+			right: 15px;
+		}
+	}
+}

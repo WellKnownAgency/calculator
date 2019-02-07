@@ -1,3 +1,4 @@
+@import "vars";
 * {
 	box-sizing: border-box;
 }
@@ -9,9 +10,10 @@ body {
 
 }
 
-li span {
+/*li span {
 	margin-left:20px;
-}
+}*/
 
 @import "elements/index";
+@import "layouts/index";
 @import "modules/index";

@@ -26,11 +26,15 @@ const state = {
 			is_active: false,
 			is_current: false
 		}
-	]
+	],
+	styles: {
+		borderRadius: '6px'
+	}
 }
 
 const getters = {
 	steps: state => state.steps,
+	styles: state => state.styles,
 	next_step: () => {
 		for (let i in state.steps) {
 			if (state.steps[i].is_current)

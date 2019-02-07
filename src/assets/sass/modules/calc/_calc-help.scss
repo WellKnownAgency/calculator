@@ -1,0 +1,16 @@
+.calc-help {
+	&__item + &__item {
+		margin-top: 20px;
+	}
+}
+
+.calc-help-item {
+	&__title {
+		font-size: 16px;
+		font-weight: bold;
+		margin-bottom: 2px;
+	}
+	&__description {
+
+	}
+}
