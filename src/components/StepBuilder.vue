@@ -1,27 +1,33 @@
 <template>
-	<transition name="slide">
-		<component
-			:is="currentView"
-			v-on:complete="$emit('complete')"
-			v-on:back="$emit('back')"
-		></component>
-	</transition>
+	<!--<transition name="wkn-slide">-->
+	<Motion :value="offset" tag="div">
+		<div slot-scope="props" :style="{ transform: `translateX(${props.value}px)` }">
+			<component
+				:is="currentView"
+				v-on:complete="$emit('complete')"
+				v-on:back="$emit('back')"
+			></component>
+			<button type="button" v-on:click="cl()">ok</button>
+		</div>
+	</Motion>
+	<!--</transition>-->
 </template>
 
 <style>
-	.slide-enter { transform: translateX(100%) }
+	/*.slide-enter { transform: translateX(100%) }
 	.slide-enter-to { transform: translateX(0) }
 	.slide-enter-active { position: absolute }
-	/*.slide-leave-active { position: absolute }*/
+	!*.slide-leave-active { position: absolute }*!
 
 	.slide-leave { transform: translateX(0) }
 	.slide-leave-to { transform: translateX(-100%) }
 
 	.slide-enter-active,
-	.slide-leave-active { transition: all 300ms ease-in-out }
+	.slide-leave-active { transition: all 300ms ease-in-out }*/
 </style>
 
 <script>
+	import { Motion } from 'vue-motion'
 	import Empty from './steps/Empty'
 	import CalcForm from './steps/CalcForm'
 	import CustomerInfo from './steps/CustomerInfo'
@@ -30,12 +36,18 @@
 	import {mapGetters} from 'vuex'
 
 	export default {
-		components: {Empty, CalcForm, CustomerInfo, CalcResult, Confirmation},
+		components: {Motion, Empty, CalcForm, CustomerInfo, CalcResult, Confirmation},
 		props: ['name'],
 		data() {
-			return {}
+			return {
+				offset: 0
+			}
 		},
-		methods: {},
+		methods: {
+			cl() {
+				this.offset = '100%'
+			}
+		},
 		computed: {
 			...mapGetters('AppStore', [
 				'steps',
@@ -54,6 +66,8 @@
 					return 'empty'
 			}
 		},
-		created() {}
+		created() {
+
+		}
 	}
 </script>

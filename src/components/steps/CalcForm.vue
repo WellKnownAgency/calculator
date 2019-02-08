@@ -4,7 +4,7 @@
 
 				<l-calc>
 					<template slot="top">
-						<b-row class="wkn-my-4">
+						<b-row class="wkn-my-2">
 							<b-col v-if="!isMovingDateRange">
 								<!-- Moving Date -->
 								<form-group label="Moving Date"
@@ -76,7 +76,7 @@
 							</b-col>
 						</b-row>
 
-						<b-row class="wkn-my-4">
+						<b-row class="wkn-my-2">
 							<b-col>
 								<!-- Type of Moving Service -->
 								<form-group label="Type of Moving Service"

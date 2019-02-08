@@ -6,8 +6,8 @@
 		<div class="wkn-form-group__input">
 			<slot></slot>
 		</div>
-		<div class="wkn-form-group__errors" v-if="!is_disabled && errors && errors.length">
-			<div class="wkn-form-group-errors">
+		<div class="wkn-form-group__errors">
+			<div class="wkn-form-group-errors" v-if="!is_disabled && errors && errors.length">
 				<div class="wkn-form-group-errors__item" v-for="(error, index) in errors" :key="index">{{error}}</div>
 			</div>
 		</div>
