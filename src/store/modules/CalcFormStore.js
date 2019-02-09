@@ -111,14 +111,6 @@ const mutations = {
 	ADD_MOVE_SIZE_EXTRA_VALUE (state, value) {
 		state.form.move_size_extra = value
 	},
-	UPD_ACTUAL_SIZE_EXTRA (state) {
-		let selectedIds = state.form.move_size_extra
-		
-		let selected_rooms = _.filter(getters.size_rooms, function(item) {
-			return _.includes(selectedIds, item['id'])
-		})
-		state.form.move_size_extra = _.map(selected_rooms, 'id')
-	},
 	UPDATE_ACTUAL_SIZE_EXTRA (state, {size_rooms}) {
 		state.form.move_size_extra = [];
 		for (let i in size_rooms) {

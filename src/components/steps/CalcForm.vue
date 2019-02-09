@@ -139,7 +139,6 @@
 								</form-group>
 							</b-col>
 						</b-row>
-
 					</template>
 
 					<template slot="bottom">
@@ -300,7 +299,7 @@
 				CLEAR_FORM: "CLEAR_FORM",
 				CLEAR_FIELD: "CLEAR_FIELD",
 				ADD_MOVE_SIZE_EXTRA_VALUE: "ADD_MOVE_SIZE_EXTRA_VALUE",
-				UPD_ACTUAL_SIZE_EXTRA: "UPD_ACTUAL_SIZE_EXTRA",
+				/*UPDATE_ACTUAL_SIZE_EXTRA: "UPDATE_ACTUAL_SIZE_EXTRA",*/
 				UPDATE_FORM_FIELD: "UPDATE_FORM_FIELD",
 				ADD_DISABLED_FORM_FIELD: "ADD_DISABLED_FORM_FIELD",
 				CLEAR_DISABLED_FORM_FIELDS: "CLEAR_DISABLED_FORM_FIELDS",
@@ -367,7 +366,5 @@
 				});
 			}
 		},
-		created() {},
-		mounted() {}
 	};
 </script>
