@@ -90,7 +90,7 @@ const actions = {
 		return axios.post('/customer/form', form)
 		.then((response) => {
 			commit('CLEAR_FORM_FIELDS_ERRORS')
-			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'full_time', value: response.data.full_time}, { root: true })
+			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'full_time', value: response.data.full_time_format}, { root: true })
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'travel_time', value: response.data.travel_time}, { root: true })
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'full_distance', value: response.data.full_distance}, { root: true })
 			commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: 'travel_distance', value: response.data.travel_distance}, { root: true })
