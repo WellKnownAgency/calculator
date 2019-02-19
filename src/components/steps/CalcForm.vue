@@ -295,6 +295,10 @@
 			}
 		},
 		methods: {
+			...mapMutations("AppStore", {
+				START_LOADING: "START_LOADING",
+				END_LOADING: "END_LOADING",
+			}),
 			...mapMutations("CalcFormStore", {
 				CLEAR_FORM: "CLEAR_FORM",
 				CLEAR_FIELD: "CLEAR_FIELD",
@@ -360,10 +364,15 @@
 				this.CLEAR_FORM();
 			},
 			submitForm() {
-				this.actionSubmitForm().then(() => {
-					this.actionChangeServiceType();
-					this.$emit("complete");
-				});
+				this.START_LOADING()
+				this.actionSubmitForm()
+					.then(() => {
+						this.actionChangeServiceType();
+						this.$emit("complete");
+					})
+					.finally(() => {
+						this.END_LOADING()
+					})
 			}
 		},
 	};

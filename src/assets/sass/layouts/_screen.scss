@@ -1,11 +1,12 @@
 .l-screen {
 	//height: 540px;
 	background-color: #fff;
-	border: 1px solid #fff;
+	//border: 1px solid #fff;
 	border-radius: 20px;
 	box-shadow: 0 9px 30px -6px #8c92ac;
 	position: relative;
 	padding: 25px 135px;
+	overflow: hidden;
 	&__btn {
 		position: absolute;
 		top: 50%;
@@ -16,5 +17,19 @@
 		&--right {
 			right: 15px;
 		}
+	}
+	&__spinner {
+		position: absolute;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		background-color: #74767fb3;
+		z-index: 99999;
+		border: 3px solid rgba(0, 0, 0, 0.2);
+		border-radius: 20px;
 	}
 }

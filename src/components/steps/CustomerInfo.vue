@@ -212,6 +212,10 @@
 			])
 		},
 		methods: {
+			...mapMutations("AppStore", {
+				START_LOADING: "START_LOADING",
+				END_LOADING: "END_LOADING",
+			}),
 			...mapMutations('CustomerInfoStore', {}),
 			...mapActions('CustomerInfoStore', {
 				actionUpdateFormField: 'updateFormField',
@@ -233,9 +237,14 @@
 				this.$emit('back')
 			},
 			submit() {
-				this.actionSubmitForm().then(() => {
-					this.$emit('complete')
-				})
+				this.START_LOADING()
+				this.actionSubmitForm()
+					.then(() => {
+						this.$emit('complete')
+					})
+					.finally(() => {
+						this.END_LOADING()
+					})
 			}
 		},
 		created() {

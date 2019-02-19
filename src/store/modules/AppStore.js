@@ -27,6 +27,7 @@ const state = {
 			is_current: false
 		}
 	],
+	is_loading: false,
 	styles: {
 		borderRadius: '6px'
 	}
@@ -55,6 +56,12 @@ const getters = {
 }
 
 const mutations = {
+	START_LOADING (state) {
+		state.is_loading = true
+	},
+	END_LOADING (state) {
+		state.is_loading = false
+	},
 	NEXT_STEP (state) {
 		let next_idx = 0
 		for (let i in state.steps) {
