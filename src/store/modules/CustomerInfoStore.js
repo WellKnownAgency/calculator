@@ -62,17 +62,17 @@ const mutations = {
 
 const actions = {
 	updateFormField ({ commit }, {field, value}) {
+		commit('UPDATE_FORM_FIELD', {field: field, value: value})
 		let data = {}
 		data[field] = value
 		return axios.post('/customer/validate-field', data)
 		.then(() => {
 			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
-			commit('UPDATE_FORM_FIELD', {field: field, value: value})
 		})
 		.catch((error) => {
-			(!value)
+			/*(!value)
 				? commit('UPDATE_FORM_FIELD', {field: field, value: null})
-				: commit('UPDATE_FORM_FIELD', {field: field, value: value})
+				: commit('UPDATE_FORM_FIELD', {field: field, value: value})*/
 			if (error.response.status === 422) {
 				commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field]})
 			}

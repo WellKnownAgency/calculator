@@ -186,17 +186,17 @@ const actions = {
 			})
 	},
 	updateFormField ({ commit }, {field, value}) {
+		commit('UPDATE_FORM_FIELD', {field: field, value: value})
 		let data = {}
 		data[field] = value
 		return axios.post('/calculator/validate-field', data)
 		.then(() => {
 			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
-			commit('UPDATE_FORM_FIELD', {field: field, value: value})
 		})
 		.catch((error) => {
-			(!value)
+			/*(!value)
 				? commit('UPDATE_FORM_FIELD', {field: field, value: null})
-				: commit('UPDATE_FORM_FIELD', {field: field, value: value})
+				: commit('UPDATE_FORM_FIELD', {field: field, value: value})*/
 			if (error.response.status === 422) {
 				commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field]})
 			}
@@ -220,6 +220,7 @@ const actions = {
 		.catch((error) => {
 			if (error.response.status === 422) {
 				commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field]})
+				
 				commit('UPDATE_FORM_FIELD', {field: direction + '_coordinates', value: null})
 				commit('CalcResultStore/UPDATE_INFO_PROPERTY', {property: direction + '_coordinates', value: null}, { root: true })
 				commit('CustomerInfoStore/UPDATE_FORM_FIELD', {field: direction + '_state', value: null}, { root: true })
