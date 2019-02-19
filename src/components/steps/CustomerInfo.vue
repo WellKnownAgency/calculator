@@ -92,8 +92,8 @@
 						<form-group label="From Zip" label_for="from-zip" :errors="form_errors.from_zip" :is_disabled="true">
 							<input-text
 								placeholder="From Zip"
-								:value="form.from_zip"
-								@input="updateFormFieldDebounce('from_zip', $event.target.value)"
+								:value="calcform.from_zip"
+								@input="updateCalcFormFieldDebounce('from_zip', $event.target.value)"
 							/>
 						</form-group>
 
@@ -143,8 +143,8 @@
 						<form-group label="To Zip" label_for="to-zip" :errors="form_errors.to_zip" :is_disabled="true">
 							<input-text
 								placeholder="To Zip"
-								:value="form.to_zip"
-								@input="updateFormFieldDebounce('to_zip', $event.target.value)"
+								:value="calcform.to_zip"
+								@input="updateCalcFormFieldDebounce('to_zip', $event.target.value)"
 							/>
 						</form-group>
 
@@ -217,8 +217,14 @@
 				actionUpdateFormField: 'updateFormField',
 				actionSubmitForm: 'submitForm',
 			}),
+			...mapActions('CalcFormStore', {
+				actionUpdateCalcFormField: 'updateFormField',
+			}),
 			updateFormFieldDebounce: _.debounce(function (field, value) {
 				this.actionUpdateFormField({field: field, value: value});
+			}, 1000),
+			updateCalcFormFieldDebounce: _.debounce(function (field, value) {
+				this.actionUpdateCalcFormField({field: field, value: value});
 			}, 1000),
 			updateFormField: function (field, value) {
 				this.actionUpdateFormField({field: field, value: value})
