@@ -28,6 +28,7 @@ const state = {
 		}
 	],
 	is_loading: false,
+	slide_step_name: null,
 	styles: {
 		borderRadius: '6px'
 	}
@@ -63,6 +64,7 @@ const mutations = {
 		state.is_loading = false
 	},
 	NEXT_STEP (state) {
+		state.slide_step_name = 'wkn-slide-next'
 		let next_idx = 0
 		for (let i in state.steps) {
 			if (state.steps[i].is_current) {
@@ -76,8 +78,10 @@ const mutations = {
 		}
 		state.steps[next_idx].is_active = true
 		state.steps[next_idx].is_current = true
+		//state.slide_step_name = 'wkn-slide-next'
 	},
 	PREV_STEP (state) {
+		state.slide_step_name = 'wkn-slide-prev'
 		let prev_idx = 0
 		for (let i in state.steps) {
 			if (state.steps[i].is_current) {
@@ -91,6 +95,7 @@ const mutations = {
 			}
 		}
 		state.steps[prev_idx].is_current = true
+		//state.slide_step_name = 'wkn-slide-next'
 	},
 	SET_START_STEP (state) {
 		for (let i in state.steps) {

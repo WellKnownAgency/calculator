@@ -8,36 +8,36 @@
 							<b-col v-if="!isMovingDateRange">
 								<!-- Moving Date -->
 								<form-group label="Moving Date"
-											label_for="move-date"
-											:errors="form_errors.move_date"
-											:is_disabled="isDisabledFormField('move_date')">
-													<input-date
-														:value="form.move_date"
-														@input="(value) => updateFormFieldDate('move_date', value)"
-														@clear="CLEAR_FIELD('move_date')"
-													/>
+								            label_for="move-date"
+								            :errors="form_errors.move_date"
+								            :is_disabled="isDisabledFormField('move_date')">
+									<input-date
+										:value="form.move_date"
+										@input="(value) => updateFormFieldDate('move_date', value)"
+										@clear="CLEAR_FIELD('move_date')"
+									/>
 								</form-group>
 							</b-col>
 							<b-col v-if="isMovingDateRange">
 								<!-- Moving ~ Destination Date -->
 								<form-group label="Moving ~ Destination Date"
-												label_for="destination-date"
-												:errors="form_errors.destination_date"
-												:is_disabled="isDisabledFormField('destination_date')">
-													<input-date
-														:range="true"
-														:value="storage_date_value"
-														@input="(value) => updateFormFieldStorageDate(value)"
-														@clear="CLEAR_FIELD('move_date');CLEAR_FIELD('destination_date');"
-													/>
+								            label_for="destination-date"
+								            :errors="form_errors.destination_date"
+								            :is_disabled="isDisabledFormField('destination_date')">
+									<input-date
+										:range="true"
+										:value="storage_date_value"
+										@input="(value) => updateFormFieldStorageDate(value)"
+										@clear="CLEAR_FIELD('move_date');CLEAR_FIELD('destination_date');"
+									/>
 								</form-group>
 							</b-col>
 							<b-col>
 								<!-- Zip From -->
 								<form-group label="Zip From"
-														label_for="from-zip"
-														:errors="form_errors.from_zip"
-														:is_disabled="isDisabledFormField('from_zip')">
+								            label_for="from-zip"
+								            :errors="form_errors.from_zip"
+								            :is_disabled="isDisabledFormField('from_zip')">
 									<input-text
 										placeholder="Your from zip"
 										:value="form.from_zip"
@@ -80,16 +80,16 @@
 							<b-col>
 								<!-- Type of Moving Service -->
 								<form-group label="Type of Moving Service"
-													label_for="service-type"
-													:errors="form_errors.service_type_id"
-													:is_disabled="isDisabledFormField('service_type_id')">
-										<vselect
-											placeholder="Choose service ..."
-											:value="form.service_type_id"
-											:options="service_types"
-											@input="value => updateFormField('service_type_id', parseInt(value))"
-											:errors="form_errors.service_type_id"
-										/>
+								            label_for="service-type"
+								            :errors="form_errors.service_type_id"
+								            :is_disabled="isDisabledFormField('service_type_id')">
+									<vselect
+										placeholder="Choose service ..."
+										:value="form.service_type_id"
+										:options="service_types"
+										@input="value => updateFormField('service_type_id', parseInt(value))"
+										:errors="form_errors.service_type_id"
+									/>
 								</form-group>
 							</b-col>
 							<b-col>
@@ -124,7 +124,7 @@
 								<form-group label="Extra Rooms"
 								            label_for="extra-rooms"
 								            v-if="selected_move_size"
-								            >
+								>
 									<checkbox-group>
 										<pretty-check class="p-default p-round p-smooth"
 										              v-for="room in size_rooms"

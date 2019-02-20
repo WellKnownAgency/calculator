@@ -11,7 +11,7 @@
 			</template>
 
 			<template slot="body">
-				<step-builder name="CalcForm" v-on:complete="nextStep()" v-on:back="prevStep()" />
+				<step-builder name="CalcForm" v-on:complete="NEXT_STEP()" v-on:back="PREV_STEP()" />
 			</template>
 
 		</l-app>
@@ -35,9 +35,9 @@
 				setInfoSources: 'SET_INFO_SOURCES',
 			}),
 			...mapMutations('AppStore', {
-				nextStep: 'NEXT_STEP',
-				prevStep: 'PREV_STEP',
-				setStyles: 'SET_STYLES',
+				NEXT_STEP: 'NEXT_STEP',
+				PREV_STEP: 'PREV_STEP',
+				SET_STYLES: 'SET_STYLES',
 			}),
 			...mapActions('CalcFormStore', {
 				setCalcForm: 'setCalcForm',
