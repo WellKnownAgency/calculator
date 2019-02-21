@@ -12,7 +12,7 @@
 								            :errors="form_errors.move_date"
 								            :is_disabled="isDisabledFormField('move_date')">
 									<input-date
-										:value="form.move_date"
+										:value="formatDate(form.move_date)"
 										@input="(value) => updateFormFieldDate('move_date', value)"
 										@clear="CLEAR_FIELD('move_date')"
 									/>
@@ -26,7 +26,7 @@
 								            :is_disabled="isDisabledFormField('destination_date')">
 									<input-date
 										:range="true"
-										:value="storage_date_value"
+										:value="[formatDate(form.move_date), formatDate(form.destination_date)]"
 										@input="(value) => updateFormFieldStorageDate(value)"
 										@clear="CLEAR_FIELD('move_date');CLEAR_FIELD('destination_date');"
 									/>
@@ -322,13 +322,16 @@
 				actionSubmitForm: "submitForm",
 				actionChangeServiceType: "changeServiceType"
 			}),
+			formatDate(date) {
+				return moment(date).isValid() ? moment(date).format("MM.DD.YYYY") : null;
+			},
 			updateFormFieldDate: function (field, value) {
-				let formatValue = moment(value).isValid() ? moment(value).format("MM.DD.YYYY") : null;
+				let formatValue = moment(value).isValid() ? moment(value).format("YYYY-MM-DD") : null;
 				this.updateFormField(field, formatValue);
 			},
 			updateFormFieldStorageDate: function (value) {
-				let movingDate = moment(value[0]).isValid() ? moment(value[0]).format("MM.DD.YYYY") : null;
-				let destinationDate = moment(value[1]).isValid() ? moment(value[1]).format("MM.DD.YYYY") : null;
+				let movingDate = moment(value[0]).isValid() ?  moment(value[0]).format("YYYY-MM-DD") : null;
+				let destinationDate = moment(value[1]).isValid() ?  moment(value[1]).format("YYYY-MM-DD") : null;
 				return this.actionUpdateFormFieldStorageDates({moving: movingDate, destination: destinationDate});
 			},
 			updateFormFieldDebounce: _.debounce(function (field, value) {

@@ -78,9 +78,9 @@ const getters = {
 		}
 		return selectedRoomsNames.join(', ')
 	},
-	storage_date_value: (state) => {
+	/*storage_date_value: (state) => {
 		return [state.form.move_date, state.form.destination_date]
-	},
+	},*/
 	isDisabledFormField: (state) => (name) => {
 		return state.form_disabled_fields.includes(name)
 	},
@@ -232,12 +232,12 @@ const actions = {
 		})
 	},
 	updateFormFieldStorageDates ({ commit }, {moving, destination}) {
+		commit('UPDATE_FORM_FIELD', {field: 'move_date', value: moving})
+		commit('UPDATE_FORM_FIELD', {field: 'destination_date', value: destination})
 		return axios.post('/calculator/validate-field/storage-dates', {move_date: moving, destination_date: destination})
 		.then((response) => {
 			commit('SET_FORM_FIELD_ERRORS', {field: 'move_date', errors: null})
 			commit('SET_FORM_FIELD_ERRORS', {field: 'destination_date', errors: null})
-			commit('UPDATE_FORM_FIELD', {field: 'move_date', value: moving})
-			commit('UPDATE_FORM_FIELD', {field: 'destination_date', value: destination})
 		})
 		.catch((error) => {
 			if (error.response.status === 422) {
