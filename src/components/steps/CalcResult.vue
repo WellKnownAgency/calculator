@@ -35,7 +35,7 @@
 					<div class="wkn-calc-result-map-address">
 						<div class="wkn-calc-result-map-address__title">Distance:</div>
 						<div class="wkn-calc-result-map-address__content">
-							<span class="wkn-calc-result-map-address__value">{{info.job_distance}} miles</span>
+							<span class="wkn-calc-result-map-address__value">{{Math.ceil(info.job_distance / 1609.344)}} miles</span>
 						</div>
 					</div>
 				</div>
@@ -43,7 +43,7 @@
 					<div class="wkn-calc-result-map-address">
 						<div class="wkn-calc-result-map-address__title">Estimated Quote:</div>
 						<div class="wkn-calc-result-map-address__content">
-							<span class="wkn-calc-result-map-address__value">${{info.price}}</span>
+							<span class="wkn-calc-result-map-address__value">${{estimated_quote}}</span>
 						</div>
 					</div>
 				</div>
@@ -158,7 +158,7 @@
 						<div class="wkn-calc-result-info-item">
 							<div class="wkn-calc-result-info-item__title">Estimated Job Time:</div>
 							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">{{info.job_time}}</span>
+								<span class="wkn-calc-result-info-item__value">{{estimated_job_duration}}</span>
 							</div>
 						</div>
 					</div>
@@ -167,7 +167,7 @@
 						<div class="wkn-calc-result-info-item">
 							<div class="wkn-calc-result-info-item__title">Estimated Quote:</div>
 							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">${{info.price}}</span>
+								<span class="wkn-calc-result-info-item__value">${{estimated_quote}}</span>
 							</div>
 						</div>
 					</div>
@@ -210,6 +210,10 @@
 					calcinfo: state => state.info,
 				}
 			),
+			...mapGetters('CalcResultStore', [
+				'estimated_quote',
+				'estimated_job_duration'
+			]),
 			...mapGetters('CalcFormStore', [
 				'selected_from_entrance_type',
 				'selected_to_entrance_type',

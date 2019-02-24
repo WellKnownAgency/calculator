@@ -1,4 +1,5 @@
 import axios from '@/packages/Axios'
+import moment from '@/packages/Moment'
 
 const state = {
 	steps: [
@@ -109,6 +110,7 @@ const mutations = {
 
 const actions = {
 	setApp ({ commit }) {
+		//console.log(moment.duration(123, "minutes").format("h:mm"))
 		axios.get('/')
 		.then(response => {
 			commit('CalcFormStore/SET_SERVICE_TYPES', {types: response.data.service_types}, { root: true })

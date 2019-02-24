@@ -41,10 +41,6 @@ import Multiselect from 'vue-multiselect'
 Vue.component('multiselect', Multiselect)
 import 'vue-multiselect/dist/vue-multiselect.min.css'
 
-// http axios
-//require('@/packages/Axios.js')
-//import Axios from '@/packages/Axios'
-//Vue.prototype.$http = Axios
 
 Vue.config.productionTip = false
 Vue.prototype.$prefix = 'wkn-app'
