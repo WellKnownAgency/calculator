@@ -7,7 +7,8 @@ const state = {
 		full_distance: null,
 		travel_distance: null,
 		price: null,
-		estimated_quote: null,
+		estimated_quote_from: null,
+		estimated_quote_to: null,
 		job_time: null,
 		job_duration_from: null,
 		job_duration_to: null,
@@ -22,10 +23,14 @@ const state = {
 
 const getters = {
 	estimated_quote (state) {
-		if (state.info.estimated_quote && typeof state.info.estimated_quote == "object") {
-			return state.info.estimated_quote[0] + '-' + state.info.estimated_quote[1]
-		} else
-			return state.info.estimated_quote
+		if (state.info.estimated_quote_from &&
+			state.info.estimated_quote_to &&
+			state.info.estimated_quote_from !== state.info.estimated_quote_to
+		) {
+			return state.info.estimated_quote_from + '-' + state.info.estimated_quote_to
+		} else {
+			return state.info.estimated_quote_from
+		}
 	},
 	estimated_job_duration (state) {
 		return moment.duration(state.info.job_duration_from, "seconds").format("h[H] m[m]", {trim: "small"}) +
