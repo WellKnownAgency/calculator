@@ -258,7 +258,7 @@
 			]),
 			move_size_extra: {
 				get: function () {
-					return this.$store.state.CalcFormStore.form.move_size_extra;
+					return this.$store.state.CalcFormStore.form.extra_rooms_ids;
 				},
 				// сеттер:
 				set: function (newValue) {

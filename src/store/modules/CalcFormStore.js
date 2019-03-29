@@ -11,7 +11,8 @@ const state = {
 		from_zip: null,
 		to_zip: null,
 		move_size_id: null,
-		move_size_extra: [],
+		extra_rooms_ids: [],
+		//move_size_extra: [],
 		from_entrance_type_id:  null,
 		to_entrance_type_id: null,
 	},
@@ -63,7 +64,7 @@ const getters = {
 		return  (getters.selected_move_size) ? getters.selected_move_size.rooms : []
 	},
 	selected_rooms: (state, getters) => {
-		let selectedIds = state.form.move_size_extra
+		let selectedIds = state.form.extra_rooms_ids
 		return _.filter(getters.size_rooms, function(item) {
 			return _.includes(selectedIds, item['id'])
 		})
@@ -109,14 +110,14 @@ const mutations = {
 		state.form[field] = null
 	},
 	ADD_MOVE_SIZE_EXTRA_VALUE (state, value) {
-		state.form.move_size_extra = value
+		state.form.extra_rooms_ids = value
 	},
 	UPDATE_ACTUAL_SIZE_EXTRA (state, {size_rooms}) {
-		state.form.move_size_extra = [];
+		state.form.extra_rooms_ids = [];
 		for (let i in size_rooms) {
 			if (size_rooms[i].pivot.is_included) {
-				if (!state.form.move_size_extra.includes(size_rooms[i].id))
-					state.form.move_size_extra.push(size_rooms[i].id)
+				if (!state.form.extra_rooms_ids.includes(size_rooms[i].id))
+					state.form.extra_rooms_ids.push(size_rooms[i].id)
 			}
 		}
 	},
