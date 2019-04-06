@@ -1,5 +1,5 @@
 <template>
-	<div class="wkn-l-screen">
+	<div class="wkn-l-screen" v-bind:style="screenStyle">
 		<div class="wkn-l-screen__spinner" v-if="is_loading">
 			<spinner />
 		</div>
@@ -21,7 +21,7 @@
 
 
 <script>
-	import {mapState} from "vuex";
+	import {mapState, mapGetters} from "vuex";
 	import Spinner from '@/components/modules/common/bouncingCircleSpinner'
 
 	export default {
@@ -33,6 +33,14 @@
 			...mapState("AppStore", {
 				is_loading: state => state.is_loading,
 			}),
+			...mapGetters("AppStore", {
+				style: 'style'
+			}),
+			screenStyle() {
+				return {
+					boxShadow: `0 9px ${this.style('shadow_app').value}px -6px #8c92ac`
+				}
+			}
 		}
 	}
 </script>

@@ -1,5 +1,6 @@
 import axios from '@/packages/Axios'
-import moment from '@/packages/Moment'
+//import moment from '@/packages/Moment'
+import _ from 'lodash'
 
 const state = {
 	steps: [
@@ -30,14 +31,13 @@ const state = {
 	],
 	is_loading: false,
 	slide_step_name: null,
-	styles: {
-		borderRadius: '6px'
-	}
+	styles: null,
 }
-
 const getters = {
 	steps: state => state.steps,
-	styles: state => state.styles,
+	style: (state) => (name) => {
+		return state.styles[name]
+	},
 	next_step: () => {
 		for (let i in state.steps) {
 			if (state.steps[i].is_current)
@@ -56,15 +56,14 @@ const getters = {
 		return slashes.concat(window.location.hostname);
 	}
 }
-
 const mutations = {
-	START_LOADING (state) {
+	START_LOADING(state) {
 		state.is_loading = true
 	},
-	END_LOADING (state) {
+	END_LOADING(state) {
 		state.is_loading = false
 	},
-	NEXT_STEP (state) {
+	NEXT_STEP(state) {
 		state.slide_step_name = 'wkn-slide-next'
 		let next_idx = 0
 		for (let i in state.steps) {
@@ -81,7 +80,7 @@ const mutations = {
 		state.steps[next_idx].is_current = true
 		//state.slide_step_name = 'wkn-slide-next'
 	},
-	PREV_STEP (state) {
+	PREV_STEP(state) {
 		state.slide_step_name = 'wkn-slide-prev'
 		let prev_idx = 0
 		for (let i in state.steps) {
@@ -98,7 +97,7 @@ const mutations = {
 		state.steps[prev_idx].is_current = true
 		//state.slide_step_name = 'wkn-slide-next'
 	},
-	SET_START_STEP (state) {
+	SET_START_STEP(state) {
 		for (let i in state.steps) {
 			state.steps[i].is_current = false
 			state.steps[i].is_active = false
@@ -106,24 +105,23 @@ const mutations = {
 		state.steps[0].is_active = true
 		state.steps[0].is_current = true
 	},
+	SET_STYLES (state, data) {
+		state.styles = data
+	}
 }
-
 const actions = {
-	setApp ({ commit }) {
-		//console.log(moment.duration(123, "minutes").format("h:mm"))
+	setApp({commit}) {
 		axios.get('/')
 		.then(response => {
-			commit('CalcFormStore/SET_SERVICE_TYPES', {types: response.data.service_types}, { root: true })
-			commit('CalcFormStore/SET_MOVE_SIZES', {sizes: response.data.move_sizes}, { root: true })
-			commit('CalcFormStore/SET_ENTRANCE_TYPES', {types: response.data.entrance_types}, { root: true })
-			
-			commit('CustomerInfoStore/SET_PREFERRED_TIMES', {times: response.data.preferred_start_times}, { root: true })
-			commit('CustomerInfoStore/SET_INFO_SOURCES', {sources: response.data.info_sources}, { root: true })
+			commit('SET_STYLES', response.data.styles)
+			commit('CalcFormStore/SET_SERVICE_TYPES', {types: response.data.service_types}, {root: true})
+			commit('CalcFormStore/SET_MOVE_SIZES', {sizes: response.data.move_sizes}, {root: true})
+			commit('CalcFormStore/SET_ENTRANCE_TYPES', {types: response.data.entrance_types}, {root: true})
+			commit('CustomerInfoStore/SET_PREFERRED_TIMES', {times: response.data.preferred_start_times}, {root: true})
+			commit('CustomerInfoStore/SET_INFO_SOURCES', {sources: response.data.info_sources}, {root: true})
 		})
 	},
 }
-
-
 export default {
 	namespaced: true,
 	state,
