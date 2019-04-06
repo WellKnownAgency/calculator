@@ -1,202 +1,89 @@
 <template>
-	<div class="wkn-calc-result-layout">
-		<div class="wkn-calc-result-layout__col">
-			<div class="wkn-calc-result-map">
-				<div class="wkn-calc-result-map__visual">
-					<GmapMap
-						ref="mapRef"
-						map-type-id="terrain"
-						:center="{lat: 41.85, lng: -87.65}"
-						:zoom="7"
-						style="width: 100%; height: 300px"
-					>
-						<DirectionsRenderer :from="info.from_coordinates" :to="info.to_coordinates"></DirectionsRenderer>
-					</GmapMap>
-				</div>
-				<div class="wkn-calc-result-map__address" v-if="!isHiddenInfoProperty('from_formatted_address') && calcinfo.from_formatted_address">
-					<div class="wkn-calc-result-map-address">
-						<div class="wkn-calc-result-map-address__title">Moving From:</div>
-						<div class="wkn-calc-result-map-address__content">
-							<span class="wkn-calc-result-map-address__value">{{calcinfo.from_formatted_address}}</span>
-							<span class="wkn-calc-result-map-address__description"> ({{selected_from_entrance_type.display_name}})</span>
-						</div>
-					</div>
-				</div>
-				<div class="wkn-calc-result-map__address" v-if="!isHiddenInfoProperty('to_formatted_address') && calcinfo.to_formatted_address">
-					<div class="wkn-calc-result-map-address">
-						<div class="wkn-calc-result-map-address__title">Moving To:</div>
-						<div class="wkn-calc-result-map-address__content">
-							<span class="wkn-calc-result-map-address__value">{{calcinfo.to_formatted_address}}</span>
-							<span class="wkn-calc-result-map-address__description"> ({{selected_to_entrance_type.display_name}})</span>
-						</div>
-					</div>
-				</div>
-				<div class="wkn-calc-result-map__address" v-if="info.job_distance">
-					<div class="wkn-calc-result-map-address">
-						<div class="wkn-calc-result-map-address__title">Distance:</div>
-						<div class="wkn-calc-result-map-address__content">
-							<span class="wkn-calc-result-map-address__value">{{Math.ceil(info.job_distance / 1609.344)}} miles</span>
-						</div>
-					</div>
-				</div>
-				<div class="wkn-calc-result-map__address">
-					<div class="wkn-calc-result-map-address">
-						<div class="wkn-calc-result-map-address__title">Estimated Quote:</div>
-						<div class="wkn-calc-result-map-address__content">
-							<span class="wkn-calc-result-map-address__value">${{estimated_quote}}</span>
-						</div>
-					</div>
-				</div>
-				<div class="wkn-calc-result-map__button">
-					<button type="button" class="wkn-btn-default" v-on:click.prevent="toBack()"><< Back To {{prev_step.display_name}}</button>
-				</div>
-			</div>
-		</div>
-		<div class="wkn-calc-result-layout__col">
-			<div class="wkn-calc-result-info">
-				<div class="wkn-calc-result-info__list">
-					<div class="wkn-calc-result-info__item">
-						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Desired Move Date:</div>
-							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">{{selected_move_date_pretty}}</span>
+	<l-screen>
+		<template slot="body">
+			<l-res>
+				<template slot="mid">
+					<b-row class="wkn-my-4">
+						<b-col>
+							<div class="wkn-calc-result-map__visual">
+								<GmapMap
+									ref="mapRef"
+									map-type-id="terrain"
+									:center="{lat: 41.85, lng: -87.65}"
+									:zoom="7"
+									style="width: 100%; height: 300px;"
+								>
+									<DirectionsRenderer :from="info.from_coordinates" :to="info.to_coordinates"></DirectionsRenderer>
+								</GmapMap>
 							</div>
-						</div>
-					</div>
-
-					<div class="wkn-calc-result-info__item">
-						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Type Of Service:</div>
-							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">{{selected_service_type.display_name}}</span>
+						</b-col>
+						<b-col>
+							<div class="wkn-calc-res" v-if="!isHiddenInfoProperty('from_formatted_address') && calcinfo.from_formatted_address">
+								<span class="wkn-calc-res__title">Moving From: </span>&nbsp;
+								<span class="wkn-calc-res__description"> {{calcinfo.from_formatted_address}} ({{selected_from_entrance_type.display_name}})</span>
 							</div>
-						</div>
-					</div>
-
-					<div class="wkn-calc-result-info__item">
-						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Size Of Move:</div>
-							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">{{selected_move_size.display_name}}</span>
-								<div v-if="selected_rooms_pretty" class="wkn-calc-result-info-item__description">({{selected_rooms_pretty}})</div>
+							<div class="wkn-calc-res" v-if="!isHiddenInfoProperty('to_formatted_address') && calcinfo.to_formatted_address">
+								<span class="wkn-calc-res__title">Moving To: </span>&nbsp;
+								<span class="wkn-calc-res__description"> {{calcinfo.to_formatted_address}} ({{selected_to_entrance_type.display_name}})</span>
 							</div>
-						</div>
-					</div>
-
-					<hr>
-
-					<div class="wkn-calc-result-info__item">
-						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Crew Size:</div>
-							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">{{info.count_movers}} Movers</span>
+							<div class="wkn-calc-res" v-if="info.job_distance">
+								<span class="wkn-calc-res__title">Distance: </span>&nbsp;
+								<span class="wkn-calc-res__description"> {{Math.ceil(info.job_distance / 1609.344)}} miles</span>
 							</div>
-						</div>
-					</div>
-
-					<div class="wkn-calc-result-info__item">
-						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Truck:</div>
-							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">1 Truck</span>
+							<div class="wkn-calc-res">
+								<span class="wkn-calc-res__title">Desired Moving Date: </span>&nbsp;
+								<span class="wkn-calc-res__description"> {{selected_move_date_pretty}}</span>
 							</div>
-						</div>
-					</div>
-
-					<hr>
-
-					<template v-if="false">
-						<div class="wkn-calc-result-info__item">
-							<div class="wkn-calc-result-info-item">
-								<div class="wkn-calc-result-info-item__title">Full Time:</div>
-								<div class="wkn-calc-result-info-item__content">
-									<span class="wkn-calc-result-info-item__value">{{info.full_time}}</span>
+							<div class="wkn-calc-res">
+								<span class="wkn-calc-res__title">Type Of Service: </span>&nbsp;
+								<span class="wkn-calc-res__description"> {{selected_service_type.display_name}}</span>
+							</div>
+							<div class="wkn-calc-res">
+								<span class="wkn-calc-res__title">Size Of Move: </span>&nbsp;
+								<span class="wkn-calc-res__description"> {{selected_move_size.display_name}} <span v-if="selected_rooms_pretty">({{selected_rooms_pretty}})</span></span>
+							</div>
+								<div class="wkn-calc-res">
+									<span class="wkn-calc-res__title">Crew Size: </span>&nbsp;
+									<span class="wkn-calc-res__description"> {{info.count_movers}} Movers</span>
 								</div>
-							</div>
-						</div>
-
-						<div class="wkn-calc-result-info__item">
-							<div class="wkn-calc-result-info-item">
-								<div class="wkn-calc-result-info-item__title">Full Distance:</div>
-								<div class="wkn-calc-result-info-item__content">
-									<span class="wkn-calc-result-info-item__value">{{info.full_distance}}</span>
+								<div class="wkn-calc-res">
+									<span class="wkn-calc-res__title">Truck: </span>&nbsp;
+									<span class="wkn-calc-res__description"> 1 Truck</span>
 								</div>
+
+							<hr>
+							<div class="wkn-calc-res" v-if="selected_service_type.name !== 'long'">
+								<span class="wkn-calc-res__title">Hourly Rate: </span>&nbsp;
+								<span class="wkn-calc-res__description"> ${{info.movers_price_per_hour}}/Hr</span>
 							</div>
-						</div>
-
-						<div class="wkn-calc-result-info__item">
-							<div class="wkn-calc-result-info-item">
-								<div class="wkn-calc-result-info-item__title">Travel Time:</div>
-								<div class="wkn-calc-result-info-item__content">
-									<span class="wkn-calc-result-info-item__value">{{info.travel_time}}</span>
-								</div>
+							<div class="wkn-calc-res">
+								<span class="wkn-calc-res__title">Estimated Work Time: </span>&nbsp;
+								<span class="wkn-calc-res__description"> {{estimated_job_duration}}</span>
 							</div>
-						</div>
-
-						<div class="wkn-calc-result-info__item">
-							<div class="wkn-calc-result-info-item">
-								<div class="wkn-calc-result-info-item__title">Travel Distance:</div>
-								<div class="wkn-calc-result-info-item__content">
-									<span class="wkn-calc-result-info-item__value">{{info.travel_distance}}</span>
-								</div>
+							<div class="wkn-calc-res">
+								<span class="wkn-calc-res__title">Estimated Quote: </span>&nbsp;
+								<span class="wkn-calc-res__description"> ${{estimated_quote}}</span>
 							</div>
-						</div>
+						</b-col>
+					</b-row>
+					<b-row>
 
-						<hr>
-					</template>
-
-					<div class="wkn-calc-result-info__item" v-if="selected_service_type.name !== 'long'">
-						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Hourly Rate:</div>
-							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">${{info.movers_price_per_hour}}/Hr</span>
-							</div>
-						</div>
-					</div>
-
-					<div class="wkn-calc-result-info__item">
-						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Estimated Job Time:</div>
-							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">{{estimated_job_duration}}</span>
-							</div>
-						</div>
-					</div>
-
-					<div class="wkn-calc-result-info__item">
-						<div class="wkn-calc-result-info-item">
-							<div class="wkn-calc-result-info-item__title">Estimated Quote:</div>
-							<div class="wkn-calc-result-info-item__content">
-								<span class="wkn-calc-result-info-item__value">${{estimated_quote}}</span>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-		<div class="wkn-calc-result-layout__col">
-			<div class="wkn-calc-result-content">
-				<div class="wkn-calc-result-content__title">Understand Your Quote</div>
-				<div class="wkn-calc-result-content__body">
-					<p><b>Please note, this quote is just an estimate and provided for your convenience only.</b> We give you a database average for generally similar moves. It is best to consider this a thinking tool. <b>However: your final cost is based on hourly rate and actual time your move will take.</b> Additional time may be required if your move involves long walks from your apartment to the truck, narrow hallways and/or tight staircases, disassembling and reassembling of furniture, hoisting, moving of oversized, antiques items, ones with glass and/or marble, appliances move and items over 300lb. It is important to understand, that the move time will also depend on how well you are packed and organized: all drawers of all the furniture must be emptied, and all miscellaneous items packed neatly into moving boxes of correct sizes.</p>
-				</div>
-				<div class="wkn-calc-result-map__button">
-					<button type="button" class="wkn-btn-success" v-on:click.prevent="submit()">Go To {{next_step.display_name}}</button>
-				</div>
-			</div>
-		</div>
-	</div>
-
+					</b-row>
+				</template>
+			</l-res>
+		</template>
+	</l-screen>
 </template>
 
 
 <script>
 	import { mapState, mapGetters } from 'vuex'
 	import DirectionsRenderer from '@/packages/DirectionsRenderer'
+	import LScreen from "@/components/layouts/Screen"
+	import LRes from "@/components/layouts/Res"
 
 	export default {
-		components: {DirectionsRenderer},
+		components: {DirectionsRenderer, LScreen, LRes},
 		data() {
 			return {}
 		},
@@ -241,3 +128,9 @@
 		created() {},
 	}
 </script>
+<style>
+.vue-map-container .vue-map {
+	border-radius: 20px;
+	border: none;
+}
+</style>

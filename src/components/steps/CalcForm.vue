@@ -1,7 +1,6 @@
 <template>
 		<l-screen>
 			<template slot="body">
-
 				<l-calc>
 					<template slot="top">
 						<b-row class="wkn-my-2">
