@@ -1,6 +1,8 @@
 <template>
 	<multiselect
 		v-bind:class="{'multiselect--error': injectData.is_error && !injectData.is_disabled, 'multiselect--success': is_success && !injectData.is_disabled}"
+		v-bind:style="selectStyle"
+		ref="select"
 		:value="selected"
 		:placeholder="placeholder"
 		:options="options"
@@ -17,6 +19,7 @@
 </template>
 
 <script>
+	import {mapGetters} from "vuex";
 	import _ from 'lodash'
 	export default {
 		inject: ['injectData'],
@@ -28,9 +31,12 @@
 			}
 		},
 		computed: {
+			...mapGetters("AppStore", {
+				style: 'style'
+			}),
 			selected () {
 				return _.find(this.options, o => o.id == this.value)
-			}
+			},
 		},
 		methods: {
 			input(value) {
@@ -45,6 +51,9 @@
 			'injectData.is_error': function (newVal, oldVal){
 				this.is_success = !this.injectData.is_error
 			}
+		},
+		mounted() {
+			this.$refs['select'].$refs['tags'].style.boxShadow = `0 ${this.style('shadow_field').value * 0.8}px ${this.style('shadow_field').value * 2.4}px -${this.style('shadow_field').value* 0.4}px #8c92ac`
 		}
 	}
 </script>
