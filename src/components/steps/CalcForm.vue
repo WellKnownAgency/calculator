@@ -171,7 +171,7 @@
 								</fast-info>
 							</b-col>
 							<b-col>
-								<img src="@/assets/img/sm4house.png" width="350px" height="auto"/>
+								<visual-builder />
 							</b-col>
 							<b-col>
 								<help-list :items="helpList"/>
@@ -202,6 +202,8 @@
 	import FastInfo from "@/components/modules/calc/CalcFastInfo"
 	import FastInfoItem from "@/components/modules/calc/CalcFastInfoItem"
 
+	import VisualBuilder from "@/components/VisualBuilder"
+
 	import InputText from "@/components/modules/form/InputText"
 	import FormGroup from "@/components/modules/form/FormGroup"
 	import InputDate from "@/components/modules/form/InputDate"
@@ -213,6 +215,7 @@
 		components: {
 			PrettyCheck,
 			LScreen, LCalc, HelpList, FastInfo, FastInfoItem,
+			VisualBuilder,
 			FormGroup, InputText, InputDate, Vselect, CheckboxGroup, Checkbox,
 		},
 		data() {

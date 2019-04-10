@@ -60,6 +60,9 @@ const getters = {
 		let move_size = _.find(state.move_sizes, ['id', state.form.move_size_id])
 		return move_size ? move_size : null
 	},
+	is_selected_move_sizes: (state, getters) => (names) => {
+		return getters.selected_move_size ? names.includes(getters.selected_move_size.name) : false
+	},
 	size_rooms: (state, getters) => {
 		return  (getters.selected_move_size) ? getters.selected_move_size.rooms : []
 	},
@@ -68,6 +71,10 @@ const getters = {
 		return _.filter(getters.size_rooms, function(item) {
 			return _.includes(selectedIds, item['id'])
 		})
+	},
+	is_selected_extra_room: (state, getters) => (name) => {
+		let room = _.find(getters.selected_rooms, { 'name': name})
+		return !!room
 	},
 	selected_rooms_pretty: (state, getters) => {
 		let selectedRoomsNames = _.map(getters.selected_rooms, 'display_name');
