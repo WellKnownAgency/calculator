@@ -1,19 +1,22 @@
 <template>
-	<date-picker
-		:id="injectData.id"
-		:name="injectData.id"
-		autocomplete="autocomplete_off_hack_xfr4!k"
-		ref="input"
-		width="100%"
-		:value="value"
-		@input="$emit('input', $event)"
-		format="MM.DD.YYYY"
-		:range="range"
-		:not-before="new Date()"
-		lang="en"
-		:input-class="[{'wkn-input-text--error': injectData.is_error, 'wkn-input-text--success': is_success}, 'wkn-input-text']"
-		@clear="$emit('clear')"
-	/>
+	<div>
+		<date-picker
+			:id="injectData.id"
+			:name="injectData.id"
+			autocomplete="autocomplete_off_hack_xfr4!k"
+			ref="input"
+			width="100%"
+			:value="value"
+			@input="$emit('input', $event)"
+			format="MM.DD.YYYY"
+			:range="range"
+			:not-before="new Date()"
+			lang="en"
+			:input-class="[{'wkn-input-text--error': injectData.is_error, 'wkn-input-text--success': is_success}, 'wkn-input-text']"
+			@clear="$emit('clear')"
+		/>
+		<span class="wkn-animate-loading-field" style="right: 30px" v-if="is_loading"></span>
+	</div>
 </template>
 
 
@@ -24,7 +27,7 @@
 	export default {
 		components: {DatePicker},
 		inject: ['injectData'],
-		props: ['placeholder', 'range', 'value'],
+		props: ['placeholder', 'range', 'value', 'is_loading'],
 		data() {
 			return {
 				is_success: false

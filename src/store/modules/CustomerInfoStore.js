@@ -26,11 +26,15 @@ const state = {
 	form_errors: {},
 	preferred_times: [],
 	info_sources: [],
+	loadings: []
 }
 
 const getters = {
 	isDisabledFormField: (state) => (name) => {
 		return state.form_disabled_fields.includes(name)
+	},
+	is_loading_field: (state) => (name) => {
+		return state.loadings.includes(name)
 	},
 }
 
@@ -51,6 +55,18 @@ const mutations = {
 		state.form_errors = {}
 	},
 	
+	// FORM FIELDS LOADINGS
+	ADD_LOADING_FIELD (state, field) {
+		state.loadings.push(field)
+	},
+	REMOVE_LOADING_FIELD (state, field) {
+		let idx = state.loadings.indexOf(field);
+		
+		if (idx > -1) {
+			state.loadings.splice(idx, 1);
+		}
+	},
+	
 	// DISABLED FORM FIELDS
 	ADD_DISABLED_FORM_FIELD (state, field) {
 		state.form_disabled_fields.push(field)
@@ -63,6 +79,7 @@ const mutations = {
 const actions = {
 	updateFormField ({ commit }, {field, value}) {
 		commit('UPDATE_FORM_FIELD', {field: field, value: value})
+		commit('ADD_LOADING_FIELD', field)
 		let data = {}
 		data[field] = value
 		return axios.post('/customer/validate-field', data)
@@ -76,6 +93,9 @@ const actions = {
 			if (error.response.status === 422) {
 				commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field]})
 			}
+		})
+		.finally(() => {
+			commit('REMOVE_LOADING_FIELD', field)
 		})
 	},
 	submitForm ({ commit, state, rootState }) {

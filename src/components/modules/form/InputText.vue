@@ -3,7 +3,7 @@
 		<input
 			:id="injectData.id"
 			:name="injectData.id"
-			autocomplete="false"
+			autocomplete="off"
 			class="wkn-input-text"
 			:placeholder="placeholder"
 			v-bind:class="{'wkn-input-text--error': injectData.is_error && !injectData.is_disabled, 'wkn-input-text--success': is_success && !injectData.is_disabled}"

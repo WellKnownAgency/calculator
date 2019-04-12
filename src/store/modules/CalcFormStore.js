@@ -227,7 +227,7 @@ const actions = {
 			}
 		})
 		.finally(() => {
-			commit('ADD_LOADING_FIELD', field)
+			commit('REMOVE_LOADING_FIELD', field)
 		})
 	},
 	updateFormFieldZip ({ commit }, {field, value, direction}) {
@@ -266,6 +266,7 @@ const actions = {
 	updateFormFieldStorageDates ({ commit }, {moving, destination}) {
 		commit('UPDATE_FORM_FIELD', {field: 'move_date', value: moving})
 		commit('UPDATE_FORM_FIELD', {field: 'destination_date', value: destination})
+		commit('ADD_LOADING_FIELD', 'destination_date')
 		return axios.post('/calculator/validate-field/storage-dates', {move_date: moving, destination_date: destination})
 		.then((response) => {
 			commit('SET_FORM_FIELD_ERRORS', {field: 'move_date', errors: null})
@@ -276,6 +277,9 @@ const actions = {
 				commit('SET_FORM_FIELD_ERRORS', {field: 'move_date', errors: error.response.data.errors['move_date']})
 				commit('SET_FORM_FIELD_ERRORS', {field: 'destination_date', errors: error.response.data.errors['move_date'].concat(error.response.data.errors['destination_date'])})
 			}
+		})
+		.finally(() => {
+			commit('REMOVE_LOADING_FIELD', 'destination_date')
 		})
 	},
 	updateActualSizeExtra ({ commit, getters }) {

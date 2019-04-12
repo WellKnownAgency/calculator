@@ -12,6 +12,7 @@
 									placeholder="First Name"
 									:value="form.first_name"
 									@input="updateFormFieldDebounce('first_name', $event.target.value)"
+									:is_loading="is_loading_field('first_name')"
 								/>
 							</form-group>
 
@@ -21,6 +22,7 @@
 									placeholder="Last Name"
 									:value="form.last_name"
 									@input="updateFormFieldDebounce('last_name', $event.target.value)"
+									:is_loading="is_loading_field('last_name')"
 								/>
 							</form-group>
 
@@ -30,6 +32,7 @@
 									placeholder="Primary Phone"
 									:value="form.phone"
 									@input="updateFormFieldDebounce('phone', $event)"
+									:is_loading="is_loading_field('phone')"
 								/>
 							</form-group>
 
@@ -48,6 +51,7 @@
 									placeholder="Email"
 									:value="form.email"
 									@input="updateFormFieldDebounce('email', $event.target.value)"
+									:is_loading="is_loading_field('email')"
 								/>
 							</form-group>
 
@@ -57,6 +61,7 @@
 									placeholder="Confirm Email"
 									:value="form.email_confirmation"
 									@input="updateFormFieldDebounce('email_confirmation', $event.target.value)"
+									:is_loading="is_loading_field('email_confirmation')"
 								/>
 							</form-group>
 						</b-col>
@@ -68,6 +73,7 @@
 									placeholder="From Address"
 									:value="form.from_address"
 									@input="updateFormFieldDebounce('from_address', $event.target.value)"
+									:is_loading="is_loading_field('from_address')"
 								/>
 							</form-group>
 
@@ -107,6 +113,7 @@
 									:value="form.preferred_time_id"
 									:options="preferred_times"
 									@input="value => updateFormField('preferred_time_id', parseInt(value))"
+									:is_loading="is_loading_field('preferred_time_id')"
 								/>
 							</form-group>
 						</b-col>
@@ -119,6 +126,7 @@
 									placeholder="To Address"
 									:value="form.to_address"
 									@input="updateFormFieldDebounce('to_address', $event.target.value)"
+									:is_loading="is_loading_field('to_address')"
 								/>
 							</form-group>
 
@@ -158,6 +166,7 @@
 									:value="form.info_source_id"
 									:options="info_sources"
 									@input="value => updateFormField('info_source_id', parseInt(value))"
+									:is_loading="is_loading_field('info_source_id')"
 								/>
 							</form-group>
 						</b-col>
@@ -206,7 +215,8 @@
 				}
 			),
 			...mapGetters('CustomerInfoStore', [
-				'isDisabledFormField'
+				'isDisabledFormField',
+				"is_loading_field"
 			]),
 			...mapGetters('AppStore', [
 				'next_step',

@@ -16,7 +16,7 @@
 			selectedLabel=""
 			:optionHeight="36"
 		></multiselect>
-		<span class="wkn-animate-loading-field" v-if="is_loading"></span>
+		<span class="wkn-animate-loading-field" style="right: 30px" v-if="is_loading"></span>
 	</div>
 </template>
 

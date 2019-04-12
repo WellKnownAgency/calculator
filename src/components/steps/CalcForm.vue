@@ -14,6 +14,7 @@
 										:value="formatDate(form.move_date)"
 										@input="(value) => updateFormFieldDate('move_date', value)"
 										@clear="CLEAR_FIELD('move_date')"
+										:is_loading="is_loading_field('move_date')"
 									/>
 								</form-group>
 							</b-col>
@@ -28,6 +29,7 @@
 										:value="[formatDate(form.move_date), formatDate(form.destination_date)]"
 										@input="(value) => updateFormFieldStorageDate(value)"
 										@clear="CLEAR_FIELD('move_date');CLEAR_FIELD('destination_date');"
+										:is_loading="is_loading_field('destination_date')"
 									/>
 								</form-group>
 							</b-col>
