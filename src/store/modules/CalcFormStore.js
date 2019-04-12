@@ -29,7 +29,8 @@ const state = {
 	},
 	service_types: [],
 	move_sizes: [],
-	entrance_types: []
+	entrance_types: [],
+	loadings: []
 }
 
 const getters = {
@@ -86,6 +87,9 @@ const getters = {
 		}
 		return selectedRoomsNames.join(', ')
 	},
+	is_loading_field: (state) => (name) => {
+		return state.loadings.includes(name)
+	},
 	/*storage_date_value: (state) => {
 		return [state.form.move_date, state.form.destination_date]
 	},*/
@@ -126,6 +130,18 @@ const mutations = {
 				if (!state.form.extra_rooms_ids.includes(size_rooms[i].id))
 					state.form.extra_rooms_ids.push(size_rooms[i].id)
 			}
+		}
+	},
+	
+	// FORM FIELDS LOADINGS
+	ADD_LOADING_FIELD (state, field) {
+		state.loadings.push(field)
+	},
+	REMOVE_LOADING_FIELD (state, field) {
+		let idx = state.loadings.indexOf(field);
+		
+		if (idx > -1) {
+			state.loadings.splice(idx, 1);
 		}
 	},
 	
@@ -197,6 +213,7 @@ const actions = {
 		commit('UPDATE_FORM_FIELD', {field: field, value: value})
 		let data = {}
 		data[field] = value
+		commit('ADD_LOADING_FIELD', field)
 		return axios.post('/calculator/validate-field', data)
 		.then(() => {
 			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
@@ -209,10 +226,14 @@ const actions = {
 				commit('SET_FORM_FIELD_ERRORS', {field: field, errors: error.response.data.errors[field]})
 			}
 		})
+		.finally(() => {
+			commit('ADD_LOADING_FIELD', field)
+		})
 	},
 	updateFormFieldZip ({ commit }, {field, value, direction}) {
 		let data = {}
 		data[field] = value
+		commit('ADD_LOADING_FIELD', field)
 		return axios.post('/calculator/validate-field', data)
 		.then((response) => {
 			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
@@ -237,6 +258,9 @@ const actions = {
 				commit('UPDATE_INFO_FIELD', {field: direction + '_formatted_address', value: null})
 			}
 			return Promise.reject(error)
+		})
+		.finally(() => {
+			commit('REMOVE_LOADING_FIELD', field)
 		})
 	},
 	updateFormFieldStorageDates ({ commit }, {moving, destination}) {

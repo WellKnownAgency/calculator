@@ -1,8 +1,9 @@
 <template>
+	<div>
 		<input
 			:id="injectData.id"
 			:name="injectData.id"
-			autocomplete="autocomplete_off_hack_xfr4!k"
+			autocomplete="false"
 			class="wkn-input-text"
 			:placeholder="placeholder"
 			v-bind:class="{'wkn-input-text--error': injectData.is_error && !injectData.is_disabled, 'wkn-input-text--success': is_success && !injectData.is_disabled}"
@@ -11,6 +12,8 @@
 			:value="value"
 			@input="$emit('input', $event)"
 		>
+		<span class="wkn-animate-loading-field" v-if="is_loading"></span>
+	</div>
 </template>
 
 
@@ -19,7 +22,7 @@
 
 	export default {
 		inject: ['injectData'],
-		props: ['placeholder', 'value'],
+		props: ['placeholder', 'value', 'is_loading'],
 		data() {
 			return {
 				is_success: false
@@ -30,9 +33,12 @@
 				style: 'style'
 			}),
 			inputStyle() {
-				return {
-					boxShadow: `0 ${this.style('shadow_field').value * 0.8}px ${this.style('shadow_field').value * 2.4}px -${this.style('shadow_field').value* 0.4}px #8c92ac`
+				if (this.style('shadow_field')) {
+					return {
+						boxShadow: `0 ${this.style('shadow_field').value * 0.8}px ${this.style('shadow_field').value * 2.4}px -${this.style('shadow_field').value* 0.4}px #8c92ac`
+					}
 				}
+				return {}
 			}
 		},
 		watch: {

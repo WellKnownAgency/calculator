@@ -37,9 +37,12 @@
 				style: 'style'
 			}),
 			screenStyle() {
-				return {
-					boxShadow: `0 ${this.style('shadow_app').value * 1.5}px ${this.style('shadow_app').value * 6}px -${this.style('shadow_app').value}px #8c92ac`
+				if (this.style('shadow_app')) {
+					return {
+						boxShadow: `0 ${this.style('shadow_app').value * 1.5}px ${this.style('shadow_app').value * 6}px -${this.style('shadow_app').value}px #8c92ac`
+					}
 				}
+				return {}
 			}
 		}
 	}

@@ -1,21 +1,23 @@
 <template>
-	<multiselect
-		v-bind:class="{'multiselect--error': injectData.is_error && !injectData.is_disabled, 'multiselect--success': is_success && !injectData.is_disabled}"
-		v-bind:style="selectStyle"
-		ref="select"
-		:value="selected"
-		:placeholder="placeholder"
-		:options="options"
-		track-by="id"
-		label="display_name"
-		:searchable="false"
-		:allow-empty="true"
-		@input="input"
-		:disabled="injectData.is_disabled"
-		selectLabel=""
-		selectedLabel=""
-		:optionHeight="36"
-	></multiselect>
+	<div>
+		<multiselect
+			v-bind:class="{'multiselect--error': injectData.is_error && !injectData.is_disabled, 'multiselect--success': is_success && !injectData.is_disabled}"
+			ref="select"
+			:value="selected"
+			:placeholder="placeholder"
+			:options="options"
+			track-by="id"
+			label="display_name"
+			:searchable="false"
+			:allow-empty="true"
+			@input="input"
+			:disabled="injectData.is_disabled"
+			selectLabel=""
+			selectedLabel=""
+			:optionHeight="36"
+		></multiselect>
+		<span class="wkn-animate-loading-field" v-if="is_loading"></span>
+	</div>
 </template>
 
 <script>
@@ -23,7 +25,7 @@
 	import _ from 'lodash'
 	export default {
 		inject: ['injectData'],
-		props: ['placeholder', 'value', 'options'],
+		props: ['placeholder', 'value', 'options', 'is_loading'],
 		data() {
 			return {
 				selectedId: null,
@@ -53,7 +55,9 @@
 			}
 		},
 		mounted() {
-			this.$refs['select'].$refs['tags'].style.boxShadow = `0 ${this.style('shadow_field').value * 0.8}px ${this.style('shadow_field').value * 2.4}px -${this.style('shadow_field').value* 0.4}px #8c92ac`
+			if (this.style('shadow_field')) {
+				this.$refs['select'].$refs['tags'].style.boxShadow = `0 ${this.style('shadow_field').value * 0.8}px ${this.style('shadow_field').value * 2.4}px -${this.style('shadow_field').value* 0.4}px #8c92ac`
+			}
 		}
 	}
 </script>

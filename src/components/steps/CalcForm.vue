@@ -34,11 +34,12 @@
 							<b-col>
 								<!-- Zip From -->
 								<form-group label="Zip From"
-								            label_for="from-zip"
+								            label_for="calc-from-zip"
 								            :errors="form_errors.from_zip"
 								            :is_disabled="isDisabledFormField('from_zip')">
 									<input-text
 										placeholder="Your from zip"
+										:is_loading="is_loading_field('from_zip')"
 										:value="form.from_zip"
 										@input="UPDATE_FORM_FIELD({field: 'from_zip', value: $event.target.value})"
 									/>
@@ -55,6 +56,7 @@
 										:value="form.from_entrance_type_id"
 										:options="entrance_types"
 										@input="value => updateFormField('from_entrance_type_id', parseInt(value))"
+										:is_loading="is_loading_field('from_entrance_type_id')"
 									/>
 								</form-group>
 							</b-col>
@@ -70,6 +72,7 @@
 										:options="move_sizes"
 										@input="value => updateFormFieldSize('move_size_id', parseInt(value))"
 										:errors="form_errors.move_size_id"
+										:is_loading="is_loading_field('move_size_id')"
 									/>
 								</form-group>
 							</b-col>
@@ -88,17 +91,19 @@
 										:options="service_types"
 										@input="value => updateFormField('service_type_id', parseInt(value))"
 										:errors="form_errors.service_type_id"
+										:is_loading="is_loading_field('service_type_id')"
 									/>
 								</form-group>
 							</b-col>
 							<b-col>
 								<!-- Zip To -->
 								<form-group label="Zip To"
-								            label_for="to-zip"
+								            label_for="calc-to-zip"
 								            :errors="form_errors.to_zip"
 								            :is_disabled="isDisabledFormField('to_zip')">
 									<input-text
 										placeholder="Your to zip"
+										:is_loading="is_loading_field('to_zip')"
 										:value="form.to_zip"
 										@input="UPDATE_FORM_FIELD({field: 'to_zip', value: $event.target.value})"
 									/>
@@ -115,6 +120,7 @@
 										:value="form.to_entrance_type_id"
 										:options="entrance_types"
 										@input="value => updateFormField('to_entrance_type_id', parseInt(value))"
+										:is_loading="is_loading_field('to_entrance_type_id')"
 									/>
 								</form-group>
 							</b-col>
@@ -257,6 +263,7 @@
 				"getServiceTypeById",
 				"isDisabledFormField",
 				"isHiddenInfoProperty",
+				"is_loading_field"
 			]),
 			move_size_extra: {
 				get: function () {

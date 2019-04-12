@@ -41,8 +41,9 @@
 			},
 		},
 		mounted() {
-			///console.log(this.$refs['input'])
-			this.$refs['input'].$refs['input'].style.boxShadow = `0 ${this.style('shadow_field').value * 0.8}px ${this.style('shadow_field').value * 2.4}px -${this.style('shadow_field').value* 0.4}px #8c92ac`
+			if (this.style('shadow_field')) {
+				this.$refs['input'].$refs['input'].style.boxShadow = `0 ${this.style('shadow_field').value * 0.8}px ${this.style('shadow_field').value * 2.4}px -${this.style('shadow_field').value* 0.4}px #8c92ac`
+			}
 		}
 	}
 </script>

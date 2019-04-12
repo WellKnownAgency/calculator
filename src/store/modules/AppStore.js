@@ -36,7 +36,7 @@ const state = {
 const getters = {
 	steps: state => state.steps,
 	style: (state) => (name) => {
-		return state.styles[name]
+		return (state.styles && name in state.styles) ? state.styles[name] : null
 	},
 	next_step: () => {
 		for (let i in state.steps) {

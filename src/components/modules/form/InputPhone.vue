@@ -35,9 +35,12 @@
 				style: 'style'
 			}),
 			inputStyle() {
-				return {
-					boxShadow: `0 ${this.style('shadow_field').value * 0.8}px ${this.style('shadow_field').value * 2.4}px -${this.style('shadow_field').value* 0.4}px #8c92ac`
+				if (this.style('shadow_field')) {
+					return {
+						boxShadow: `0 ${this.style('shadow_field').value * 0.8}px ${this.style('shadow_field').value * 2.4}px -${this.style('shadow_field').value* 0.4}px #8c92ac`
+					}
 				}
+				return {}
 			}
 		},
 		watch: {
