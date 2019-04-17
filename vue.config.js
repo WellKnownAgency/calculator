@@ -1,5 +1,7 @@
 const webpack = require('webpack')
 const prefixer = require('postcss-prefixer')
+const fs = require('fs')
+const path = require('path')
 
 module.exports = {
 	configureWebpack: {
@@ -10,6 +12,12 @@ module.exports = {
 		]
 	},
 	devServer: {
+		http2: true,
+		https: {
+			key: fs.readFileSync(path.resolve(__dirname + '/docker/ssl', 'ssl-cert-snakeoil.key')),
+			cert: fs.readFileSync(path.resolve(__dirname + '/docker/ssl', 'ssl-cert-snakeoil.pem')),
+			//ca: fs.readFileSync('/path/to/ca.pem'),
+		},
 		watchOptions: {
 			ignored: /node_modules/,
 			aggregateTimeout: 300,
