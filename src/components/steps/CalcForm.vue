@@ -231,15 +231,15 @@
 				helpList: [
 					{
 						title: 'Moving Size',
-						description: "Please don't underestimate the size of your move! Make your choice wisely!"
+						description: "Please choose moving size properly, final price directly depends on Your choice!"
 					},
 					{
-						title: 'Entrance',
-						description: "Make sure you mention stairs. It's important for counting moving estimate time."
+						title: 'Type of Entrance',
+						description: "Make sure you have mentioned an apartment's level. Even if a house placed on a hill: 10-12 steps usually equal to one flight of stairs. It's important for counting work time."
 					},
 					{
-						title: 'Moving Size',
-						description: "Once you will submit complete move request, you can also provide a precise inventory of all items, that you planning to move."
+						title: 'Not sure your ase fits proposed options?',
+						description: "No Worries! Just fill out the form with the closest conditions, after You complete the move request our manager will contact you to discuss al lthe details."
 					}
 				]
 			};

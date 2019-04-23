@@ -66,11 +66,15 @@
 							</div>
 						</b-col>
 					</b-row>
-					<b-row>
-
-					</b-row>
 				</template>
 			</l-res>
+		</template>
+
+		<template slot="btn-prev">
+			<button type="button" class="wkn-btn-action" v-on:click.prevent="toBack()">Back</button>
+		</template>
+		<template slot="btn-next">
+			<button class="wkn-btn-action" v-on:click.prevent="submit()">Confirm</button>
 		</template>
 	</l-screen>
 </template>
