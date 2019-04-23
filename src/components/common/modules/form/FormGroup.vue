@@ -3,7 +3,7 @@
 		<div class="wkn-form-group__label" v-if="label">
 			<label class="wkn-label" ref="label">{{label}}</label>
 		</div>
-		<div class="wkn-form-group__input">
+		<div class="wkn-form-group__input" v-bind:class="{'wkn-form-group__input--fw': fw}">
 			<slot></slot>
 		</div>
 		<div class="wkn-form-group__errors">
@@ -36,7 +36,7 @@
 			})
 			return { injectData }
 		},
-		props: ['label', 'label_for', 'errors', 'is_disabled'],
+		props: ['label', 'label_for', 'errors', 'is_disabled', 'fw'],
 		data() {
 			return {
 				is_success: false

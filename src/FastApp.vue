@@ -1,37 +1,30 @@
 <template>
-	<div class="wkn-app">
+	<div class="wkn-fast-app">
 		<l-app>
-
 			<template slot="title">
-				<h3 class="wkn-title-app">{{ apptitle }}</h3>
-			</template>
-
-			<template slot="bar">
-				<steps-bar></steps-bar>
+				<h3 class="wkn-title-fast-app">{{ apptitle }}</h3>
 			</template>
 
 			<template slot="body">
-				<step-builder name="CalcForm" v-on:complete="NEXT_STEP()" v-on:back="PREV_STEP()" />
+				<step-builder name="MoveDateForm" v-on:complete="NEXT_STEP()" v-on:back="PREV_STEP()" />
 			</template>
-
 		</l-app>
 	</div>
 </template>
 
 
 <script>
-	import Vue from 'vue'
-	import LApp from '@/components/app/layouts/App'
-	import StepsBar from '@/components/app/StepsBar'
-	import StepBuilder from '@/components/app/StepBuilder'
+	//import Vue from 'vue'
+	import LApp from '@/components/fast/layouts/App'
+	import StepBuilder from '@/components/fast/StepBuilder'
 	import {mapState, mapMutations, mapActions} from 'vuex';
 
 	export default {
-		components: {LApp, StepsBar, StepBuilder},
+		components: {LApp, StepBuilder},
 		props: ['apptitle', 'styles'],
 		computed: {
 			...mapState('services', {
-					services: state => state.data,
+				services: state => state.data,
 				}
 			),
 		},

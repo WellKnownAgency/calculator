@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import App from '@/App.vue'
-import store from '@/store/store'
+import fastApp from '@/FastApp.vue'
+import appStore from '@/store/app/store'
+import fastStore from '@/store/fast/store'
+import axios from '@/packages/Axios'
 
 // app styles
 import '@/assets/sass/app.scss'
@@ -52,6 +55,26 @@ Vue.use(Layout);
 
 import 'pretty-checkbox/src/pretty-checkbox.scss';
 
+// Init Apps
 Vue.use(vueCustomElement)
-App.store = store
-Vue.customElement('widget-moving', App)
+App.store = appStore
+fastApp.store = fastStore
+
+// Global Data
+Vue.prototype.$gdata = {}
+axios.get('/')
+	.then(response => {
+		Vue.prototype.$gdata.styles = response.data.styles
+		Vue.prototype.$gdata.services = response.data.service_types
+		Vue.prototype.$gdata.sizes = response.data.move_sizes
+		Vue.prototype.$gdata.entrances = response.data.entrance_types
+		Vue.prototype.$gdata.preferred_start_times = response.data.preferred_start_times
+		Vue.prototype.$gdata.info_sources = response.data.info_sources
+		
+		Vue.customElement('widget-moving', App)
+		Vue.customElement('fast-widget-moving', fastApp)
+	})
+
+
+
+
