@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import AppStore from './modules/AppStore'
-import CalcFormStore from './modules/CalcFormStore'
+import MoveDateFormStore from './modules/MoveDateFormStore'
 import CustomerInfoStore from './modules/CustomerInfoStore'
-import CalcResultStore from './modules/CalcResultStore'
+import MoveSizeFormStore from './modules/MoveSizeFormStore'
 
 Vue.use(Vuex)
 
@@ -13,9 +13,9 @@ const debug = process.env.NODE_ENV !== 'production'
 export default new Vuex.Store({
 	modules: {
 		AppStore,
-		CalcFormStore,
+		MoveDateFormStore,
 		CustomerInfoStore,
-		CalcResultStore
+		MoveSizeFormStore,
 	},
 	strict: debug
 })

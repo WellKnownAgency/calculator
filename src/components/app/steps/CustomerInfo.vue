@@ -111,7 +111,7 @@
 								<vselect
 									placeholder="Choose Starting Time"
 									:value="form.preferred_time_id"
-									:options="preferred_times"
+									:options="$gdata.preferred_start_times"
 									@input="value => updateFormField('preferred_time_id', parseInt(value))"
 									:is_loading="is_loading_field('preferred_time_id')"
 								/>
@@ -164,7 +164,7 @@
 								<vselect
 									placeholder="Choose From List"
 									:value="form.info_source_id"
-									:options="info_sources"
+									:options="$gdata.info_sources"
 									@input="value => updateFormField('info_source_id', parseInt(value))"
 									:is_loading="is_loading_field('info_source_id')"
 								/>
@@ -186,13 +186,13 @@
 
 
 <script>
-	import LScreen from "@/components/layouts/Screen"
+	import LScreen from "../layouts/Screen"
 	import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
-	import InputText from "@/components/modules/form/InputText"
-	import InputPhone from "@/components/modules/form/InputPhone"
-	import FormGroup from "@/components/modules/form/FormGroup"
-	import Vselect from "@/components/modules/form/Select"
+	import InputText from "@/components/common/modules/form/InputText"
+	import InputPhone from "@/components/common/modules/form/InputPhone"
+	import FormGroup from "@/components/common/modules/form/FormGroup"
+	import Vselect from "@/components/common/modules/form/Select"
 
 	export default {
 		components: {

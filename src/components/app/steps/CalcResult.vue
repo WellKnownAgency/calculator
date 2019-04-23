@@ -79,8 +79,8 @@
 <script>
 	import { mapState, mapGetters } from 'vuex'
 	import DirectionsRenderer from '@/packages/DirectionsRenderer'
-	import LScreen from "@/components/layouts/Screen"
-	import LRes from "@/components/layouts/Res"
+	import LScreen from "../layouts/Screen"
+	import LRes from "../layouts/Res"
 
 	export default {
 		components: {DirectionsRenderer, LScreen, LRes},

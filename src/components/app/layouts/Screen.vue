@@ -22,7 +22,7 @@
 
 <script>
 	import {mapState, mapGetters} from "vuex";
-	import Spinner from '@/components/modules/common/bouncingCircleSpinner'
+	import Spinner from '@/components/common/modules/bouncingCircleSpinner'
 
 	export default {
 		components: {Spinner},

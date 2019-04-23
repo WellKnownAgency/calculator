@@ -56,7 +56,7 @@
 									<vselect
 										placeholder="Choose entrance ..."
 										:value="form.from_entrance_type_id"
-										:options="entrance_types"
+										:options="$gdata.entrances"
 										@input="value => updateFormField('from_entrance_type_id', parseInt(value))"
 										:is_loading="is_loading_field('from_entrance_type_id')"
 									/>
@@ -71,7 +71,7 @@
 									<vselect
 										placeholder="Choose size ..."
 										:value="form.move_size_id"
-										:options="move_sizes"
+										:options="$gdata.sizes"
 										@input="value => updateFormFieldSize('move_size_id', parseInt(value))"
 										:errors="form_errors.move_size_id"
 										:is_loading="is_loading_field('move_size_id')"
@@ -90,7 +90,7 @@
 									<vselect
 										placeholder="Choose service ..."
 										:value="form.service_type_id"
-										:options="service_types"
+										:options="$gdata.services"
 										@input="value => updateFormField('service_type_id', parseInt(value))"
 										:errors="form_errors.service_type_id"
 										:is_loading="is_loading_field('service_type_id')"
@@ -120,7 +120,7 @@
 									<vselect
 										placeholder="Choose entrance ..."
 										:value="form.to_entrance_type_id"
-										:options="entrance_types"
+										:options="$gdata.entrances"
 										@input="value => updateFormField('to_entrance_type_id', parseInt(value))"
 										:is_loading="is_loading_field('to_entrance_type_id')"
 									/>
@@ -204,20 +204,20 @@
 	import {mapState, mapGetters, mapActions, mapMutations} from "vuex";
 	import PrettyCheck from 'pretty-checkbox-vue/check';
 
-	import LScreen from "@/components/layouts/Screen"
-	import LCalc from "@/components/layouts/Calc"
-	import HelpList from "@/components/modules/calc/CalcHelp"
-	import FastInfo from "@/components/modules/calc/CalcFastInfo"
-	import FastInfoItem from "@/components/modules/calc/CalcFastInfoItem"
+	import LScreen from "../layouts/Screen"
+	import LCalc from "../layouts/Calc"
+	import HelpList from "../modules/calc/CalcHelp"
+	import FastInfo from "../modules/calc/CalcFastInfo"
+	import FastInfoItem from "../modules/calc/CalcFastInfoItem"
 
-	import VisualBuilder from "@/components/VisualBuilder"
+	import VisualBuilder from "../VisualBuilder"
 
-	import InputText from "@/components/modules/form/InputText"
-	import FormGroup from "@/components/modules/form/FormGroup"
-	import InputDate from "@/components/modules/form/InputDate"
-	import Vselect from "@/components/modules/form/Select"
-	import CheckboxGroup from "@/components/modules/form/CheckboxGroup"
-	import Checkbox from "@/components/modules/form/Checkbox"
+	import InputText from "@/components/common/modules/form/InputText"
+	import FormGroup from "@/components/common/modules/form/FormGroup"
+	import InputDate from "@/components/common/modules/form/InputDate"
+	import Vselect from "@/components/common/modules/form/Select"
+	import CheckboxGroup from "@/components/common/modules/form/CheckboxGroup"
+	import Checkbox from "@/components/common/modules/form/Checkbox"
 
 	export default {
 		components: {
@@ -248,9 +248,6 @@
 			...mapState("CalcFormStore", {
 				form: state => state.form,
 				info: state => state.info,
-				service_types: state => state.service_types,
-				move_sizes: state => state.move_sizes,
-				entrance_types: state => state.entrance_types,
 				address: state => state.address,
 				form_errors: state => state.form_errors
 			}),
