@@ -24,10 +24,11 @@
 	import MoveDateForm from './steps/MoveDateForm'
 	import MoveSizeForm from './steps/MoveSizeForm'
 	import CustomerInfo from './steps/CustomerInfo'
+	import Success from './steps/Success'
 	import {mapState, mapGetters} from 'vuex'
 
 	export default {
-		components: {Empty, MoveDateForm, MoveSizeForm, CustomerInfo},
+		components: {Empty, MoveDateForm, MoveSizeForm, CustomerInfo, Success},
 		props: ['name'],
 		data() {
 			return {}

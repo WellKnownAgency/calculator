@@ -21,6 +21,12 @@ const state = {
 			display_name: 'Customer Info',
 			is_active: false,
 			is_current: false
+		},
+		{
+			name: 'Success',
+			display_name: 'Success Info',
+			is_active: false,
+			is_current: false
 		}
 	],
 	is_loading: false,
