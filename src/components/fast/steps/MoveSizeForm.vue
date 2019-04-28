@@ -42,10 +42,11 @@
 				<b-col>
 					<!-- Entrance From -->
 					<form-group
+											:fw="true"
 					            :errors="form_errors.from_entrance_type_id"
 					            :is_disabled="isDisabledFormField('from_entrance_type_id')">
 						<vselect
-							placeholder="entrance from ..."
+							placeholder="Entrance from ..."
 							:value="form.from_entrance_type_id"
 							:options="$gdata.entrances"
 							@input="value => updateFormField('from_entrance_type_id', parseInt(value))"
@@ -53,13 +54,15 @@
 						/>
 					</form-group>
 				</b-col>
+			</b-row>
+			<b-row>
 				<b-col>
 					<!-- Entrance To -->
-					<form-group
-					            :errors="form_errors.to_entrance_type_id"
-					            :is_disabled="isDisabledFormField('to_entrance_type_id')">
+					<form-group :fw="true"
+						:errors="form_errors.to_entrance_type_id"
+						:is_disabled="isDisabledFormField('to_entrance_type_id')">
 						<vselect
-							placeholder="entrance to ..."
+							placeholder="Entrance to ..."
 							:value="form.to_entrance_type_id"
 							:options="$gdata.entrances"
 							@input="value => updateFormField('to_entrance_type_id', parseInt(value))"

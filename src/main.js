@@ -65,6 +65,7 @@ Vue.prototype.$gdata = {}
 axios.get('/')
 	.then(response => {
 		Vue.prototype.$gdata.styles = response.data.styles
+		Vue.prototype.$gdata.company_settings = response.data.company_settings
 		Vue.prototype.$gdata.services = response.data.service_types
 		Vue.prototype.$gdata.sizes = response.data.move_sizes
 		Vue.prototype.$gdata.entrances = response.data.entrance_types
