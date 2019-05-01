@@ -42,8 +42,10 @@
 									<input-text
 										placeholder="Your from zip"
 										:is_loading="is_loading_field('from_zip')"
+										:maxlength="5"
 										:value="form.from_zip"
 										@input="UPDATE_FORM_FIELD({field: 'from_zip', value: $event.target.value})"
+										:throttled="true"
 									/>
 								</form-group>
 							</b-col>
@@ -106,8 +108,10 @@
 									<input-text
 										placeholder="Your to zip"
 										:is_loading="is_loading_field('to_zip')"
+										:maxlength="5"
 										:value="form.to_zip"
 										@input="UPDATE_FORM_FIELD({field: 'to_zip', value: $event.target.value})"
+										:throttled="true"
 									/>
 								</form-group>
 							</b-col>

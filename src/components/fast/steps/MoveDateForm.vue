@@ -26,9 +26,11 @@
 						            :is_disabled="isDisabledFormField('from_zip')">
 							<input-text
 								placeholder="Your from zip"
+								:maxlength="5"
 								:is_loading="is_loading_field('from_zip')"
 								:value="form.from_zip"
 								@input="UPDATE_FORM_FIELD({field: 'from_zip', value: $event.target.value})"
+								:throttled="true"
 							/>
 						</form-group>
 					</b-col>
@@ -40,9 +42,11 @@
 						            :is_disabled="isDisabledFormField('to_zip')">
 							<input-text
 								placeholder="Your to zip"
+								:maxlength="5"
 								:is_loading="is_loading_field('to_zip')"
 								:value="form.to_zip"
 								@input="UPDATE_FORM_FIELD({field: 'to_zip', value: $event.target.value})"
+								:throttled="true"
 							/>
 						</form-group>
 					</b-col>
@@ -197,7 +201,7 @@
 					this.actionUpdateActualSizeExtra()
 				);
 			},
-			updateFormFieldZip: _.debounce(function (field, value, direction, check_field) {
+			updateFormFieldZip: function (field, value, direction, check_field) {
 				this.actionUpdateFormFieldZip({field: field, value: value, direction: direction}).then(
 					() => {
 						if (
@@ -211,7 +215,7 @@
 						}
 					}
 				);
-			}, 1000),
+			},
 			isShowInfoProperty(name) {
 				return !this.isHiddenInfoProperty(name) && this.info[name]
 			},

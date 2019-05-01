@@ -13,13 +13,13 @@ const state = {
 		{
 			name: 'MoveSizeForm',
 			display_name: 'Move Size',
-			is_active: false,
+			is_active: true,
 			is_current: false
 		},
 		{
 			name: 'CustomerInfo',
 			display_name: 'Customer Info',
-			is_active: false,
+			is_active: true,
 			is_current: false
 		},
 		{

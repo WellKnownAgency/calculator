@@ -11,8 +11,9 @@
 								<input-text
 									placeholder="First Name"
 									:value="form.first_name"
-									@input="updateFormFieldDebounce('first_name', $event.target.value)"
+									@input="updateFormField('first_name', $event.target.value)"
 									:is_loading="is_loading_field('first_name')"
+									:throttled="true"
 								/>
 							</form-group>
 
@@ -21,8 +22,9 @@
 								<input-text
 									placeholder="Last Name"
 									:value="form.last_name"
-									@input="updateFormFieldDebounce('last_name', $event.target.value)"
+									@input="updateFormField('last_name', $event.target.value)"
 									:is_loading="is_loading_field('last_name')"
+									:throttled="true"
 								/>
 							</form-group>
 
@@ -31,8 +33,9 @@
 								<input-phone
 									placeholder="Primary Phone"
 									:value="form.phone"
-									@input="updateFormFieldDebounce('phone', $event)"
+									@input="updateFormField('phone', $event)"
 									:is_loading="is_loading_field('phone')"
+									:throttled="true"
 								/>
 							</form-group>
 
@@ -41,7 +44,8 @@
 								<input-phone
 									placeholder="Additional Phone (Optional)"
 									:value="form.additional_phone"
-									@input="updateFormFieldDebounce('additional_phone', $event)"
+									@input="updateFormField('additional_phone', $event)"
+									:throttled="true"
 								/>
 							</form-group>
 
@@ -50,8 +54,9 @@
 								<input-text
 									placeholder="Email"
 									:value="form.email"
-									@input="updateFormFieldDebounce('email', $event.target.value)"
+									@input="updateFormField('email', $event.target.value)"
 									:is_loading="is_loading_field('email')"
+									:throttled="true"
 								/>
 							</form-group>
 
@@ -60,8 +65,9 @@
 								<input-text
 									placeholder="Confirm Email"
 									:value="form.email_confirmation"
-									@input="updateFormFieldDebounce('email_confirmation', $event.target.value)"
+									@input="updateFormField('email_confirmation', $event.target.value)"
 									:is_loading="is_loading_field('email_confirmation')"
+									:throttled="true"
 								/>
 							</form-group>
 						</b-col>
@@ -72,8 +78,9 @@
 								<input-text
 									placeholder="From Address"
 									:value="form.from_address"
-									@input="updateFormFieldDebounce('from_address', $event.target.value)"
+									@input="updateFormField('from_address', $event.target.value)"
 									:is_loading="is_loading_field('from_address')"
+									:throttled="true"
 								/>
 							</form-group>
 
@@ -82,7 +89,8 @@
 								<input-text
 									placeholder="From City"
 									:value="form.from_city"
-									@input="updateFormFieldDebounce('from_city', $event.target.value)"
+									@input="updateFormField('from_city', $event.target.value)"
+									:throttled="true"
 								/>
 							</form-group>
 
@@ -91,7 +99,8 @@
 								<input-text
 									placeholder="From State"
 									:value="form.from_state"
-									@input="updateFormFieldDebounce('from_state', $event.target.value)"
+									@input="updateFormField('from_state', $event.target.value)"
+									:throttled="true"
 								/>
 							</form-group>
 
@@ -100,7 +109,8 @@
 								<input-text
 									placeholder="From Zip"
 									:value="calcform.from_zip"
-									@input="updateCalcFormFieldDebounce('from_zip', $event.target.value)"
+									@input="updateCalcFormField('from_zip', $event.target.value)"
+									:throttled="true"
 								/>
 							</form-group>
 
@@ -125,8 +135,9 @@
 								<input-text
 									placeholder="To Address"
 									:value="form.to_address"
-									@input="updateFormFieldDebounce('to_address', $event.target.value)"
+									@input="updateFormField('to_address', $event.target.value)"
 									:is_loading="is_loading_field('to_address')"
+									:throttled="true"
 								/>
 							</form-group>
 
@@ -135,7 +146,8 @@
 								<input-text
 									placeholder="To City"
 									:value="form.to_city"
-									@input="updateFormFieldDebounce('to_city', $event.target.value)"
+									@input="updateFormField('to_city', $event.target.value)"
+									:throttled="true"
 								/>
 							</form-group>
 
@@ -144,7 +156,8 @@
 								<input-text
 									placeholder="To State"
 									:value="form.to_state"
-									@input="updateFormFieldDebounce('to_state', $event.target.value)"
+									@input="updateFormField('to_state', $event.target.value)"
+									:throttled="true"
 								/>
 							</form-group>
 
@@ -153,7 +166,8 @@
 								<input-text
 									placeholder="To Zip"
 									:value="calcform.to_zip"
-									@input="updateCalcFormFieldDebounce('to_zip', $event.target.value)"
+									@input="updateCalcFormField('to_zip', $event.target.value)"
+									:throttled="true"
 								/>
 							</form-group>
 
@@ -236,14 +250,17 @@
 			...mapActions('CalcFormStore', {
 				actionUpdateCalcFormField: 'updateFormField',
 			}),
-			updateFormFieldDebounce: _.debounce(function (field, value) {
+			/*updateFormFieldDebounce: _.debounce(function (field, value) {
 				this.actionUpdateFormField({field: field, value: value});
 			}, 1000),
 			updateCalcFormFieldDebounce: _.debounce(function (field, value) {
 				this.actionUpdateCalcFormField({field: field, value: value});
-			}, 1000),
+			}, 1000),*/
 			updateFormField: function (field, value) {
 				this.actionUpdateFormField({field: field, value: value})
+			},
+			updateCalcFormField: function (field, value) {
+				this.actionUpdateCalcFormField({field: field, value: value})
 			},
 			toBack() {
 				this.$emit('back')

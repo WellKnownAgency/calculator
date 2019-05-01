@@ -8,4 +8,4 @@ docker-build:
 	docker-compose up --build -d
 
 node:
-	docker-compose exec node bash
+	docker-compose exec node sh

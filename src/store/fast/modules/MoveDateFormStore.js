@@ -58,6 +58,7 @@ const getters = {
 const mutations = {
 	// FORM
 	UPDATE_FORM_FIELD (state, {field, value}) {
+		//console.log('dddddd1')
 		state.form[field] = value
 	},
 	CLEAR_FIELD (state, field) {
@@ -112,9 +113,9 @@ const mutations = {
 	},
 	
 	// GEOCODE
-	/*UPDATE_GEOCODE_FIELD (state, {field, value}) {
+	UPDATE_GEOCODE_FIELD (state, {field, value}) {
 		state.geocode[field] = value
-	},*/
+	},
 }
 
 const actions = {
@@ -147,6 +148,7 @@ const actions = {
 		.then((response) => {
 			commit('SET_FORM_FIELD_ERRORS', {field: field, errors: null})
 			
+			commit('UPDATE_GEOCODE_FIELD', {field: direction + '_coordinates', value: response.data.geocode.coordinates})
 			commit('UPDATE_FORM_FIELD', {field: direction + '_coordinates', value: response.data.geocode.coordinates})
 			commit('UPDATE_FORM_FIELD', {field: direction + '_state', value: response.data.geocode.state})
 			commit('UPDATE_FORM_FIELD', {field: direction + '_state_code', value: response.data.geocode.state_code})
@@ -204,12 +206,13 @@ const actions = {
 	changeServiceType ({ commit, rootState }) {
 		axios.post('/fast/move-date/change-service-type',
 			{
-				from_coordinates: rootState.MoveDateFormStore.geocode.from_coordinates,
-				to_coordinates: rootState.MoveDateFormStore.geocode.to_coordinates,
+				from_coordinates: state.geocode.from_coordinates,
+				to_coordinates: state.geocode.to_coordinates,
 				service_type_id: state.form.service_type_id
 			})
 		.then((response) => {
 			if ('service_type_id' in response.data) {
+				console.log(response.data)
 				commit('UPDATE_FORM_FIELD', {field: 'service_type_id', value: response.data.service_type_id})
 				commit('SET_FORM_FIELD_ERRORS', {field: 'service_type_id', errors: null})
 			}

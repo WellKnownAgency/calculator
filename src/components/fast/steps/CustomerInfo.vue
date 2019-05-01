@@ -9,8 +9,9 @@
 						<input-text
 							placeholder="First Name"
 							:value="form.first_name"
-							@input="updateFormFieldDebounce('first_name', $event.target.value)"
+							@input="updateFormField('first_name', $event.target.value)"
 							:is_loading="is_loading_field('first_name')"
+							:throttled="true"
 						/>
 					</form-group>
 				</b-col>
@@ -20,8 +21,9 @@
 						<input-text
 							placeholder="Last Name"
 							:value="form.last_name"
-							@input="updateFormFieldDebounce('last_name', $event.target.value)"
+							@input="updateFormField('last_name', $event.target.value)"
 							:is_loading="is_loading_field('last_name')"
+							:throttled="true"
 						/>
 					</form-group>
 				</b-col>
@@ -33,8 +35,9 @@
 						<input-phone
 							placeholder="Primary Phone"
 							:value="form.phone"
-							@input="updateFormFieldDebounce('phone', $event)"
+							@input="updateFormField('phone', $event)"
 							:is_loading="is_loading_field('phone')"
+							:throttled="true"
 						/>
 					</form-group>
 				</b-col>
@@ -46,8 +49,9 @@
 						<input-text
 							placeholder="Email"
 							:value="form.email"
-							@input="updateFormFieldDebounce('email', $event.target.value)"
+							@input="updateFormField('email', $event.target.value)"
 							:is_loading="is_loading_field('email')"
+							:throttled="true"
 						/>
 					</form-group>
 				</b-col>
@@ -126,9 +130,9 @@
 			...mapActions('CalcFormStore', {
 				actionUpdateCalcFormField: 'updateFormField',
 			}),
-			updateFormFieldDebounce: _.debounce(function (field, value) {
+			/*updateFormFieldDebounce: _.debounce(function (field, value) {
 				this.actionUpdateFormField({field: field, value: value});
-			}, 1000),
+			}, 1000),*/
 			updateCalcFormFieldDebounce: _.debounce(function (field, value) {
 				this.actionUpdateCalcFormField({field: field, value: value});
 			}, 1000),
@@ -149,8 +153,6 @@
 					})
 			}
 		},
-		created() {
-
-		}
+		created() {}
 	}
 </script>

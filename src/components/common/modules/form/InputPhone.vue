@@ -1,19 +1,21 @@
 <template>
-	<the-mask
-		:id="injectData.id"
-		:name="injectData.id"
-		autocomplete="autocomplete_off_hack_xfr4!k"
-		v-bind:class="{'wkn-input-text--error': injectData.is_error && !injectData.is_disabled, 'wkn-input-text--success': is_success && !injectData.is_disabled}"
-		class="wkn-input-text"
-		v-bind:style="inputStyle"
-		mask="(###) ###-####"
-		:value="value"
-		:disabled="injectData.is_disabled"
-		type="text"
-		:masked="false"
-		:placeholder="placeholder"
-		@input="$emit('input', $event)"
-	/>
+	<div>
+		<the-mask
+			:id="injectData.id"
+			autocomplete="autocomplete_off_hack_xfr4!k"
+			v-bind:class="{'wkn-input-text--error': injectData.is_error && !injectData.is_disabled, 'wkn-input-text--success': is_success && !injectData.is_disabled}"
+			class="wkn-input-text"
+			v-bind:style="inputStyle"
+			mask="(###) ###-####"
+			:value="value"
+			:disabled="injectData.is_disabled"
+			type="text"
+			:masked="false"
+			:placeholder="placeholder"
+			@input="inputField($event)"
+		/>
+		<span class="wkn-animate-loading-field" v-if="is_loading"></span>
+	</div>
 </template>
 
 
@@ -24,7 +26,7 @@
 	export default {
 		inject: ['injectData'],
 		components: {TheMask},
-		props: ['placeholder', 'value'],
+		props: ['placeholder', 'value', 'is_loading', 'throttled'],
 		data() {
 			return {
 				is_success: false
@@ -43,10 +45,24 @@
 				return {}
 			}
 		},
+		methods: {
+			inputField($event) {}
+		},
 		watch: {
 			'injectData.is_error': function (newVal, oldVal){
 				this.is_success = !this.injectData.is_error
 			},
+		},
+		created() {
+			if (this.throttled) {
+				this.inputField = _.debounce(function ($event) {
+					this.$emit('input', $event)
+				}, 1000)
+			} else {
+				this.inputField = function ($event) {
+					this.$emit('input', $event)
+				}
+			}
 		}
 	}
 </script>

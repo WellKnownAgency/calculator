@@ -8,13 +8,13 @@ const state = {
 			name: 'CalcForm',
 			display_name: 'Calculator',
 			is_active: true,
-			is_current: true
+			is_current: false
 		},
 		{
 			name: 'CustomerInfo',
 			display_name: 'Customer info',
 			is_active: false,
-			is_current: false
+			is_current: true
 		},
 		{
 			name: 'CalcResult',

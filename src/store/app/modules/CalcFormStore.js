@@ -290,6 +290,7 @@ const actions = {
 			})
 		.then((response) => {
 			if ('service_type_id' in response.data) {
+				commit('SET_FORM_FIELD_ERRORS', {field: 'service_type_id', errors: null})
 				commit('UPDATE_FORM_FIELD', {field: 'service_type_id', value: response.data.service_type_id})
 			}
 		})
