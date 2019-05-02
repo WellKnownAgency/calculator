@@ -9,7 +9,7 @@
 					<p class="wkn-text-black">
 						You always can reach our specialists at <br><a :href="'tel:' + $gdata.company_settings.company_phone" style="color: #b22525">{{formatPhone}}</a>
 					</p>
-					<a class="wkn-btn-action" target="_blank" :href="cabinetUrl" style="text-decoration: none">View account page</a>
+					<a class="wkn-btn-action" target="_blank" :href="cabinetUrl" style="text-decoration: none"><b>View Request</b></a>
 				</b-col>
 			</b-row>
 		</template>
