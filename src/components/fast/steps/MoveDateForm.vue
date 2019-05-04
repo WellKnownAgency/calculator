@@ -17,6 +17,26 @@
 						</form-group>
 					</b-col>
 				</b-row>
+
+				<!-- Moving ~ Destination Date -->
+				<b-row class="wkn-my-2">
+					<b-col v-if="isMovingDateRange">
+						<!-- Moving Date -->
+						<form-group
+							:fw="true"
+							:errors="form_errors.destination_date"
+							:is_disabled="isDisabledFormField('destination_date')">
+							<input-date
+								:range="true"
+								:value="[formatDate(form.move_date), formatDate(form.destination_date)]"
+								@input="(value) => updateFormFieldStorageDate(value)"
+								@clear="CLEAR_FIELD('move_date');CLEAR_FIELD('destination_date');"
+								:is_loading="is_loading_field('destination_date')"
+							/>
+						</form-group>
+					</b-col>
+				</b-row>
+
 				<b-row class="wkn-my-2">
 					<b-col>
 						<!-- From Zip -->
@@ -130,6 +150,7 @@
 				}
 			},
 			isMovingDateRange() {
+				//console.log(this.selected_service_type)
 				return this.selected_service_type && this.selected_service_type.name === 'storage'
 			},
 		},

@@ -40,11 +40,11 @@ const getters = {
 		return (state.form.destination_date && moment(state.form.destination_date).isValid()) ? moment(state.form.destination_date).format("MMMM D, YYYY") : null
 	},
 	selected_service_type: (state) => {
-		let service_type = _.find(state.service_types, ['id', state.form.service_type_id])
+		let service_type = _.find(Vue.prototype.$gdata.services, ['id', state.form.service_type_id])
 		return service_type ? service_type : null
 	},
 	getServiceTypeById: (state) => (id) => {
-		let service_type = _.find(state.service_types, ['id', id])
+		let service_type = _.find(Vue.prototype.$gdata.services, ['id', id])
 		return service_type ? service_type.name : null
 	},
 	is_loading_field: (state) => (name) => {
@@ -188,7 +188,7 @@ const actions = {
 		commit('UPDATE_FORM_FIELD', {field: 'move_date', value: moving})
 		commit('UPDATE_FORM_FIELD', {field: 'destination_date', value: destination})
 		commit('ADD_LOADING_FIELD', 'destination_date')
-		return axios.post('/calculator/validate-field/storage-dates', {move_date: moving, destination_date: destination})
+		return axios.post('/fast/move-date/validate-field/storage-dates', {move_date: moving, destination_date: destination})
 		.then((response) => {
 			commit('SET_FORM_FIELD_ERRORS', {field: 'move_date', errors: null})
 			commit('SET_FORM_FIELD_ERRORS', {field: 'destination_date', errors: null})
